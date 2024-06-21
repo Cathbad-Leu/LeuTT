@@ -1,14 +1,14 @@
-#action {^Tu dici '%1'$} {
+#ACTION {^Tu dici '%1'$} {
   #format msg {Dici: %1};
   ...comm_window_show all $msg;
   ...comm_window_show pub $msg
 }
-#action {^Tu dici a %1 '%2'$} {
+#ACTION {^Tu dici a %1 '%2'$} {
   #format msg {Dici a %1 : %2};
   ...comm_window_show all $msg;
   ...comm_window_show pub $msg
 }
-#action {^%1 ti dice '%2'$} {
+#ACTION {^%1 ti dice '%2'$} {
   #format msg {%1 di dice: %2};
   ...comm_window_show all $msg;
   ...comm_window_show pub $msg

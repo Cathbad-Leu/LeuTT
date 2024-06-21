@@ -1,4 +1,7 @@
-#nop Configurazione ;
+#nop Configurazione 
+
+#nop Turn telnet debug off once everything works.;
+#config {debug telnet} {off}
 
 #read {config/host.tt++};
 #read {config/ui.tt++};
@@ -14,17 +17,10 @@
 
 #read {actions/ui.tt++};
 
-#nop apriamo due sessioni stabile e prova;
-#if { "$LEU_HOSTNAME" == "mclmud.mclink.it"} 
-{
-   #nop Gestione del prompt imposta SET PROMPT <%h/%Hhp %m/%Mm %v/%Vmv xp:%X>;
-   #read {ui/promptold.tt++};
-	#nop gestione dei dialoghi con azioni;
-	#read {actions/commold.tt++}
-} {
-	#nop sistema di gestione di gmcp;
-	#nop da sviluppare
-};
+#nop Gestione del prompt imposta SET PROMPT <%h/%Hhp %m/%Mm %v/%Vmv xp:%X>;
+#read {ui/promptold.tt++};
+#nop gestione dei dialoghi con azioni;
+#read {actions/commold.tt++};
 
 #session {leu} {$LEU_HOSTNAME} {$LEU_PORT};
 #session {newleu} {$NEW_LEU_HOSTNAME} {$NEW_LEU_PORT};

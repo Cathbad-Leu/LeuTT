@@ -14,9 +14,7 @@
      #variable MSDP[TABLE_CLOSE] \x04;
      #variable MSDP[ARRAY_OPEN]  \x05;
      #variable MSDP[ARRAY_CLOSE] \x06;
-     #variable REPORTABLE_VARIABLES {{HEALTH};{HEALTH_MAX};{MANA};{MANA_MAX};{MOVE};{MOVE_MAX};{EXP_TNL};{EXP_TNL_MAX};{MONEY};{EXITS};{WORLD_TIME}};
-     #nop Turn telnet debug off once everything works.;
-     #config {debug telnet} {on}
+     #variable REPORTABLE_VARIABLES {{HEALTH};{HEALTH_MAX};{MANA};{MANA_MAX};{MOVE};{MOVE_MAX};{EXP_TNL};{EXP_TNL_MAX};{MONEY};{EXITS};{WORLD_TIME}}
 }
 
 #EVENT {IAC WILL MSDP}
