@@ -1,3 +1,34 @@
-To start the client use: tt++ leu.tt++
-Will open two sessions to stable and dev mud.
-Switch between the two with #leu and #newleu
+#nop Configurazione 
+
+#nop Turn telnet debug off once everything works.;
+#config {debug telnet} {off}
+
+#read {config/host.tt++};
+#read {config/ui.tt++};
+#config mouse on;
+#config {CHARSET} {UTF-8};
+
+#nop gestione  della finestra;
+#read {ui/comm_window.tt++};
+
+#read {actions/msdp.tt++};
+
+#read {ui/rhs.tt++};
+
+#read {actions/ui.tt++};
+
+#nop Gestione del prompt imposta SET PROMPT <%h/%Hhp %m/%Mm %v/%Vmv xp:%X>;
+#read {ui/promptold.tt++};
+#nop gestione dei dialoghi con azioni;
+#read {actions/commold.tt++};
+
+#session {newleu} {$NEW_LEU_HOSTNAME} {$NEW_LEU_PORT};
+#session {leu} {$LEU_HOSTNAME} {$LEU_PORT};
+
+#nop log sessione, poi mostrala alla disattivazione:;
+#log overwrite .log.txt;
+#gts #event {SESSION ACTIVATED} {
+    #scan {txt} {.log.txt};
+    #split 0 0;
+    #buffer refresh
+};
