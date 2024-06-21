@@ -1,0 +1,26 @@
+#nop Alla connessione E ri-connessione, reimposta la UI:;
+
+#class leu_ui_reset open;
+
+#alias {...leu_ui_reset} {
+    #split 6 3 0 $screen_right_width 1;
+    ...comm_window_reset;
+    ...comm_window_draw_data $comm_window[active];
+    ...leu_ui_refresh_prompt;
+    ...leu_ui_rhs_reset
+};
+
+#action {^Bentornato su Lumen et Umbra!.$} {
+    ...leu_ui_reset
+};
+
+#action {^Riconnessione.$} {
+    ...leu_ui_reset
+};
+
+#event {SCREEN RESIZE} {
+    ...leu_ui_reset;
+    #buffer refresh
+};
+
+#class leu_ui_reset close;

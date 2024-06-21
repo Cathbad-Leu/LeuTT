@@ -1,0 +1,48 @@
+#action {^Tu dici '%1'$} {
+  #format msg {Dici: %1};
+  ...comm_window_show all $msg;
+  ...comm_window_show pub $msg
+}
+#action {^Tu dici a %1 '%2'$} {
+  #format msg {Dici a %1 : %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show pub $msg
+}
+#action {^%1 ti dice '%2'$} {
+  #format msg {%1 di dice: %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show pub $msg
+}
+
+#action {^Tu dici al gruppo '%1'$} {
+  #format msg {Dici al gruppo: %1};
+  ...comm_window_show all $msg;
+  ...comm_window_show grp $msg
+}
+#action {^%1 dice al gruppo '%2'$} {
+  #format msg {%1 dice al gruppo: %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show grp $msg
+}
+
+action {^%1 ti manda il messaggio a '%2'$} {
+  #format msg {%1 msg: %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show msg $msg
+}
+#action {^Mandi a %1 il messaggio '%2'$} {
+  #format msg {Msg a %1: %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show msg $msg
+}
+
+#action {^Mandi a %1 il pensiero '%2'$} {
+  #format msg {Msg a %1: %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show msg $msg
+}
+#action {^%1 ti manda il pensiero a '%2'$} {
+  #format msg {%1 msg: %2};
+  ...comm_window_show all $msg;
+  ...comm_window_show msg $msg
+}

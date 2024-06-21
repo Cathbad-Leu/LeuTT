@@ -1,0 +1,46 @@
+#alias {...leu_ui_rhs_tab_click}
+{
+    #variable leu_ui_rhs[active] %0;
+    ...leu_ui_rhs_draw_data %0
+};
+
+#ALIAS {...leu_ui_rhs_draw_data}
+{
+    ...leu_ui_rhs_refresh_eq;
+    ...leu_ui_rhs_refresh_inv;
+    ...leu_ui_rhs_refresh_magie;
+    ...leu_ui_rhs_refresh_gruppo;
+    ...leu_ui_rhs_refresh_memo;
+    ...leu_ui_rhs_refresh_missione;
+    #draw tile $leu_ui_rhs[toprow]+1 $leu_ui_rhs[topcol]+1 $leu_ui_rhs[botrow]-1 $leu_ui_rhs[botcol]-1 $leu_ui_rhs[tab][%1][data];
+    ...leu_ui_rhs_draw_tabs
+};
+
+#alias {...leu_ui_rhs_reset}
+{
+    #draw tubed box $leu_ui_rhs[toprow] $leu_ui_rhs[topcol] $leu_ui_rhs[botrow] $leu_ui_rhs[botcol] {};
+    ...leu_ui_rhs_draw_data $leu_ui_rhs[active]
+};
+
+#ALIAS {...leu_ui_rhs_draw_tabs}
+{
+    #draw tubed box $leu_ui_rhs[toprow] $leu_ui_rhs[topcol] $leu_ui_rhs[botrow] $leu_ui_rhs[botcol];
+    #local short {};
+    #local index {};
+    #loop {0} {&leu_ui_rhs[tab][]} {index}
+    {
+        #if {{$leu_ui_rhs[active]} === {$index}}
+        {
+            #format short $ui_colors[tab][active]%.8s $leu_ui_rhs[tab][$index][name]
+        };
+        #elseif {"$leu_ui_rhs[tab][$index][data]" == ""}
+        {
+            #format short $ui_colors[tab][empty]%.8s $leu_ui_rhs[tab][$index][name]
+        };
+        #else
+        {
+            #format short $ui_colors[tab][inactive]%.8s $leu_ui_rhs[tab][$index][name]
+        };
+        #line ignore #showme {\e]68;2;TAB;...leu_ui_rhs_tab_click $index\a\e[4;24m$short\e[24m} {$leu_ui_rhs[toprow]} {$leu_ui_rhs[topcol] + 3 + $index * 8}
+    }
+};

@@ -1,0 +1,59 @@
+#EVENT {SESSION CONNECTED}
+{
+     #variable TELNET[IAC]  \xFF;
+     #variable TELNET[DONT] \xFE;
+     #variable TELNET[DO]   \xFD;
+     #variable TELNET[WONT] \xFC;
+     #variable TELNET[WILL] \xFB;
+     #variable TELNET[SB]   \xFA;
+     #variable TELNET[SE]   \xF0;
+     #variable TELNET[MSDP] \x45;
+     #variable MSDP[VAR]   \x01;
+     #variable MSDP[VAL]   \x02;
+     #variable MSDP[TABLE_OPEN]  \x03;
+     #variable MSDP[TABLE_CLOSE] \x04;
+     #variable MSDP[ARRAY_OPEN]  \x05;
+     #variable MSDP[ARRAY_CLOSE] \x06;
+     #variable REPORTABLE_VARIABLES {{HEALTH};{HEALTH_MAX};{MANA};{MANA_MAX};{MOVE};{MOVE_MAX};{EXP_TNL};{EXP_TNL_MAX};{MONEY};{EXITS};{WORLD_TIME}};
+     #nop Turn telnet debug off once everything works.;
+     #config {debug telnet} {on}
+}
+
+#EVENT {IAC WILL MSDP}
+{
+     #send {$TELNET[IAC]$TELNET[DO]$TELNET[MSDP]\}
+}
+
+#EVENT {IAC SB MSDP}
+{
+     #nop Save all variables with an MSDP_ prefix.;
+     #variable {MSDP_%0} {%1}
+}
+
+#ALIAS {msdp_report}
+{
+     #nop Ask the server to report all keys inside REPORTABLE_VARIABLES;
+     #variable result {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REPORT};
+     #foreach {*REPORTABLE_VARIABLES[]} {tmp}
+     {
+          #variable result {$result$MSDP[VAL]$tmp}
+     };
+     #send {$result$TELNET[IAC]$TELNET[SE]\}
+}
+
+#ALIAS {msdp_list}
+{
+     #send {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]LIST$MSDP[VAL]%0$TELNET[IAC]$TELNET[SE]\}
+}
+
+#ALIAS {msdp_send}
+{
+     #send {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]SEND$MSDP[VAL]%0$TELNET[IAC]$TELNET[SE]\}
+}
+
+#ALIAS {example}
+{
+     msdp_list COMMANDS;
+     msdp_list REPORTABLE_VARIABLES;
+     msdp_report
+}

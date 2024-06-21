@@ -1,0 +1,5 @@
+#variable {NEW_LEU_HOSTNAME}    {new-leu.leu.it};
+#variable {NEW_LEU_PORT}        {6667};
+
+#variable {LEU_HOSTNAME}    {mclmud.mclink.it};
+#variable {LEU_PORT}        {6000};
