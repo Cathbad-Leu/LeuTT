@@ -17,15 +17,17 @@
 
 #read {actions/ui.tt++};
 
+#read {actions/gmcp.tt++};
+
 #nop Gestione del prompt imposta SET PROMPT <%h/%Hhp %m/%Mm %v/%Vmv xp:%X>;
 #read {ui/promptold.tt++};
-#nop gestione dei dialoghi con azioni;
+/* gestione dei dialoghi con azioni */
 #read {actions/commold.tt++};
+#nop session {leu} {$LEU_HOSTNAME} {$LEU_PORT};
 
 #session {newleu} {$NEW_LEU_HOSTNAME} {$NEW_LEU_PORT};
-#session {leu} {$LEU_HOSTNAME} {$LEU_PORT};
 
-#nop log sessione, poi mostrala alla disattivazione:;
+#nop log sessione, poi mostrala alla disattivazione;
 #log overwrite .log.txt;
 #gts #event {SESSION ACTIVATED} {
     #scan {txt} {.log.txt};

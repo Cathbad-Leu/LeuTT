@@ -1,0 +1,59 @@
+#format IAC  %a 255;
+#format DONT %a 254;
+#format DO   %a 253;
+#format WONT %a 252;
+#format WILL %a 251;                                                 
+#format SB   %a 250;
+#format SE   %a 240;
+
+#format GMCP %a 201;
+#nop config {debug telnet} {on};
+
+#event {IAC WILL GMCP}
+{       
+	#send {$IAC$DO$GMCP\};
+	#send {$IAC$SB${GMCP}Core.Hello { "client": "$CLIENT_NAME", "version": "$CLIENT_VERSION" } $IAC$SE\};     
+	#send {$IAC$SB${GMCP}Core.Supports.Set [ "Core 1", "Char 1", "Room 1" ] $IAC$SE\}
+	#CONFIG {DEBUG TELNET} {ON}
+};	
+
+#EVENT {IAC SB GMCP room.info IAC SE}
+{
+    #variable gmcp[char][info] {%0}
+};
+
+#EVENT {IAC SB GMCP room.base IAC SE}
+{
+    #variable gmcp[char][base] {%0}
+};
+
+#EVENT {IAC SB GMCP char.group IAC SE}
+{
+    #variable gmcp[char][group] {%0}
+};
+
+#EVENT {IAC SB GMCP char.vitals IAC SE}
+{
+    #variable gmcp[char][group] {%0}
+};
+
+#EVENT {IAC SB GMCP char.affects IAC SE}
+{
+    #variable gmcp[char][affects] {%0}
+};
+
+#EVENT {IAC SB GMCP char.cooldowns IAC SE}
+{
+    #variable gmcp[char][cooldowns] {%0}
+};
+
+#EVENT {IAC SB GMCP External.Discord.Status IAC SE}
+{
+    #format {p1} {<034> H: %s%+4s<238>/<138>%-4s} {$hpcol} {gmcp[char][vitals].hp} {gmcp[char][vitals].maxhp};
+    #format {p2} {<238>Mn:%s%-4s} {$mncol} {gmcp[char][vitals].mana};
+    #format {p3} {<238>Mv:%s%-4s} {$mvcol} {gmcp[char][vitals].maxmana};
+    #format {p4} {<238>Xp:<138>%+4s} {[gmcp[char][vitals].mov};
+    #format {prompt} {%s  %s  %s  %s} {$p1} {$p2} {$p3} {$p4};
+    ...leu_ui_refresh_prompt;
+    ...leu_ui_rhs_reset
+};
