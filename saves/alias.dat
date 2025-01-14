@@ -1,0 +1,166 @@
+#CLASS {alias_data} OPEN
+
+#ALIAS {albero-raven}
+{
+    .wnnnnennnwennnnwewewn
+}
+
+#ALIAS {astr}
+{
+    .dwsseen;
+    ask zry astral
+}
+
+#ALIAS {astr-abisso}
+{
+    .unwwnuwuu
+}
+
+#ALIAS {astr-allania}
+{
+    .unwwnuwuuwdwsss
+}
+
+#ALIAS {astr-bacheca}
+{
+    .unwwnuwuuwdsssswwwwdd
+}
+
+#ALIAS {astr-caverne}
+{
+    .unww
+}
+
+#ALIAS {astr-celestia}
+{
+    .unwwnuwuuwdw
+}
+
+#ALIAS {astr-colosseo}
+{
+    .unw
+}
+
+#ALIAS {astr-deserto}
+{
+    .unwwnuwus
+}
+
+#ALIAS {astr-dragoastrle}
+{
+    .unwwnuwuuwdese
+}
+
+#ALIAS {astr-drow}
+{
+    .unwwn
+}
+
+#ALIAS {astr-grecia}
+{
+    .unwwnuw
+}
+
+#ALIAS {astr-licantropia}
+{
+    .unwwnuwun
+}
+
+#ALIAS {astr-moira}
+{
+    .unwws
+}
+
+#ALIAS {astr-nani}
+{
+    .unwwnn
+}
+
+#ALIAS {astr-oldthalos}
+{
+    .unwne
+}
+
+#ALIAS {astr-orshingal}
+{
+    .une
+}
+
+#ALIAS {astr-pannina}
+{
+    .unwwnue
+}
+
+#ALIAS {astr-pilastri}
+{
+    .unwwnuwuuwds
+}
+
+#ALIAS {astr-regni}
+{
+    .unwwnuwuuwdnnwnd
+}
+
+#ALIAS {astr-roo}
+{
+    .unwwnuwuw
+}
+
+#ALIAS {astr-siracusa}
+{
+    .unwwnu
+}
+
+#ALIAS {astr-torremagia}
+{
+    .unwn
+}
+
+#ALIAS {bb}
+{
+    bash
+}
+
+#ALIAS {foro}
+{
+    .dw
+}
+
+#ALIAS {kk}
+{
+    kill
+}
+
+#ALIAS {kn}
+{
+    knockout
+}
+
+#ALIAS {mh}
+{
+    cast 'minor heal'
+}
+
+#ALIAS {oasi-quabbar}
+{
+    .4swewsd
+}
+
+#ALIAS {pq-abisso}
+{
+    .10ws9w2n3wwsws2ws2w2swe2s2w2s2w3snsw
+}
+
+#ALIAS {rito}
+{
+    rem lastra;
+    get ritorno latt;
+    hold ritorno;
+    use ritorno %1;
+    rem ritorno;
+    wear lastra;
+    put ritorno latt
+}
+
+
+#CLASS {alias_data} CLOSE

@@ -1,0 +1,35 @@
+#NOP VSOF;
+#nop -------------------------------------------------------------------------;
+#nop File di gestione dei triggers;
+#nop -------------------------------------------------------------------------;
+
+#class trigger_data read saves/triggers.dat
+
+#ALIAS {addtrig} 
+{
+    #ECHO {%h} { Sintassi: addtrig nome_del_trigger/comando. Vedi help action};
+    #var _arg %0;
+    #list {_arg} {explode} {/};
+    #format action_text %p $_arg[1];
+    #format accommand_text %p $_arg[2];
+    #echo {Aggiunto trigger $action_text con comando: $accommand_text};
+    #class trigger_data assign #ACTION {${action_text}} {${accommand_text}};
+    #class trigger_data write saves/triggers.dat;
+    #class trigger_data close;
+}
+
+#ALIAS {deltrig}
+{
+    #ECHO {%h} { Sintassi: deltrig nome_del_trigger da eliminare};
+    #var _arg %0;
+    #format delaction_text %p $_arg;
+    #echo {Rimuovo il trigger $delaction_text};
+    #class trigger_data assign #UNACTION {$delaction_text};
+    #class trigger_data write saves/triggers.dat;
+    #class trigger_data close
+}
+
+#ALIAS {show_trig}
+{
+    #class trigger_data list
+}

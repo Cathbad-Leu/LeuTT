@@ -1,0 +1,54 @@
+#NOP VSOF;
+#nop -------------------------------------------------------------------------;
+#nop Gestione Alias;
+#nop -------------------------------------------------------------------------;
+
+#class alias_data read saves/alias.dat;
+
+#ALIAS {addalias} 
+{
+    #ECHO {%h} { Sintassi: addalias nome_dell'alias/comando. Vedi help alias};
+    #local _alarg {regex {%0}};
+    #list {_alarg} {explode} {/};
+    #format alias_text %p $_alarg[1];
+    #format alcommand_text %p $_alarg[2];
+    #echo {Aggiunto alias $alias_text con comando: $alcommand_text};
+    #class alias_data assign #ALIAS {${alias_text}} {${alcommand_text}};
+    #class alias_data write saves/alias.dat;
+}
+
+#ALIAS {delalias}
+{
+    #ECHO {%h} { Sintassi: deltrig nome_dell'alias da eliminare};
+    #local _alarg %0;
+    #format delalias_text %p $_alarg;
+    #echo {Rimuovo l'alaias $delalias_text};
+    #class alias_data assign #UNALIAS {$delalias_text};
+    #class alias_data write saves/alias.dat;
+}
+
+#ALIAS {show_alias} 
+{
+
+    #ECHO {%h} { {LISTA_ALIAS} };
+    #VAR tmpallist;
+    #line quiet #line capture tmpallist #class alias_data list;
+    #loop 2 &tmpallist[] indexali 
+    {
+       #line quiet #line substitute var #line strip #var tmpallist[$indexali] {$tmpallist[+$indexali]};
+       #regex {$tmpallist[+$indexali]} {#VARIABLE \x7B%*\x7D %*} {TRUE}
+    };
+    #list {tmpallist} {delete} {1};
+    #foreach {*tmpallist[]} {ainde}
+    {
+        #regex {$tmpallist[$ainde]} {^{.*?} {.*?} {.*?}$} {#var aliargtmp &2};
+        #ECHO {%s %s} {$aliargtmp} {\e]68;2;EXEC;$aliargtmp\a\e[4mUsa Alias\e[24m}
+     };
+    #ECHO {%h} { {LISTA_ALIAS} };
+    #UNVAR tmpallist;
+}
+
+
+#NOP info aliases save;
+#NOP list info[ALIASES] indexate class;
+#NOP list info[ALIASES] filter alias_data;

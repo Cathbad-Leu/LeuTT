@@ -1,0 +1,52 @@
+#NOP VSOF;
+
+#ALIAS {gui_init}
+{
+    #map create;
+    #read {macro.tin};
+    #read {alias.tin};
+    #read {triggers.tin};
+    #read {msdp.tin};
+    #read {mxp.tin};
+    #read {map.tin};
+    #read {comm_window.tin};
+    #read {bars.tin};
+    #SEND {$worldlist[$mud][pass]};
+    #SPLIT 13 5 0 0;
+    #map create;
+    map_start;
+    #map offset 8 1 14 -1; 
+    #VAR inmud 1;
+    gui_refresh
+}
+
+#ALIAS {gui_refresh}
+{
+    #SCREEN clear split;
+    comm_window_draw_tabs;
+    comm_window_draw_data $comm_window[active];
+    hpbar;
+    buttons_bar;
+    #screen refresh;
+    #BUFFER end
+}
+
+#ALIAS {gui_rotate_landscape}
+{
+    #SPLIT 7 5 0 -90;
+    #map offset 8 91 -6 -1; 
+    gui_refresh
+}
+
+#ALIAS {gui_rotate_portrait}
+{
+    #SPLIT 13 5 0 0;
+    #map offset 8 1 14 -1;
+    gui_refresh
+}
+
+#ALIAS {gui_line_update}
+{
+    hpbar;
+    #map update
+}

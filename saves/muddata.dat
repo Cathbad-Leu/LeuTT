@@ -1,0 +1,13 @@
+#CLASS {worlddata} OPEN
+
+#VARIABLE {worldlist}
+{
+    {leu} 
+    {
+        {host} {new-leu.leu.it}
+        {name} {leu}
+        {port} {6000}
+    }
+}
+
+#CLASS {worlddata} CLOSE
