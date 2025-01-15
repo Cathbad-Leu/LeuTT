@@ -2,7 +2,6 @@
 
 #ALIAS {gui_init}
 {
-    #map create;
     #read {macro.tin};
     #read {alias.tin};
     #read {triggers.tin};
