@@ -1,5 +1,8 @@
 #NOP VSOF;
 
+#NOP -------------------------------------------------------------------------;
+#NOP Inizializza l'interfaccia grafica
+#NOP -------------------------------------------------------------------------;
 #ALIAS {gui_init}
 {
     #read {macro.tin};
@@ -19,6 +22,9 @@
     gui_refresh
 }
 
+#NOP -------------------------------------------------------------------------;
+#NOP Aggiorna l'interfaccia grafica
+#NOP -------------------------------------------------------------------------;
 #ALIAS {gui_refresh}
 {
     #SCREEN clear split;
@@ -30,6 +36,9 @@
     #BUFFER end
 }
 
+#NOP -------------------------------------------------------------------------;
+#NOP Se si ruota il dispoistivo adatta l'interfaccia
+#NOP -------------------------------------------------------------------------;
 #ALIAS {gui_rotate_landscape}
 {
     #SPLIT 7 5 0 -90;
