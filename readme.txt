@@ -33,14 +33,14 @@ Struttura:
   |
   +-+ gui.tin                   (gestione dell'intergaccia grafica)
     |
-	+--- mslp.tin.              (gestione protocollo mslp)
-	+--- mxp.tin.               (gestione protocollo mxp)
-	+--- map.tin.               (gestione della mappa e percorsi)
-	+--- macro.tin.             (registra e riproduce una serie di comandi)
-	+--- comm_window.tin.       (finestra delle comunicazioni)
-	+--- bars.tin               (barre testo e grafica di salute e bottoni)
-	+--- /saves/muddata.dat     (configurazione mud e personaggio si crea con addmud)
-	+--- /logs/data.log	        (salvataggio del log in base al giorno comando log on)
+    +--- mslp.tin.              (gestione protocollo mslp)
+    +--- mxp.tin.               (gestione protocollo mxp)
+    +--- map.tin.               (gestione della mappa e percorsi)
+    +--- macro.tin.             (registra e riproduce una serie di comandi)
+    +--- comm_window.tin.       (finestra delle comunicazioni)
+    +--- bars.tin               (barre testo e grafica di salute e bottoni)
+    +--- /saves/muddata.dat     (configurazione mud e personaggio si crea con addmud)
+    +--- /logs/data.log	        (salvataggio del log in base al giorno comando log on)
     |
     +---+ alias.tin  (getstione degli alias e dei percorsi)
     |   +--- /saves/alias.dat   (salvataggio degli alias)
