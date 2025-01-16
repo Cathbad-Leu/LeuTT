@@ -17,16 +17,19 @@
     #map goto 1
 }
 
-#event {MAP SHORT-CLICKED MOUSE BUTTON ONE}
+#EVENT {MAP SHORT-CLICKED MOUSE BUTTON ONE}
 {
-	#map run {%0} 0.25
+    #map run {%0} 0.25
 }
 
 #nop -----------------------------------------------------------------------;
 #nop Quando si disconnette salva la mappa
 #nop -----------------------------------------------------------------------;
 
-#EVENT {SESSION DISCONNECTED} {#map write saves/map.dat}
+#EVENT {SESSION DISCONNECTED}
+{
+    #map write saves/map.dat
+}
 
 #nop -------------------------------------------------------------------------;
 #nop Script per seguire un pergorso fino la sua fine es trave East.;
