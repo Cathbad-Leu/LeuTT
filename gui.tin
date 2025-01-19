@@ -1,7 +1,17 @@
 #NOP VSOF;
+#NOP -------------------------------------------------------------------------;
+#NOP Inizializza i dati di struttura della gui;
+#NOP -------------------------------------------------------------------------;
+VARIABLE {gui}
+{
+    {ROWS} {40}
+    {COLS} {80}
+    {MSDP_SCREEN_WIDTH} {0}
+    {MSDP_SCREEN_HEIGHT} {0}
+}
 
 #NOP -------------------------------------------------------------------------;
-#NOP Inizializza l'interfaccia grafica
+#NOP Inizializza l'interfaccia grafica;
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_init}
 {
@@ -23,10 +33,12 @@
 }
 
 #NOP -------------------------------------------------------------------------;
-#NOP Aggiorna l'interfaccia grafica
+#NOP Aggiorna l'interfaccia grafica;
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_refresh}
-{
+{    
+    #SCREEN get rows gui[ROWS];
+    #SCREEN get cols gui[COLS];
     #SCREEN clear split;
     comm_window_draw_tabs;
     comm_window_draw_data $comm_window[active];
@@ -37,7 +49,7 @@
 }
 
 #NOP -------------------------------------------------------------------------;
-#NOP Se si ruota il dispoistivo adatta l'interfaccia
+#NOP Se si ruota il dispoistivo adatta l'interfaccia;
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_rotate_landscape}
 {
@@ -53,6 +65,9 @@
     gui_refresh
 }
 
+#NOP -------------------------------------------------------------------------;
+#NOP Quando si riceve una linea dal mud aggiorna.;
+#NOP -------------------------------------------------------------------------;
 #ALIAS {gui_line_update}
 {
     hpbar;
