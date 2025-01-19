@@ -36,6 +36,7 @@ Struttura:
     +--- mslp.tin.              (gestione protocollo mslp)
     +--- mxp.tin.               (gestione protocollo mxp)
     +--- map.tin.               (gestione della mappa e percorsi)
+    +--- /saves/map.dat         (salvataggio della mappa)
     +--- macro.tin.             (registra e riproduce una serie di comandi)
     +--- comm_window.tin.       (finestra delle comunicazioni)
     +--- bars.tin               (barre testo e grafica di salute e bottoni)
