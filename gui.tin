@@ -1,14 +1,14 @@
 #NOP VSOF;
 #NOP -------------------------------------------------------------------------;
-#NOP Inizializza i dati di struttura della gui;
+#NOP struttura della gui;
 #NOP -------------------------------------------------------------------------;
-VARIABLE {gui}
-{
-    {ROWS} {40}
-    {COLS} {80}
-    {MSDP_SCREEN_WIDTH} {0}
-    {MSDP_SCREEN_HEIGHT} {0}
-}
+#NOP VARIABLE {gui};
+#NOP {;
+#NOP     {ROWS} {0};
+#NOP     {COLS} {0};
+#NOP     {MSDP_SCREEN_WIDTH} {0};
+#NOP     {MSDP_SCREEN_HEIGHT} {0};
+#NOP };
 
 #NOP -------------------------------------------------------------------------;
 #NOP Inizializza l'interfaccia grafica;
@@ -23,29 +23,70 @@ VARIABLE {gui}
     #read {map.tin};
     #read {comm_window.tin};
     #read {bars.tin};
-    #SEND {$worldlist[$mud][pass]};
-    #SPLIT 13 5 0 0;
     #map create;
     map_start;
-    #map offset 8 1 14 -1; 
-    #VAR inmud 1;
-    gui_refresh
+    #VAR inmud 1
+    gui_refresh;
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP Ridimensiona l'interfaccia grafica
+#NOP -------------------------------------------------------------------------;
+
+#ALIAS {resize_gui}
+{  
+    #screen get rows {gui[ROWS]};
+    #screen get cols {gui[COLS]};
+    #if {$gui[ROWS] > 40 && $gui[COLS] > 100 && $gui[COLS] < 200} {
+        #split {$gui[ROWS]/5} 5 0 -89 1;
+        #map flag vtmap on;
+        #math {gui[RIGHT]} {$gui[COLS] - 89};
+        #map offset {$gui[ROWS]/3+2} {-$gui[RIGHT]+1} -10 -3;
+        #var {comm_window[botrow]} {$gui[ROWS]/5};
+        #math {comm_window[botcol]} {-$gui[RIGHT]};
+        #screen clear top;
+        #delay {0.5} {comm_window_draw_tabs}
+        };    
+    #elseif {$gui[ROWS] > 40 && $gui[COLS] > 200} {
+        #split {$gui[ROWS]/5} 5 0 {-$gui[COLS]/3} 1;
+        #map flag vtmap on;
+        #map offset {$gui[ROWS]/3+2} {$gui[COLS]/2+5} -10 -3;
+        #var {comm_window[botrow]} {$gui[ROWS]/5};
+        #math {comm_window[botcol]} {$gui[COLS]/2};
+        #screen clear top;
+        #delay {0.5} {comm_window_draw_tabs}
+        };
+    #elseif {$gui[ROWS] > 40 && $gui[COLS] < 100} {
+        #map flag vtmap on;
+        #screen clear all;
+        #split 13 5 0 0 1;
+        #map offset 8 1 14 -1;
+        #math {comm_window[botcol]} {$gui[COLS]};
+        #var {comm_window[botrow]} 7;
+        #screen clear top;
+        #delay {0.5} {comm_window_draw_tabs}
+        };
+    #else {
+        #map flag vtmap off;
+        #screen clear all; 
+        #split 8 5 0 0 1;
+        #math {comm_window[botcol]} {$gui[COLS]};
+        #var {comm_window[botrow]} 7;
+        #screen clear top;
+        #delay {0.5} {comm_window_draw_tabs}
+        };
 }
 
 #NOP -------------------------------------------------------------------------;
 #NOP Aggiorna l'interfaccia grafica;
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_refresh}
-{    
-    #SCREEN get rows gui[ROWS];
-    #SCREEN get cols gui[COLS];
-    #SCREEN clear split;
-    comm_window_draw_tabs;
-    comm_window_draw_data $comm_window[active];
+{
+    #SCREEN clear all;
+    resize_gui;
     hpbar;
     buttons_bar;
-    #screen refresh;
-    #BUFFER end
+    #buffer refresh
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -53,15 +94,15 @@ VARIABLE {gui}
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_rotate_landscape}
 {
-    #SPLIT 7 5 0 -90;
-    #map offset 8 91 -6 -1; 
+    #NOP SPLIT 7 5 0 -90;
+    #NOP map offset 8 91 -6 -1; 
     gui_refresh
 }
 
 #ALIAS {gui_rotate_portrait}
 {
-    #SPLIT 13 5 0 0;
-    #map offset 8 1 14 -1;
+    #NOP SPLIT 13 5 0 0;
+    #NOP map offset 8 1 14 -1;
     gui_refresh
 }
 

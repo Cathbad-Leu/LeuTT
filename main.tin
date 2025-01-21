@@ -39,8 +39,6 @@
 
 #EVENT {PROGRAM START}
 {
-    #SCREEN get rows gui[ROWS];
-    #SCREEN get cols gui[COLS];
     #CONFIG {SCROLL_LOCK} {OFF};
     #CONFIG {VERBOSE} {OFF};
     #CONFIG {DEBUG TELNET} {OFF};
@@ -160,6 +158,7 @@
             #SEND {$worldlist[$mud][char]};
             #if {&worldlist[$mud][pass]}
             {
+                #SEND {$worldlist[$mud][pass]};
                 #read {gui.tin};
                 gui_init
             };
@@ -224,7 +223,11 @@
 }
 
 #EVENT {SCREEN RESIZE}
-{ 
+{
+    #if {&inmud != 0} 
+    {
+        gui_refresh
+    };
     #screen refresh;
     #buffer end
 }
