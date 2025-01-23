@@ -48,6 +48,26 @@
     #UNVAR tmpallist;
 }
 
+#ALIAS {load_alias_sidebar} 
+{
+
+    #VAR tmpallist;
+    #line quiet #line capture tmpallist #class alias_data list;
+    #loop 2 &tmpallist[] indexali 
+    {
+       #line quiet #line substitute var #line strip #var tmpallist[$indexali] {$tmpallist[+$indexali]};
+       #regex {$tmpallist[+$indexali]} {#VARIABLE \x7B%*\x7D %*} {TRUE}
+    };
+    #list {tmpallist} {delete} {1};
+    #foreach {*tmpallist[]} {ainde}
+    {
+        #regex {$tmpallist[$ainde]} {^{.*?} {.*?} {.*?}$} {#var aliargtmp &2};
+        #FORMAT {tmpal} {%s %s} {$aliargtmp} {\e]68;2;EXEC;$aliargtmp\a\e[4mUsa Alias\e[24m};
+        side_bar_show al $tmpal;
+     };
+    #UNVAR tmpallist; 
+}
+
 
 #NOP info aliases save;
 #NOP list info[ALIASES] indexate class;

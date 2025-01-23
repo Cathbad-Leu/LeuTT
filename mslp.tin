@@ -39,9 +39,11 @@
         };
         #draw Azure scaled box  %0+1 %1 %0+1 %1+9 $link[%*]
 }
+#EVENT {PRESSED LINK MENU_ITEM MOUSE BUTTON ONE} {#showme {<ffa>%4};#buffer refresh}
 
 #EVENT {PRESSED LINK MOUSE BUTTON ONE} {#send {%4}}
-#EVENT {PRESSED LINK MENU_ITEM MOUSE BUTTON ONE} {#showme {<ffa>%4};#buffer refresh}
+
 #EVENT {PRESSED SECURE LINK EXEC MOUSE BUTTON ONE} {%4}
+
 #NOP Usato da comm_window;
 #EVENT {PRESSED SECURE LINK TAB MOUSE BUTTON ONE} {%4}

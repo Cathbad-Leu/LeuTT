@@ -4,10 +4,9 @@
 #NOP -------------------------------------------------------------------------;
 #NOP VARIABLE {gui};
 #NOP {;
-#NOP     {ROWS} {0};
-#NOP     {COLS} {0};
-#NOP     {MSDP_SCREEN_WIDTH} {0};
-#NOP     {MSDP_SCREEN_HEIGHT} {0};
+#NOP     {rows};
+#NOP     {cols};
+#NOP     {right};
 #NOP };
 
 #NOP -------------------------------------------------------------------------;
@@ -15,66 +14,65 @@
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_init}
 {
-    #read {macro.tin};
-    #read {alias.tin};
-    #read {triggers.tin};
-    #read {msdp.tin};
-    #read {mxp.tin};
-    #read {map.tin};
-    #read {comm_window.tin};
-    #read {bars.tin};
-    #map create;
+    #READ {map.tin};
+    #READ {comm_bar.tin};
+    #READ {side_bar.tin};
+    #MAP create;
     map_start;
-    #VAR inmud 1
+    #VAR hasLogged 1
     gui_refresh;
+    load_alias_sidebar
+    title_bar
 }
 
 #NOP -------------------------------------------------------------------------;
 #NOP Ridimensiona l'interfaccia grafica
 #NOP -------------------------------------------------------------------------;
-
 #ALIAS {resize_gui}
-{  
-    #screen get rows {gui[ROWS]};
-    #screen get cols {gui[COLS]};
-    #if {$gui[ROWS] > 40 && $gui[COLS] > 100 && $gui[COLS] < 200} {
-        #split {$gui[ROWS]/5} 5 0 -89 1;
-        #map flag vtmap on;
-        #math {gui[RIGHT]} {$gui[COLS] - 89};
-        #map offset {$gui[ROWS]/3+2} {-$gui[RIGHT]+1} -10 -3;
-        #var {comm_window[botrow]} {$gui[ROWS]/5};
-        #math {comm_window[botcol]} {-$gui[RIGHT]};
-        #screen clear top;
-        #delay {0.5} {comm_window_draw_tabs}
+{
+    #if {&hasLogged != 0} 
+    {
+      #SCREEN get rows {gui[rows]};
+      #SCREEN get cols {gui[cols]};
+      #if {$gui[rows] > 30 && $gui[cols] > 100 && $gui[cols] < 200} {
+        #SPLIT {$gui[rows]/5} 5 0 -89 1;
+        #MAP flag vtmap on;
+        #MATH {gui[right]} {$gui[cols] - 89};
+        #MAP offset {$gui[rows]/3+2} {-$gui[right]+1} -10 -3;
+        #VAR {comm_bar[botrow]} {$gui[rows]/5};
+        #MATH {comm_bar[botcol]} {-$gui[right]};
+        #VAR {side_bar[botrow]} {$gui[rows]/3};
+        #MATH {side_bar[topcol]} {-$gui[right]+2};
+        #SCREEN clear top;
+        comm_bar_draw_data $comm_bar[active];
+        #delay {0.5} {comm_bar_draw_tabs};
+        side_bar_draw_data $side_bar[active];
+        #delay {0.5} {side_bar_draw_tabs}
         };    
-    #elseif {$gui[ROWS] > 40 && $gui[COLS] > 200} {
-        #split {$gui[ROWS]/5} 5 0 {-$gui[COLS]/3} 1;
-        #map flag vtmap on;
-        #map offset {$gui[ROWS]/3+2} {$gui[COLS]/2+5} -10 -3;
-        #var {comm_window[botrow]} {$gui[ROWS]/5};
-        #math {comm_window[botcol]} {$gui[COLS]/2};
-        #screen clear top;
-        #delay {0.5} {comm_window_draw_tabs}
+      #elseif {$gui[rows] > 30 && $gui[cols] > 200} {
+        #SPLIT {$gui[rows]/5} 5 0 {-$gui[cols]/3} 1;
+        #MAP flag vtmap on;
+        #MAP offset {$gui[rows]/3+2} {$gui[cols]/2+5} -10 -3;
+        #VAR {comm_bar[botrow]} {$gui[rows]/5};
+        #MATH {comm_bar[botcol]} {$gui[cols]/2};
+        #SCREEN clear top;
+        #delay {0.5} {comm_bar_draw_tabs}
         };
-    #elseif {$gui[ROWS] > 40 && $gui[COLS] < 100} {
-        #map flag vtmap on;
-        #screen clear all;
-        #split 13 5 0 0 1;
-        #map offset 8 1 14 -1;
-        #math {comm_window[botcol]} {$gui[COLS]};
-        #var {comm_window[botrow]} 7;
-        #screen clear top;
-        #delay {0.5} {comm_window_draw_tabs}
+      #elseif {$gui[rows] > 30 && $gui[cols] < 100} {
+        #MAP flag vtmap on;
+        #SCREEN clear all;
+        #SPLIT 13 5 0 0 1;
+        #MAP offset 8 1 14 -1;
+        #MATH {comm_bar[botcol]} {$gui[cols]};
+        #VAR {comm_bar[botrow]} 7;
+        #delay {0.5} {comm_bar_draw_tabs}
         };
-    #else {
-        #map flag vtmap off;
-        #screen clear all; 
-        #split 8 5 0 0 1;
-        #math {comm_window[botcol]} {$gui[COLS]};
-        #var {comm_window[botrow]} 7;
-        #screen clear top;
-        #delay {0.5} {comm_window_draw_tabs}
+      #else {
+        #MAP flag vtmap off;
+        #SCREEN clear all; 
+        #SPLIT 1 5 0 0 1;
         };
+    }
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -82,28 +80,13 @@
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_refresh}
 {
-    #SCREEN clear all;
-    resize_gui;
-    hpbar;
-    buttons_bar;
-    #buffer refresh
-}
-
-#NOP -------------------------------------------------------------------------;
-#NOP Se si ruota il dispoistivo adatta l'interfaccia;
-#NOP -------------------------------------------------------------------------;
-#ALIAS {gui_rotate_landscape}
-{
-    #NOP SPLIT 7 5 0 -90;
-    #NOP map offset 8 91 -6 -1; 
-    gui_refresh
-}
-
-#ALIAS {gui_rotate_portrait}
-{
-    #NOP SPLIT 13 5 0 0;
-    #NOP map offset 8 1 14 -1;
-    gui_refresh
+    #if {&hasLogged != 0} 
+    {
+      resize_gui;
+      title_bar;
+      bottom_bar;
+      #BUFFER refresh;
+    }
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -111,6 +94,51 @@
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_line_update}
 {
-    hpbar;
-    #map update
+    #if {&hasLogged != 0} 
+    {
+      bottom_bar;
+      #MAP update
+    }
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Draw some buttons over the health bar.;
+#nop -------------------------------------------------------------------------;
+#ALIAS {title_bar}
+{
+    #line ignore #showme {* $worldlist[$mud][name] * $worldlist[$mud][char]} {1};
+    #line ignore #showme {\e]68;2;TAB;#end\a\e[4;24mEsci\e[24m} {1} {-4};
+}
+
+#ALIAS {button_status %1}
+{
+    #NOP DRAW white calign box -6 49 -4 59 {"%1"};
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Draw a health bar.;
+#nop -------------------------------------------------------------------------;
+#alias {bottom_bar}
+{
+    #math {hp_percent} {100 * $MSDP_HEALTH / $MSDP_HEALTH_MAX};
+    #math {hpbar1}   {$hp_percent / 10};
+    #math {hpbar2}   {10 - $hpbar1};
+    #math {mana_percent} {100 * $MSDP_MANA / $MSDP_MANA_MAX};
+    #math {manabar1}   {$mana_percent / 10};
+    #math {manabar2}   {10 - $manabar1};
+    #math {mov_percent} {100 * $MSDP_MOVEMENT / $MSDP_MOVEMENT_MAX};
+    #math {movbar1}   {$mov_percent / 10};
+    #math {movbar2}   {10 - $movbar1};
+
+    #FORMAT {hpbar} {<011>%+${hpbar1}s<099><000>%+${hpbar2}s<099>};
+    #FORMAT {manabar} {<015>%+${manabar1}s<099><000>%+${manabar2}s<099>};
+    #FORMAT {movbar} {<012>%+${movbar1}s<099><000>%+${movbar2}s<099>};
+
+    #FORMAT prompt1 {  %s * hp: %s/%s} $hpbar $MSDP_HEALTH $MSDP_HEALTH_MAX;
+    #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $MSDP_MANA $MSDP_MANA_MAX;
+    #FORMAT prompt3 {  %s * mv: %s/%s} $movbar $MSDP_MOVEMENT $MSDP_MOVEMENT_MAX;
+ 
+	#LINE ignore #SHOWME {$prompt1} {-5};
+	#LINE ignore #SHOWME {$prompt2} {-4};
+	#LINE ignore #SHOWME {$prompt3} {-3}
 }

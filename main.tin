@@ -159,7 +159,12 @@
             #if {&worldlist[$mud][pass]}
             {
                 #SEND {$worldlist[$mud][pass]};
-                #read {gui.tin};
+                #READ {macro.tin};
+                #READ {alias.tin};
+                #READ {triggers.tin};
+                #READ {msdp.tin};
+                #READ {mxp.tin};
+                #READ {gui.tin};
                 gui_init
             };
         };
@@ -193,12 +198,12 @@
 
 #EVENT {IAC SB MSDP SCREEN_WIDTH}
 {
-    #variable gui[MSDP_SCREEN_WIDTH] {%1}
+    #NOP variable gui[MSDP_SCREEN_WIDTH] {%1};
 }
 
 #EVENT {IAC SB MSDP SCREEN_HEIGHT}
 {
-    #variable gui[MSDP_SCREEN_HEIGHT] {%1}
+    #NOP variable gui[MSDP_SCREEN_HEIGHT] {%1};
 }
 
 #EVENT {IAC SB MSDP IAC SE}
@@ -208,52 +213,34 @@
 
 #EVENT {IAC SB MSDP AC}
 {
-    #if {&inmud != 0} 
-    {
-        gui_refresh
-    };
+    gui_refresh
 }
 
 #EVENT {IAC SB NAWS}
 {  
-    #if {&inmud != 0} 
-    {
-        gui_refresh
-    };
+    gui_refresh
 }
 
 #EVENT {SCREEN RESIZE}
 {
-    #if {&inmud != 0} 
-    {
-        gui_refresh
-    };
+    gui_refresh;
     #screen refresh;
     #buffer end
 }
 
 #EVENT {SCREEN ROTATE LANDSCAPE}
 {
-    #if {&inmud != 0} 
-    {
-       gui_rotate_landscape
-    };
+    gui_refresh
 }
 
 #EVENT {SCREEN ROTATE PORTRAIT}
 { 
-    #if {&inmud != 0} 
-    {
-       gui_rotate_portrait
-    };
+    gui_refresh
 }
 
 #EVENT {RECEIVED LINE}
 {
-    #if {&inmud != 0} 
-    {
-       gui_line_update
-    };
+    gui_line_update
 }
 
 #EVENT {RECEIVED ERROR}
