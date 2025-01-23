@@ -44,8 +44,8 @@ Struttura:
    |
    +--+ map.tin.            (gestione della mappa e percorsi)
    |  '--- /saves/map.dat   (salvataggio della mappa)
-   +--+ comm_bar.tin.       (barra delle comunicazioni)
-   |  '--- side_bar.tin.    (barra laterale destra)
+   +-- comm_bar.tin.       (barra delle comunicazioni)
+   +-- side_bar.tin.    (barra laterale destra)
    +--+ /saves/muddata.dat  (configurazione mud si crea con addmud)
       '--- /logs/data.log   (salvataggio del log comando log on)
 
