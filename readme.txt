@@ -29,27 +29,27 @@ Struttura:
 
  + main.tin	             (inizializza tintin e script)
  | 
- +-- msdp.tin.           (gestione protocollo msdp)
- +-- gmcp.tin.           (gestione protocollo gmcp)
- +-- mslp.tin.           (gestione protocollo mslp)
- +-- mxp.tin.            (gestione protocollo mxp)
- +--- macro.tin.         (registra e riproduce una serie di comandi)
- +---+ alias.tin          (getstione degli alias e dei percorsi)
- |   +--- /saves/alias.dat (salvataggio degli alias)
+ +- msdp.tin.           (gestione protocollo msdp)
+ +- gmcp.tin.           (gestione protocollo gmcp)
+ +- mslp.tin.           (gestione protocollo mslp)
+ +- mxp.tin.            (gestione protocollo mxp)
+ +- macro.tin.          (registra e riproduce una serie di comandi)
+ +-+ alias.tin          (getstione degli alias e dei percorsi)
+ | '--- /saves/alias.dat (salvataggio degli alias)
  |
- +---+ triggers.tin        (getstione degli eventi in automatico)
- |   '--- /saves/triggers.dat (salvataggio dei triggers)
+ +-+ triggers.tin           (getstione degli eventi in automatico)
+ | '--- /saves/triggers.dat (salvataggio dei triggers)
  |
  +-+ gui.tin                (gestione dell'intergaccia grafica)
    |
    +--+ map.tin.            (gestione della mappa e percorsi)
-   |  +--- /saves/map.dat   (salvataggio della mappa)
+   |  '--- /saves/map.dat   (salvataggio della mappa)
    +--+ comm_bar.tin.       (barra delle comunicazioni)
-   |  +--- side_bar.tin.    (barra laterale destra)
+   |  '--- side_bar.tin.    (barra laterale destra)
    +--+ /saves/muddata.dat  (configurazione mud si crea con addmud)
-      +--- /logs/data.log   (salvataggio del log comando log on)
+      '--- /logs/data.log   (salvataggio del log comando log on)
 
----------------Release vers 1.3------------------------------------------
+---------------Release vers 1.4------------------------------------------
 
 Rimaneggiamento dei files..
 La mappa viene salvata in /saves/map.dat.
