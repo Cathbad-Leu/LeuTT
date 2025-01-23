@@ -27,29 +27,37 @@ Il file principale è leu.tt++ che avvia la sessione;
 
 Struttura:    
 
-  + main.tin	                (inizializza tintin e script, gestisce eventi)
-  |
-  +-- msdp.tin.                 (gestione protocollo msdp)
-  |
-  +-+ gui.tin                   (gestione dell'intergaccia grafica)
-    |
-    +--- mslp.tin.              (gestione protocollo mslp)
-    +--- mxp.tin.               (gestione protocollo mxp)
-    +--- map.tin.               (gestione della mappa e percorsi)
-    +--- /saves/map.dat         (salvataggio della mappa)
-    +--- macro.tin.             (registra e riproduce una serie di comandi)
-    +--- comm_window.tin.       (finestra delle comunicazioni)
-    +--- bars.tin               (barre testo e grafica di salute e bottoni)
-    +--- /saves/muddata.dat     (configurazione mud e personaggio si crea con addmud)
-    +--- /logs/data.log	        (salvataggio del log in base al giorno comando log on)
-    |
-    +---+ alias.tin  (getstione degli alias e dei percorsi)
-    |   +--- /saves/alias.dat   (salvataggio degli alias)
-    |
-    +---+ triggers.tin          (getstione degli eventi in automatico)
-        '--- /saves/triggers.dat (salvataggio dei triggers)
+ + main.tin	             (inizializza tintin e script)
+ | 
+ +-- msdp.tin.           (gestione protocollo msdp)
+ +-- gmcp.tin.           (gestione protocollo gmcp)
+ +-- mslp.tin.           (gestione protocollo mslp)
+ +-- mxp.tin.            (gestione protocollo mxp)
+ +--- macro.tin.         (registra e riproduce una serie di comandi)
+ +---+ alias.tin          (getstione degli alias e dei percorsi)
+ |   +--- /saves/alias.dat (salvataggio degli alias)
+ |
+ +---+ triggers.tin        (getstione degli eventi in automatico)
+ |   '--- /saves/triggers.dat (salvataggio dei triggers)
+ |
+ +-+ gui.tin                (gestione dell'intergaccia grafica)
+   |
+   +--+ map.tin.            (gestione della mappa e percorsi)
+   |  +--- /saves/map.dat   (salvataggio della mappa)
+   +--+ comm_bar.tin.       (barra delle comunicazioni)
+   |  +--- side_bar.tin.    (barra laterale destra)
+   +--+ /saves/muddata.dat  (configurazione mud si crea con addmud)
+      +--- /logs/data.log   (salvataggio del log comando log on)
 
+---------------Release vers 1.3------------------------------------------
 
+Rimaneggiamento dei files..
+La mappa viene salvata in /saves/map.dat.
+Fa il suo ritorno la barra laterale destra.
+L'interfaccia grafica scala in base alla dimensione della finestra.
+Iniziale supporto a gmcp nell'ominmo file.
+Ritocchi estetici all'interfaccia, aggiunta tab in alto per con 
+nome del mud, del personaggio ed un link per chiudere la client.
 
 ---------------Release vers 1.3------------------------------------------
 
