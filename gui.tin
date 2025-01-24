@@ -2,12 +2,30 @@
 #NOP -------------------------------------------------------------------------;
 #NOP struttura della gui;
 #NOP -------------------------------------------------------------------------;
-#NOP VARIABLE {gui};
-#NOP {;
-#NOP     {rows};
-#NOP     {cols};
-#NOP     {right};
-#NOP };
+#VARIABLE {gui}
+{
+     {rows} {40}
+     {cols} {80}
+     {top} {1}
+     {bot} {5}
+     {left} {1}
+     {right} {0}
+}
+
+#VARIABLE {title_bar}
+{
+     {toprow} {1}
+     {topcol} {1}
+}
+
+#VARIABLE {bottom_bar}
+{
+     {toprow} {-6}
+     {topcol} {1}
+     {botrow} {-2}
+     {botcol} {-1}
+}
+
 
 #NOP -------------------------------------------------------------------------;
 #NOP Inizializza l'interfaccia grafica;
@@ -21,8 +39,8 @@
     map_start;
     #VAR hasLogged 1
     gui_refresh;
+    title_bar_draw;
     load_alias_sidebar
-    title_bar
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -35,10 +53,11 @@
       #SCREEN get rows {gui[rows]};
       #SCREEN get cols {gui[cols]};
       #if {$gui[rows] > 30 && $gui[cols] > 100 && $gui[cols] < 200} {
-        #SPLIT {$gui[rows]/5} 5 0 -89 1;
+        #SPLIT {$gui[rows]/5} {$gui[bot]} {$gui[left]} -100 1;
         #MAP flag vtmap on;
-        #MATH {gui[right]} {$gui[cols] - 89};
-        #MAP offset {$gui[rows]/3+2} {-$gui[right]+1} -10 -3;
+        #MATH {gui[right]} {$gui[cols] - 100};
+        #MAP offset {$gui[rows]/3+2} {-$gui[right]+3} -10 -3;
+        #DRAW white calign box {$gui[rows]/3+1} {-$gui[right]+2} -7 -1 ;
         #VAR {comm_bar[botrow]} {$gui[rows]/5};
         #MATH {comm_bar[botcol]} {-$gui[right]};
         #VAR {side_bar[botrow]} {$gui[rows]/3};
@@ -50,7 +69,7 @@
         #delay {0.5} {side_bar_draw_tabs}
         };    
       #elseif {$gui[rows] > 30 && $gui[cols] > 200} {
-        #SPLIT {$gui[rows]/5} 5 0 {-$gui[cols]/3} 1;
+        #SPLIT {$gui[rows]/5} {$bottom_bar[toprow]} 1 {-$gui[cols]/3} 1;
         #MAP flag vtmap on;
         #MAP offset {$gui[rows]/3+2} {$gui[cols]/2+5} -10 -3;
         #VAR {comm_bar[botrow]} {$gui[rows]/5};
@@ -61,7 +80,7 @@
       #elseif {$gui[rows] > 30 && $gui[cols] < 100} {
         #MAP flag vtmap on;
         #SCREEN clear all;
-        #SPLIT 13 5 0 0 1;
+        #SPLIT 13 {$bottom_bar[toprow]} 0 0 1;
         #MAP offset 8 1 14 -1;
         #MATH {comm_bar[botcol]} {$gui[cols]};
         #VAR {comm_bar[botrow]} 7;
@@ -70,7 +89,7 @@
       #else {
         #MAP flag vtmap off;
         #SCREEN clear all; 
-        #SPLIT 1 5 0 0 1;
+        #SPLIT 1 {$bottom_bar[toprow]} 0 0 1;
         };
     }
 }
@@ -83,8 +102,8 @@
     #if {&hasLogged != 0} 
     {
       resize_gui;
-      title_bar;
-      bottom_bar;
+      title_bar_draw;
+      bottom_bar_draw;
       #BUFFER refresh;
     }
 }
@@ -96,7 +115,7 @@
 {
     #if {&hasLogged != 0} 
     {
-      bottom_bar;
+      bottom_bar_draw;
       #MAP update
     }
 }
@@ -104,21 +123,16 @@
 #nop -------------------------------------------------------------------------;
 #nop Draw some buttons over the health bar.;
 #nop -------------------------------------------------------------------------;
-#ALIAS {title_bar}
+#ALIAS {title_bar_draw}
 {
     #line ignore #showme {* $worldlist[$mud][name] * $worldlist[$mud][char]} {1};
     #line ignore #showme {\e]68;2;TAB;#end\a\e[4;24mEsci\e[24m} {1} {-4};
 }
 
-#ALIAS {button_status %1}
-{
-    #NOP DRAW white calign box -6 49 -4 59 {"%1"};
-}
-
 #nop -------------------------------------------------------------------------;
 #nop Draw a health bar.;
 #nop -------------------------------------------------------------------------;
-#alias {bottom_bar}
+#alias {bottom_bar_draw}
 {
     #math {hp_percent} {100 * $MSDP_HEALTH / $MSDP_HEALTH_MAX};
     #math {hpbar1}   {$hp_percent / 10};
@@ -140,5 +154,7 @@
  
 	#LINE ignore #SHOWME {$prompt1} {-5};
 	#LINE ignore #SHOWME {$prompt2} {-4};
-	#LINE ignore #SHOWME {$prompt3} {-3}
+	#LINE ignore #SHOWME {$prompt3} {-3};
+
+    #DRAW white calign box {$bottom_bar[toprow]} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
 }

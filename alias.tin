@@ -62,7 +62,7 @@
     #foreach {*tmpallist[]} {ainde}
     {
         #regex {$tmpallist[$ainde]} {^{.*?} {.*?} {.*?}$} {#var aliargtmp &2};
-        #FORMAT {tmpal} {%s %s} {$aliargtmp} {\e]68;2;EXEC;$aliargtmp\a\e[4mUsa Alias\e[24m};
+        #FORMAT {tmpal} {%s %s} {$aliargtmp} {\e]68;2;EXEC;$aliargtmp\a\e[4mUsa\e[24m};
         side_bar_show al $tmpal;
      };
     #UNVAR tmpallist; 

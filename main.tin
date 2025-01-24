@@ -33,6 +33,14 @@
 #VARIABLE light_cyan <168>
 #VARIABLE light_white <178>
 
+#READ {msdp.tin};
+#READ {mxp.tin};
+#READ {mslp.tin};
+#READ {gmcp.tin};  
+#READ {macro.tin};
+#READ {alias.tin};
+#READ {triggers.tin};
+
 #NOP -------------------------------------------------------------------------;
 #NOP All'avvio chiede quale mud e personaggio usare;
 #NOP -------------------------------------------------------------------------;
@@ -55,7 +63,8 @@
         #class worlddata close;
     };
     #SPLIT;
-    #SCREEN clear split;
+    #SCREEN CLEAR ALL;
+    #READ motd.tin;
     #ECHO {%h} {{ LUMEN ET UMBRA }};
     #ECHO { };
     #ECHO { CONNECT e il nome del mud se gia presente};
@@ -63,8 +72,6 @@
     #ECHO { DELETEMUD nome mud per cancellare un mud};
     #ECHO { };
     #ECHO {%h};
-    #READ {mslp.tin};
-    #READ {gmcp.tin};  
     connect
 }
 
@@ -159,11 +166,6 @@
             #if {&worldlist[$mud][pass]}
             {
                 #SEND {$worldlist[$mud][pass]};
-                #READ {macro.tin};
-                #READ {alias.tin};
-                #READ {triggers.tin};
-                #READ {msdp.tin};
-                #READ {mxp.tin};
                 #READ {gui.tin};
                 gui_init
             };
@@ -173,7 +175,7 @@
 
 #EVENT {SESSION DISCONNECTED}
 {
-    #map write saves/map.dat
+    #MAP write saves/map.dat
 }
 
 #EVENT {SESSION DESTROYED}
@@ -198,17 +200,12 @@
 
 #EVENT {IAC SB MSDP SCREEN_WIDTH}
 {
-    #NOP variable gui[MSDP_SCREEN_WIDTH] {%1};
+    gui_refresh;
 }
 
 #EVENT {IAC SB MSDP SCREEN_HEIGHT}
 {
-    #NOP variable gui[MSDP_SCREEN_HEIGHT] {%1};
-}
-
-#EVENT {IAC SB MSDP IAC SE}
-{
-    #nop;
+    gui_refresh
 }
 
 #EVENT {IAC SB MSDP AC}
@@ -224,8 +221,8 @@
 #EVENT {SCREEN RESIZE}
 {
     gui_refresh;
-    #screen refresh;
-    #buffer end
+    #SCREEN refresh;
+    #BUFFER end
 }
 
 #EVENT {SCREEN ROTATE LANDSCAPE}
