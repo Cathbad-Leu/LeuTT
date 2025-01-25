@@ -1,32 +1,27 @@
 File di script per una client per il mud Lumen et Umbra.
+Premessa: avere installato sul sistema tintin o una delle varianti 
+(vedi wintin++) Linux o shell di comando linux esistono per tutti 
+i sistemi operativi, vedi: WLS per windows, Termux per Android, 
+Ish per IOS, Macchine virtuali varie.
+Per tutte le informazioni del caso vedi il sito di 
+  Tintin++ www.Mudhalla.com.
+Passo 1 LINUX/IOS/ANDROID Per avviare lo script che genera la client u
+sare il comando nel prompt: 
+  tt++ main.tt++	oppure per con lo script bash: sh leu.sh
 
-Premessa, avere installato sul sistema tintin o una delle varianti (vedi wintin++)
-Linux o shell di comando linux esistono per tutti i sistemi operativi, vedi:
-
-	WLS per windows, Termux per Android, Ish per IOS, Macchine virtuali varie.
-
-Per tutte le informazioni del caso vedi il sito di Tintin++ www.Mudhalla.com.
-
-Passo 1 LINUX/IOS/ANDROID Per avviare lo script che genera la client usare il comando nel prompt: 
-
-		tt++ main.tt++	oppure per con lo script bash: sh leu.sh
-
-Passo 1 WINDOWS Per avviare lo script che genera la client usare il comando nel prompt: 
-
-		Copiare i files dentro la driceotry \bin di wintin++, ed avviare il programma 
+Passo 1 WINDOWS Per avviare lo script che genera la client usare il 
+comando nel prompt:   
+  Copiare i files dentro la driceotry \bin di wintin++, ed avviare il 
+  programma 
 
 Passo 2 scrivere <esempio>: 
-
-		connect leu (apre il mud senza autologin, non carica gli scritp della client)
-
-		addmud nome_preferito new-lew.leu.it 6000 nomepersonaggio passwordpersonaggio
-		connect nome_preferito ( carica gli scrit della client)
-
+  connect leu (apre il mud senza autologin, non carica gli scritp della client)
+  addmud nome_preferito new-lew.leu.it 6000 nomepersonaggio passwordpersonaggio
+  connect nome_preferito ( carica gli scrit della client)
 
 Il file principale è leu.tt++ che avvia la sessione; 
 
 Struttura:    
-
  + main.tin	        (inizializza tintin e script)
  | 
  +- motd.tin.           (loco della schermata inizile)
