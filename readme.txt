@@ -22,17 +22,25 @@ Passo 2 scrivere <esempio>:
 Il file principale è leu.tt++ che avvia la sessione; 
 
 Struttura: leu.sh (per avviare la client: sh leu.sh)
+
+leuTT/
+ |
  + main.tin	        (inizializza tintin e script)
  |  |
  |  +- motd.tin.          (logo della schermata inizile)
  | 
+ +-lib/
+ |  |
+ |  +- modloader.tin.     (gestione dei moduli)
+ |  +- filesystem.tin.    (gestione del filesystem)
+ |  +- color.tin.         (gestione dei colori)
+ |
  +- modules/
    |
    +- counter.tin.         (contatori)
    +- events.tin.          (gestione eventi)
    +- functions.tin.       (funzioni varie)
    +- help.tin.            (gestione degli help)
-   +- modloader.tin.       (gestione dei moduli)
    +- queues.tin.          (coda dei comandi)
    +- syslog.tin.          (log di sistema)
    +- telnet.tin.          (protocollo telnet)
