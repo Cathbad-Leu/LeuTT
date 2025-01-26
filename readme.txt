@@ -24,10 +24,11 @@ Il file principale è leu.tt++ che avvia la sessione;
 Struttura: leu.sh (per avviare la client: sh leu.sh)
 
 leuTT/
-|
 + main.tin	        (inizializza tintin e script)
  |  
- +- motd.tin.          (logo della schermata inizile)
+ +- motd.tin.           (logo della schermata inizile)
+ +- /saves/muddata.dat  (configurazione mud si crea con addmud)
+ |  '- /logs/data.log   (salvataggio del log comando log on) 
  | 
  +-lib/
  |  |
@@ -63,9 +64,7 @@ leuTT/
      +- comm_bar.tin.        (barra delle comunicazioni)
      +- side_bar.tin.        (barra laterale destra)
      +- bars.tin              (gestione protocollo msdp)
-     |
-     +-+ /saves/muddata.dat  (configurazione mud si crea con addmud)
-        '- /logs/data.log   (salvataggio del log comando log on)
+
 
 ---------------Release vers 1.5-----------------------------------
 
