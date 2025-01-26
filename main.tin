@@ -3,18 +3,19 @@
 #NOP File principale, carica e predisponi tutto;
 #NOP -------------------------------------------------------------------------;
 
+#NOP -- Importa le librerie         --;
 #var lib lib
 #var mod modules
 #read $lib/colors.tin
-#read $lib/fylesystem.tin
+#read $lib/filesystem.tin
 #read $lib/modloader.tin
 
+#NOP -- Carica i moduli di /modules --;
 load_module functions
 load_module syslog
 load_module events
 load_module help
 load_module counter
-
 load_module telnet
 load_module msdp
 load_module mxp
@@ -23,7 +24,11 @@ load_module gmcp
 load_module macro
 load_module alias
 load_module triggers
+load_module map
 load_module gui
+load_module comm_bar;
+load_module side_bar;
+load_module bars;
 
 #NOP -------------------------------------------------------------------------;
 #NOP All'avvio chiede quale mud e personaggio usare;
@@ -31,14 +36,14 @@ load_module gui
 
 #EVENT {PROGRAM START}
 {
-    #CONFIG {SCROLL_LOCK} {OFF};
-    #CONFIG {VERBOSE} {OFF};
-    #CONFIG {DEBUG TELNET} {OFF};
+    #NOP CONFIG {SCROLL_LOCK} {ON};
+    #NOP CONFIG {VERBOSE} {ON};
+    #NOP CONFIG {DEBUG TELNET} {ON};
     #CONFIG {PACKET PATCH} {0.5};
     #CONFIG {MOUSE} {ON};
     #CONFIG {MOUSE TRACKING} {ON};
-    #INFO {BUTTON} {OFF};
-    #INFO {EVENT} {OFF};
+    #NOP INFO {BUTTON} {ON};
+    #NOP INFO {EVENT} {ON};
 
     #CLASS worlddata read saves/muddata.dat;
     #if {&{worldlist} == 0}
@@ -47,52 +52,41 @@ load_module gui
         #list worldlist clear;
         #class worlddata close;
     };
-    #SPLIT;
-    #SCREEN CLEAR ALL;
+
     #READ motd.tin;
+
     #ECHO {%h} {{ LUMEN ET UMBRA }};
     #ECHO { };
-    #ECHO { CONNECT e il nome del mud se gia presente};
-    #ECHO { ADDMUD nome host porta nome personaggio password};
-    #ECHO { DELETEMUD nome mud per cancellare un mud};
+    #ECHO { CONNECT e il nome del personaggio};
+    #ECHO { ADDPRG nome personaggio password};
+    #ECHO { DELPRG nome del pg per cancellare};
     #ECHO { };
     #ECHO {%h};
     connect
 }
 
-#ALIAS {addmud}
+#ALIAS {addprg}
 {
-    #if {"%3" == ""}
+    #if {&worldlist[%1][char] == "%1"}
     {
-        #LINE ignore #SHOWME Syntax: addmud <nome> <host> <porta> [nome personaggio][password]
+        #LINE ignore #SHOWME {Personaggio già presente}
+    };
+    #elseif {"%1" == "" | "%2" == ""}
+    {
+        #LINE ignore #SHOWME {Sintassi: addprg <nome personaggio> <password>}
     };
     #else
     {
-        #VARIABLE worldlist[%1][name] %1;
-        #VARIABLE worldlist[%1][host] %2;
-        #VARIABLE worldlist[%1][port] %3;
-        #if {"%4" != ""}
-        {
-            #VARIABLE worldlist[%1][char] %4
-        };
-        #if {"%5" != ""}
-        {
-            #VARIABLE worldlist[%1][pass] %5
-        };
-        #if {&worldlist[%1][char]}
-        {
-            #LINE ignore #SHOWME Il mud %1 (%2 %3) ed il personaggio %4 (%5) sono stati aggiunti.
-        };
-        #else
-        {
-            #LINE ignore #SHOWME il mud %1 (%2 %3) è stato aggiunto.
-        };
-        #class worlddata write saves/muddata.dat
+        #VARIABLE worldlist[%1] %1;
+        #VARIABLE worldlist[%1][char] %1;
+        #VARIABLE worldlist[%1][pass] %2;
+        #LINE ignore #SHOWME {Aggiunto: $worldlist[%1][char]};
+        #CLASS worlddata write saves/muddata.dat
     };
     connect
 }
 
-#ALIAS {deletemud}
+#ALIAS {delprg}
 {
     #if {&worldlist[%1] != 0}
     {
@@ -102,7 +96,7 @@ load_module gui
     };
     #else
     {
-        #ECHO {Il mud %s non è stato trovato nella lista.} {%1}
+        #ECHO {Il personaggio %s non è stato trovato nella lista.} {%1}
     };
     connect
 }
@@ -115,7 +109,7 @@ load_module gui
         #ECHO { };
         #foreach {*worldlist[]} {world}
         {
-            #ECHO { %-10s %s %s %s %s} {$worldlist[$world][name]} {$worldlist[$world][host]} {$worldlist[$world][port]} {$worldlist[$world][char]} {\e]68;2;EXEC;connect $world\a\e[4mconnect\e[24m};
+            #ECHO { %-10s %s} {$worldlist[$world][char]} {\e]68;2;EXEC;connect $world\a\e[4mconnect\e[24m};
         };
         #ECHO { };
         #ECHO {%h};
@@ -123,7 +117,7 @@ load_module gui
     #elseif {&worldlist[%1] != 0}
     {
         #VARIABLE mud {%1};
-        #SESSION $worldlist[%1][name] $worldlist[%1][host] $worldlist[%1][port]
+        #SESSION leu new-leu.leu.it 6000
     };
     #else
     {
@@ -134,11 +128,6 @@ load_module gui
 #NOP -------------------------------------------------------------------------;
 #NOP Eventi di sessione;
 #NOP -------------------------------------------------------------------------;
-
-#EVENT {SESSION ACTIVATED}
-{
-    #NOP;
-}
 
 #EVENT {SESSION CONNECTED}
 {
@@ -151,7 +140,8 @@ load_module gui
             #if {&worldlist[$mud][pass]}
             {
                 #SEND {$worldlist[$mud][pass]};
-                gui_init
+                gui_init;
+                gui_refresh;
             };
         };
     };

@@ -5,30 +5,29 @@ i sistemi operativi, vedi: WLS per windows, Termux per Android,
 Ish per IOS, Macchine virtuali varie.
 Per tutte le informazioni del caso vedi il sito di 
   Tintin++ www.Mudhalla.com.
-Passo 1 LINUX/IOS/ANDROID Per avviare lo script che genera la client u
+
+Passo 1 LINUX/IOS/ANDROID 
+Per avviare lo script che genera la client u
 sare il comando nel prompt: 
   tt++ main.tt++	oppure per con lo script bash: sh leu.sh
 
-Passo 1 WINDOWS Per avviare lo script che genera la client usare il 
-comando nel prompt:   
+Passo 1 WINDOWS  
   Copiare i files dentro la driceotry \bin di wintin++, ed avviare il 
   programma 
 
-Passo 2 scrivere <esempio>: 
-  connect leu (apre il mud senza autologin, non carica gli scritp della client)
-  addmud nome_preferito new-lew.leu.it 6000 nomepersonaggio passwordpersonaggio
-  connect nome_preferito ( carica gli scrit della client)
+Passo 2 scrivere:
+  addprg <nomepersonaggio> <passwordpersonaggio> (Se il personaggio non è salvato) 
+  connect nome_preferito (carica gli script della client ed entra nel mud)
 
-Il file principale è leu.tt++ che avvia la sessione; 
+Il file principale è main.tt++ che avvia tutto; 
 
 Struttura: leu.sh (per avviare la client: sh leu.sh)
 
 leuTT/
-+ main.tin	        (inizializza tintin e script)
- |  
- +- motd.tin.           (logo della schermata inizile)
- +- /saves/muddata.dat  (configurazione mud si crea con addmud)
- |  '- /logs/data.log   (salvataggio del log comando log on) 
+ |
+ + main.tin	        (inizializza tintin e script)
+ |  |
+ |  +- motd.tin.          (logo della schermata inizile)
  | 
  +-lib/
  |  |
@@ -64,7 +63,9 @@ leuTT/
      +- comm_bar.tin.        (barra delle comunicazioni)
      +- side_bar.tin.        (barra laterale destra)
      +- bars.tin              (gestione protocollo msdp)
-
+     |
+     +-+ /saves/muddata.dat  (configurazione mud si crea con addmud)
+        '- /logs/data.log   (salvataggio del log comando log on)
 
 ---------------Release vers 1.5-----------------------------------
 
