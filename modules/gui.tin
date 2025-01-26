@@ -53,10 +53,6 @@ Funzioni della gui.\n
 #NOP -------------------------------------------------------------------------;
 #ALIAS {gui_init}
 {
-    load_module map;
-    load_module comm_bar;
-    load_module side_bar;
-    load_module bars;
     #MAP create;
     map_start;
     #VAR hasLogged 1
@@ -183,7 +179,7 @@ Funzioni della gui.\n
   #else {#LINE ignore #SHOWME { PERFAVORE RIENTRA } {-5};
          #LINE ignore #SHOWME {   DOPO IL RENT } {-4};
          #LINE ignore #SHOWME { PER VISUALIZZARE } {-3}
-  }
+  };
   #DRAW white calign box {$bottom_bar[toprow]} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
 }
 

@@ -47,8 +47,7 @@
 #function {isfile} {
     #if {"%1" == ""} {
         msg {ERROR} {USAGE: @isfile{path}};
-    }
-
+    };
     #else {
         #script {result} {
             if [ -f %0 ]; then
@@ -66,8 +65,7 @@
     #if {"%1" == ""}
     {
         msg {ERROR} {USAGE: @filetype{path}};
-    }
-
+    };
     #else {
         #script {result} { file %1; };
     }
@@ -79,13 +77,11 @@
 {
     #if { "%1" == "" } {
         message {SHELL} {ERROR} {The function mkdir requires a directory name.};
-    }
-
+    };
     #else {
         #if {"@isdir{%1}" == "1" } {
             msg {ERROR} {MKDIR: The directory %1 already exists.};
-        }
-
+        };
         #else {
             #script {result} {
                 mkdir -p %1;
