@@ -1,0 +1,12 @@
+Un ringraziamento per i suoi script ad:
+	Igor van den Hoven - mudclient@gmail.com
+
+Alla comunity di tintin++ ed al suo creatore Scandum.
+Alla comunity di Lumen et Umbra, in particolare Archie,Xenon,Moylen,Oxon,Kyrus,MFontani.
+Ai vari autori di guide e manuali su Mudhalla.com.
+Vorrei menzionare i seguenti link che mi sono stati di enorme aiuto:
+
+https://github.com/mfontani/tintin-dde.git
+https://github.com/perlsaiyan/tintin-helper.git
+https://github.com/tintinplusplus/tintinplusplus-modules.git
+https://github.com/tintinplusplus/tintinplusplus-unoffical-documentation.git
