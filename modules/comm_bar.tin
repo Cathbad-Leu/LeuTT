@@ -33,7 +33,7 @@ Funzioni della finestra di comunicazione.\n
         {gld} {}
     }
     {topcol} {1}
-    {toprow} {1}
+    {toprow} {2}
     {unread} 
     {
         {msg} {0}
@@ -105,7 +105,7 @@ Funzioni della finestra di comunicazione.\n
 
 #ALIAS {comm_bar_draw_tabs}
 {
-    #draw green rounded box @comm_bar_border{};
+    #draw white rounded box @comm_bar_border{};
     #local short {};
     #local index {};
     #loop {1} {&comm_bar[tab][]} {index}
