@@ -3,25 +3,11 @@
 #NOP File principale, carica e predisponi tutto;
 #NOP -------------------------------------------------------------------------;
 
-#var mod modules;
-#read $mod/modloader.tin;
-
-#VARIABLE black <008>
-#VARIABLE red <018>
-#VARIABLE green <028>
-#VARIABLE yellow <038>
-#VARIABLE blue <048>blue
-#VARIABLE magenta <058>
-#VARIABLE cyan <068>
-#VARIABLE white <078>
-#VARIABLE light_black <108>
-#VARIABLE light_red <118>
-#VARIABLE light_green <128>
-#VARIABLE light_yellow <138>
-#VARIABLE light_blu <148>
-#VARIABLE light_magenta <158>
-#VARIABLE light_cyan <168>
-#VARIABLE light_white <178>
+#var lib lib
+#var mod modules
+#read $lib/colors.tin
+#read $lib/fylesystem.tin
+#read $lib/modloader.tin
 
 load_module functions
 load_module syslog
@@ -53,6 +39,7 @@ load_module gui
     #CONFIG {MOUSE TRACKING} {ON};
     #INFO {BUTTON} {OFF};
     #INFO {EVENT} {OFF};
+
     #CLASS worlddata read saves/muddata.dat;
     #if {&{worldlist} == 0}
     {
@@ -249,29 +236,6 @@ load_module gui
     #SEND {$TELNET[IAC]$TELNET[DO]$TELNET[GMCP]\};
 }
 
-#EVENT {IAC SB GMCP char.vitals IAC SE}
-{
-    #VARIABLE gmcp[char][vitals] {%0};
-	
-    #VARIABLE pg[chp] {$gmcp[char][vitals][hp]};
-    #VARIABLE pg[mhp] {$gmcp[char][vitals][maxhp]};
-	
-    #VARIABLE pg[cmn] {$gmcp[char][vitals][mana]};
-    #VARIABLE pg[mmn] {$gmcp[char][vitals][maxmana]};
-	
-    #VARIABLE pg[cmv] {$gmcp[char][vitals][mov]};
-    #VARIABLE pg[mmv] {$gmcp[char][vitals][maxmov]};
-	
-    #VARIABLE pg[cen] {$gmcp[char][vitals][pow]};
-    #VARIABLE pg[men] {$gmcp[char][vitals][maxpow]};
-	
-    #VARIABLE pg[pos] {$gmcp[char][vitals][roomPos]};
-	
-    #VARIABLE tm[crd] {$gmcp[char][vitals][roundTicker]};
-    #VARIABLE tm[mrd] {$gmcp[char][vitals][roundMax]};
-    #VARIABLE tm[tik] {$gmcp[char][vitals][secsToTick]}
-}
-
 #NOP -------------------------------------------------------------------------;
 #NOP Se rientri da ld richiedi al mud le variabili msdp;
 #NOP -------------------------------------------------------------------------;
@@ -282,99 +246,12 @@ load_module gui
 }
 
 #NOP -------------------------------------------------------------------------;
-#NOP Riga di comando stile zmud, mantine il comando digitato;
-#NOP e lo evidenzia in blu. se dato;
-#NOP -------------------------------------------------------------------------;
-
-#CONFIG REPEAT_ENTER ON
-
-#VARIABLE last_input {}
-
-#EVENT {HISTORY UPDATE}
-{
-    #DELAY 0 #LINE ignore #SHOWME {<aaf><FFF><788>%0<088>} {-1};
-    #VARIABLE last_input {%0}
-}
-
-#EVENT {PROCESSED KEYPRESS}
-{
-	#if {{%1} != {10} && {$last_input} !== {}}
-	{
-		#VARIABLE last_input {};
-		#LINE ignore #SHOWME {} {-1};
-		#cursor end;
-		#history insert {}
-	};
-}
-
-#NOP -------------------------------------------------------------------------;
-#NOP Execute speedwalks with .;
-#NOP -------------------------------------------------------------------------;
-
-#alias {.%0}
-{
-	#var cnt {};
-
-	#parse {%0} {char}
-	{
-		#if {"$char" >= "0" && "$char" <= "9"}
-		{
-			#var cnt $cnt$char
-		};
-		#elseif {"$cnt" == ""}
-		{
-			#send $char
-		};
-		#else
-		{
-			#$cnt #send $char;
-			#var cnt {}
-		};
-	}
-}
-
-
-#NOP -------------------------------------------------------------------------;
 #NOP Use mouse click to change the input cursor's position.;
 #NOP -------------------------------------------------------------------------;
 
 #EVENT {SHORT-CLICKED MOUSE BUTTON ONE -1}
 {
 	#cursor position %1
-}
-
-#NOP -------------------------------------------------------------------------;
-#NOP Contatore di mob uccisi  ed esperienza;
-#NOP -------------------------------------------------------------------------;
-
-#list gains clear
-
-#ACTION {%1 e` morto! R.I.P.}
-{
-    #variable mob %1;
-    #if {&targets[%1]} {target %1};
-}
-
-#ACTION {La tua esperienza e` aumentata di %1 punti.}
-{
-    #math {gains[$mob][mobexp]} {$gains[$mob][mobexp] + %1};
-    #math {gains[$mob][mobcnt]} {$gains[$mob][mobcnt] + 1}
-}
-
-#ALIAS {rip}
-{
-    #showme {      Average Xp      Totale Xp     #   Death List, R.I.P.};
-    #showme {----------------------------------------------------------};
-    #unvariable {gains[final]};
-    #foreach {*gains[]} {mob}
-    {
-        #echo {  %+14g %+14g %+5g   %s}{$gains[$mob][mobexp] / $gains[$mob][mobcnt]}{$gains[$mob][mobexp]}{$gains[$mob][mobcnt]}{$mob};
-        #math gains[final][mobexp] $gains[final][mobexp] + $gains[$mob][exp];
-        #math gains[final][mobcnt] $gains[final][mobcnt] + $gains[$mob][mobcnt]
-    };
-    #showme {----------------------------------------------------------};
-    #math mobtmp {$gains[final][mobexp] / $gains[final][mobcnt]};
-    #echo {  %+14g %+14g %+5g}{$mobtmp}{$gains[final][mobexp]}{$gains[final][mobcnt]}
 }
 
 #NOP -------------------------------------------------------------------------;
