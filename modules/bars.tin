@@ -1,0 +1,81 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var bars-description {funzioni alias}
+#var bars-help {
+Funzioni degli bars.\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias bars-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module bars
+	} {
+		fail_module bars
+	}
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Draw some buttons over the health bar.;
+#nop -------------------------------------------------------------------------;
+
+#ALIAS {buttons_bar}
+{
+    #DRAW green box -6 0 -2 -1 {};
+    #DRAW green calign box -6 1 -4 5 {W};
+    #BUTTON {-6 1 -4 5} {w};
+    #DRAW green calign box -6 6 -4 10 {N};
+    #BUTTON {-6 6 -4 10} {n};
+    #DRAW green calign box -6 11 -4 15 {S};
+    #BUTTON {-6 11 -4 15} {s};
+    #DRAW green calign box -6 16 -4 20 {E};
+    #BUTTON {-6 16 -4 20} {e};
+    #DRAW green calign box -6 21 -4 25 {U};
+    #BUTTON {-6 21 -4 25} {u};
+    #DRAW green calign box -6 26 -4 30 {D};
+    #BUTTON {-6 26 -4 30} {d};
+    #DRAW green calign box -6 31 -4 35 {Trg};
+    #BUTTON {-6 31 -4 35} {show_trig};
+    #DRAW green calign box -6 36 -4 40 {Als};
+    #BUTTON {-6 35 -4 40} {show_alias};
+    #DRAW green calign box -6 41 -4 44 {bU};
+    #BUTTON {-6 39 -4 44} {#buffer up};
+    #DRAW green calign box -6 45 -4 48 {bD};
+    #BUTTON {-6 43 -4 48} {#buffer down};
+    button_status Inpiedi;
+}
+
+#ALIAS {button_status %1}
+{
+    #DRAW white calign box -6 49 -4 59 {"%1"};
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Draw a health bar.;
+#nop -------------------------------------------------------------------------;
+
+#alias {hpbar}
+{
+    #math {hp_percent} {100 * $MSDP_HEALTH / $MSDP_HEALTH_MAX};
+    #math {hpbar1}   {$hp_percent / 10};
+    #math {hpbar2}   {10 - $hpbar1};
+    #math {mana_percent} {100 * $MSDP_MANA / $MSDP_MANA_MAX};
+    #math {manabar1}   {$mana_percent / 10};
+    #math {manabar2}   {10 - $manabar1};
+    #math {mov_percent} {100 * $MSDP_MOVEMENT / $MSDP_MOVEMENT_MAX};
+    #math {movbar1}   {$mov_percent / 10};
+    #math {movbar2}   {10 - $movbar1};
+
+    #FORMAT {hpbar} {<011>%+${hpbar1}s<099><000>%+${hpbar2}s<099>};
+    #FORMAT {manabar} {<015>%+${manabar1}s<099><000>%+${manabar2}s<099>};
+    #FORMAT {movbar} {<012>%+${movbar1}s<099><000>%+${movbar2}s<099>};
+
+    #FORMAT prompt1 {👤%s/%s%s✨%s/%s%s🏃‍♂️%s/%s%s} $MSDP_HEALTH $MSDP_HEALTH_MAX $hpbar $MSDP_MANA $MSDP_MANA_MAX $manabar $MSDP_MOVEMENT $MSDP_MOVEMENT_MAX $movbar;
+ 
+	#LINE ignore #SHOWME {$prompt1} {-3}
+}

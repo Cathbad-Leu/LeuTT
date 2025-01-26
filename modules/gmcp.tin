@@ -1,0 +1,21 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var gmcp-description {funzioni alias}
+#var gmcp-help {
+Funzioni di GMCP.\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias gmcp-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module gmcp
+	} {
+		fail_module gmcp
+	}
+}
