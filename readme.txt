@@ -25,50 +25,54 @@ Struttura: leu.sh (per avviare la client: sh leu.sh)
 
 leuTT/
  |
- main.tin	        (inizializza tintin e script)
+ main.tin.             (inizializza tintin e script)
  |  |
- |  +- motd.tin.        (logo della schermata inizile)
+ |  +- motd.tin.       (logo della schermata inizile)
  | 
  +-lib/
  |  |
- |  +- modloader.tin.   (gestione dei moduli)
- |  +- filesystem.tin.  (gestione del filesystem)
- |  +- color.tin.       (gestione dei colori)
+ |  +- modloader.tin.  (gestione dei moduli)
+ |  +- filesystem.tin. (gestione del filesystem)
+ |  +- color.tin.      (gestione dei colori)
  |
  +- modules/
    |
-   +- counter.tin.       (contatori)
-   +- events.tin.        (gestione eventi)
-   +- functions.tin.     (funzioni varie)
-   +- help.tin.          (gestione degli help)
-   +- queues.tin.        (coda dei comandi)
-   +- syslog.tin.        (log di sistema)
-   +- telnet.tin.        (protocollo telnet)
-   +- msdp.tin.          (protocollo msdp)
-   +- mslp.tin.          (protocollo mslp)
-   +- mxp.tin.           (protocollo mxp)
-   +- macro.tin.         (registra e riproduce macro)
+   +- counter.tin.     (contatori)
+   +- events.tin.      (gestione eventi)
+   +- functions.tin.   (funzioni varie)
+   +- help.tin.        (gestione degli help)
+   +- queues.tin.      (coda dei comandi)
+   +- syslog.tin.      (log di sistema)
+   +- telnet.tin.      (protocollo telnet)
+   +- msdp.tin.        (protocollo msdp)
+   +- mslp.tin.        (protocollo mslp)
+   +- mxp.tin.         (protocollo mxp)
+   +- macro.tin.       (registra e riproduce macro)
    |
-   +-+ alias.tin         (getstione degli alias e dei percorsi)
-   | '- /saves/alias.dat (salvataggio degli alias)
+   +-+ alias.tin       (getstione degli alias e dei percorsi)
+   | '-/saves/alias.dat (salvataggio degli alias)
    |
-   +-+ triggers.tin      (getstione degli eventi in automatico)
-   | '- /saves/triggers.dat (salvataggio dei triggers)
+   +-+ triggers.tin    (getstione degli eventi in automatico)
+   | '-/saves/triggers.dat (salvataggio dei triggers)
    |
-   +-+ gui.tin           (gestione dell'intergaccia grafica)
+   +-+ gui.tin         (gestione dell'intergaccia grafica)
      |
-     +-+ map.tin.        (gestione della mappa e percorsi)
-     |  '- /saves/map.dat (salvataggio della mappa)
+     +-+ map.tin.      (gestione della mappa e percorsi)
+     |  '-/saves/map.dat (salvataggio della mappa)
      |
-     +- comm_bar.tin.     (barra delle comunicazioni)
-     +- side_bar.tin.     (barra laterale destra)
-     +- bars.tin          (gestione protocollo msdp)
+     +- comm_bar.tin.   (barra delle comunicazioni)
+     +- side_bar.tin.   (barra laterale destra)
+     +- bars.tin        (gestione protocollo msdp)
      |
-     +-+ /saves/muddata.dat (configurazione mud si crea con addmud)
-        '- /logs/data.log   (salvataggio del log comando log on)
+     +-+/saves/muddata.dat (configurazione mud si crea con addmud)
+        '-/logs/data.log   (salvataggio del log comando log on)
 
 ---------------Release vers 1.5-----------------------------------
 
+Connessione diretta e unica a leu.
+Ora si crea solo i personaggi.
+Possibilità di fare nuovi personaggi o
+login diretto manuale.
 Riorganizzazione del codice.
 Nuovo sistema di caricamento dei moduli sulla riga di quello 
 dello script tintin-helper 
