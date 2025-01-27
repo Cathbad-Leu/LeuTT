@@ -25,7 +25,7 @@ Struttura: leu.sh (per avviare la client: sh leu.sh)
 
 leuTT/
  |
- + main.tin	        (inizializza tintin e script)
+ main.tin	        (inizializza tintin e script)
  |  |
  |  +- motd.tin.        (logo della schermata inizile)
  | 
