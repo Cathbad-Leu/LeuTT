@@ -30,6 +30,9 @@ load_module comm_bar;
 load_module side_bar;
 load_module bars;
 
+#VARIABLE host new-leu.leu.it
+#VARIABLE port 6000
+
 #NOP -------------------------------------------------------------------------;
 #NOP All'avvio chiede quale mud e personaggio usare;
 #NOP -------------------------------------------------------------------------;
@@ -45,12 +48,12 @@ load_module bars;
     #NOP INFO {BUTTON} {ON};
     #NOP INFO {EVENT} {ON};
 
-    #CLASS worlddata read saves/muddata.dat;
-    #if {&{worldlist} == 0}
+    #CLASS charsdata read saves/muddata.dat;
+    #if {&{charslist} == 0}
     {
-        #class worlddata open;
-        #list worldlist clear;
-        #class worlddata close;
+        #class charsdata open;
+        #list charslist clear;
+        #class charsdata close;
     };
 
     #READ motd.tin;
@@ -60,14 +63,21 @@ load_module bars;
     #ECHO { CONNECT e il nome del personaggio};
     #ECHO { ADDPRG nome personaggio password};
     #ECHO { DELPRG nome del pg per cancellare};
+    #ECHO  { %s per creare un nuovo personaggio} {\e]68;2;EXEC;nuovo\a\e[4mNUOVO\e[24m};
+    #ECHO  { %s} {\e]68;2;EXEC;continua\a\e[4mCONTINUA\e[24m};
     #ECHO { };
     #ECHO {%h};
     connect
 }
 
+#ALIAS {continua}
+{
+    #SESSION leu $host $port;
+}
+
 #ALIAS {addprg}
 {
-    #if {&worldlist[%1][char] == "%1"}
+    #if {&charslist[%1][char] == "%1"}
     {
         #LINE ignore #SHOWME {Personaggio già presente}
     };
@@ -77,21 +87,21 @@ load_module bars;
     };
     #else
     {
-        #VARIABLE worldlist[%1] %1;
-        #VARIABLE worldlist[%1][char] %1;
-        #VARIABLE worldlist[%1][pass] %2;
-        #LINE ignore #SHOWME {Aggiunto: $worldlist[%1][char]};
-        #CLASS worlddata write saves/muddata.dat
+        #VARIABLE charslist[%1] %1;
+        #VARIABLE charslist[%1][char] %1;
+        #VARIABLE charslist[%1][pass] %2;
+        #LINE ignore #SHOWME {Aggiunto: $charslist[%1][char]};
+        #CLASS charsdata write saves/muddata.dat
     };
     connect
 }
 
 #ALIAS {delprg}
 {
-    #if {&worldlist[%1] != 0}
+    #if {&charslist[%1] != 0}
     {
-        #UNVAR worldlist[%1];
-        #CLASS worlddata write saves/muddata.dat;
+        #UNVAR charslist[%1];
+        #CLASS charsdata write saves/muddata.dat;
         #LINE ignore #SHOWME Il mud %1 è stato cancellato.
     };
     #else
@@ -105,24 +115,30 @@ load_module bars;
 {
     #if {"%1" == ""}
     {
-        #ECHO {%h} {{ MUD LIST }};
+        #ECHO {%h} {{ LISTA PERSONAGGI }};
         #ECHO { };
-        #foreach {*worldlist[]} {world}
+        #foreach {*charslist[]} {chars}
         {
-            #ECHO { %-10s %s} {$worldlist[$world][char]} {\e]68;2;EXEC;connect $world\a\e[4mconnect\e[24m};
+            #ECHO { %-10s %s} {$charslist[$chars][char]} {\e]68;2;EXEC;connect $chars\a\e[4mconnect\e[24m};
         };
         #ECHO { };
         #ECHO {%h};
     };
-    #elseif {&worldlist[%1] != 0}
+    #elseif {&charslist[%1] != 0}
     {
         #VARIABLE mud {%1};
-        #SESSION leu new-leu.leu.it 6000
+        #SESSION leu $host $port;
     };
     #else
     {
         #ECHO {Non è stato possibile trovare %1.}
     };
+}
+
+#ALIAS {nuovo}
+{
+    #SESSION leu $host $port;
+    #SEND {nuovo};
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -132,19 +148,19 @@ load_module bars;
 #EVENT {SESSION CONNECTED}
 {
     #VARIABLE mud @gts{$mud};
-    #if {&worldlist[$mud]}
+    #if {&charslist[$mud]}
     {
-        #if {&worldlist[$mud][char]}
+        #if {&charslist[$mud][char]}
         {
-            #SEND {$worldlist[$mud][char]};
-            #if {&worldlist[$mud][pass]}
+            #SEND {$charslist[$mud][char]};
+            #if {&charslist[$mud][pass]}
             {
-                #SEND {$worldlist[$mud][pass]};
-                gui_init;
-                gui_refresh;
+                #SEND {$charslist[$mud][pass]};
             };
         };
     };
+    gui_init;
+    gui_refresh;
 }
 
 #EVENT {SESSION DISCONNECTED}
