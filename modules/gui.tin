@@ -41,7 +41,7 @@ Funzioni della gui.\n
 
 #VARIABLE {bottom_bar}
 {
-     {toprow} {-6}
+     {toprow} {-5}
      {topcol} {1}
      {botrow} {-2}
      {botcol} {-1}
@@ -70,7 +70,8 @@ Funzioni della gui.\n
     {
       #SCREEN get rows {gui[rows]};
       #SCREEN get cols {gui[cols]};
-      #if {$gui[rows] > 30 && $gui[cols] > 100 && $gui[cols] < 200} {
+
+      #if {$gui[rows] > 30 && $gui[cols] > 110} {
         #SPLIT {$gui[rows]/5} {$gui[bot]} {$gui[left]} -100 1;
         #MAP flag vtmap on;
         #MATH {gui[right]} {$gui[cols] - 100};
@@ -86,19 +87,10 @@ Funzioni della gui.\n
         side_bar_draw_data $side_bar[active];
         #delay {0.5} {side_bar_draw_tabs}
         };    
-      #elseif {$gui[rows] > 30 && $gui[cols] > 200} {
-        #SPLIT {$gui[rows]/5} {$bottom_bar[toprow]} 1 {-$gui[cols]/3} 1;
-        #MAP flag vtmap on;
-        #MAP offset {$gui[rows]/3+2} {$gui[cols]/2+5} -10 -3;
-        #VAR {comm_bar[botrow]} {$gui[rows]/5};
-        #MATH {comm_bar[botcol]} {$gui[cols]/2};
-        #SCREEN clear top;
-        #delay {0.5} {comm_bar_draw_tabs}
-        };
-      #elseif {$gui[rows] > 30 && $gui[cols] < 100} {
+      #elseif {$gui[rows] > 30} {
         #MAP flag vtmap on;
         #SCREEN clear all;
-        #SPLIT 13 {$bottom_bar[toprow]} 0 0 1;
+        #SPLIT 13 {$gui[bot]} 0 0 1;
         #MAP offset 8 1 14 -1;
         #MATH {comm_bar[botcol]} {$gui[cols]};
         #VAR {comm_bar[botrow]} 7;
@@ -107,7 +99,7 @@ Funzioni della gui.\n
       #else {
         #MAP flag vtmap off;
         #SCREEN clear all; 
-        #SPLIT 1 {$bottom_bar[toprow]} 0 0 1;
+        #SPLIT 1 5 0 0 1;
         };
     }
 }
@@ -176,11 +168,11 @@ Funzioni della gui.\n
 	#LINE ignore #SHOWME {$prompt2} {-4};
 	#LINE ignore #SHOWME {$prompt3} {-3};
   };
-  #else {#LINE ignore #SHOWME { PERFAVORE RIENTRA } {-5};
-         #LINE ignore #SHOWME {   DOPO IL RENT } {-4};
-         #LINE ignore #SHOWME { PER VISUALIZZARE } {-3}
+  #else {#LINE ignore #SHOWME { PERFAVORE RIENTRA } {$bottom_bar[botrow]-3};
+         #LINE ignore #SHOWME {   DOPO IL RENT } {$bottom_bar[botrow]-2};
+         #LINE ignore #SHOWME { PER VISUALIZZARE } {$bottom_bar[botrow]-1}
   };
-  #DRAW white calign box {$bottom_bar[toprow]} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
+  #DRAW white calign box {$bottom_bar[toprow]-1} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
 }
 
 #NOP -------------------------------------------------------------------------;
