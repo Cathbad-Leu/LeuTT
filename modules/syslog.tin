@@ -2,7 +2,7 @@
 #nop Class Definitions
 #nop --
 
-#var syslog-description {Logging routines}
+#var syslog-description {Logging Routines}
 #var syslog-help {
 Usage: syslog <facility> <priority> <message>\n
 \n

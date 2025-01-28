@@ -2,7 +2,7 @@
 #nop Class Definitions
 #nop --
 
-#var functions-description {Generalized functions for handy things}
+#var functions-description {Funzioni generali utili}
 #var functions-help {Many support <ccf>#function<fff>s you may find handy.}
 
 #nop --

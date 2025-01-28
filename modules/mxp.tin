@@ -2,9 +2,9 @@
 #nop Class Definitions
 #nop --
 
-#var mxp-description {funzioni mxp}
+#var mxp-description {Funzioni di MXP}
 #var mxp-help {
-Funzioni degli mxp.\n
+Gestione del protocllo mxp.\n
 }
 
 #nop --

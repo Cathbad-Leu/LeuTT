@@ -2,9 +2,9 @@
 #nop Class Definitions
 #nop --
 
-#var telnet-description {funzioni telnet}
+#var telnet-description {Funzioni del protocollo Telnet}
 #var telnet-help {
-Funzioni di telnet.\n
+Gestione del protocollo telnet.\n
 }
 
 #nop --

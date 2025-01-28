@@ -2,8 +2,8 @@
 #nop Class Definitions
 #nop --
 
-#var help-description {Support for help functions for modules}
-#var help-help {help <modname> for supported modules.}
+#var help-description {Supporto per le funzioni di aiuto dei moduli}
+#var help-help {help <nome modulo> per i moduli supportati.}
 
 #nop --
 #nop Modloader Stuff

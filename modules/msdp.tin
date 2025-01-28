@@ -2,10 +2,10 @@
 #nop Class Definitions
 #nop --
 
-#var msdp-description {Enable Mud Server Data Protocol}
+#var msdp-description {Abilita il Mud Server Data Protocol}
 #var msdp-help {
-<179>This module does need to load before connecting to your MUD,<099>\n
-but no user interaction is needed.  Data is stored in MSDP_%*.
+<179>Questo modulo deve essere caricato prima della connessione al mud.<099>\n
+Le informazioni sono salvate in MSDP_%*.\n
 }
 
 #nop --

@@ -3,8 +3,13 @@
 #nop Class Definitions
 #nop --
 
-#var map-description {description}
-#var map-help {help file}
+#var map-description {Funzioni della Mappa}
+#var map-help {
+Gestione della mappa\n
+Creazione e definizione della mappa\n
+Alcune actions (triggers) legati a leu\n
+Vedi #help Map\n
+}
 #var map-register-delay 3
 
 #nop --

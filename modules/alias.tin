@@ -2,9 +2,24 @@
 #nop Class Definitions
 #nop --
 
-#var alias-description {funzioni alias}
+#var alias-description {Funzioni degli Alias}
 #var alias-help {
 Funzioni degli alias.\n
+Vengono caricate da saves/alias.dat\n
+Un semplice file di testo editabile con\n
+un editor qualsiasi, contiene gli alias\n
+in un formato json.\n
+Alias semplici si possono gestire con:\n
+\n
+addalias nome_del_trigger/comando. \n
+delalias nome_del_trigger da eliminare\n
+showalias mostra una lista degli alias\n
+Vedi #help alias\n
+\n
+Vi e' la possibilità di creare degli alias\n
+sul mud con: alias <Numero> <Comando>\n
+richiamabili: con il numero assegnato.
+
 }
 
 #nop --
@@ -48,7 +63,7 @@ Funzioni degli alias.\n
     #class alias_data write saves/alias.dat;
 }
 
-#ALIAS {show_alias} 
+#ALIAS {showalias} 
 {
 
     #ECHO {%h} { {LISTA_ALIAS} };

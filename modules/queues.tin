@@ -2,7 +2,7 @@
 #nop Class Definitions
 #nop --
 
-#var queues-description {Action queues}
+#var queues-description {Coda di Azioni}
 #var queues-help {
 A command queueing system with priorities.\n
 \n

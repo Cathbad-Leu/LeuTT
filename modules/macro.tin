@@ -2,9 +2,17 @@
 #nop Class Definitions
 #nop --
 
-#var alias-description {funzioni macro}
+#var macro-description {Funzioni per le Macro}
 #var macro-help {
-Funzioni degli macro.\n
+Gestion di macro.\n
+Si possono creare delle registrazioni\n
+di comandi richiamabili con:\n
+recmacro <nomemacro>\n
+senza argomento mostra quelle registrate\n
+Si ferma la registrazione con\n
+stopmacro\n
+Si possono richiamare con:\n
+playmacro <nomemacro>\n
 }
 
 #nop --

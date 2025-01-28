@@ -2,9 +2,14 @@
 #nop Class Definitions
 #nop --
 
-#var gui-description {funzioni alias}
+#var gui-description {Funzioni della GUI}
 #var gui-help {
-Funzioni della gui.\n
+Gestione dell'interfaccia grafica.\n
+Gli elementi sono della gui sono:\n
+title_bar (la barra in alto)\n
+bottom_bar (barra in basso)\n
+side_bar (barra laterale destra)\n
+mappa.\n
 }
 
 #nop --
@@ -227,4 +232,35 @@ Funzioni della gui.\n
 			#var cnt {}
 		};
 	}
+}
+
+#ALIAS {buttons_bar}
+{
+    #DRAW green box -6 0 -2 -1 {};
+    #DRAW green calign box -6 1 -4 5 {W};
+    #BUTTON {-6 1 -4 5} {w};
+    #DRAW green calign box -6 6 -4 10 {N};
+    #BUTTON {-6 6 -4 10} {n};
+    #DRAW green calign box -6 11 -4 15 {S};
+    #BUTTON {-6 11 -4 15} {s};
+    #DRAW green calign box -6 16 -4 20 {E};
+    #BUTTON {-6 16 -4 20} {e};
+    #DRAW green calign box -6 21 -4 25 {U};
+    #BUTTON {-6 21 -4 25} {u};
+    #DRAW green calign box -6 26 -4 30 {D};
+    #BUTTON {-6 26 -4 30} {d};
+    #DRAW green calign box -6 31 -4 35 {Trg};
+    #BUTTON {-6 31 -4 35} {show_trig};
+    #DRAW green calign box -6 36 -4 40 {Als};
+    #BUTTON {-6 35 -4 40} {show_alias};
+    #DRAW green calign box -6 41 -4 44 {bU};
+    #BUTTON {-6 39 -4 44} {#buffer up};
+    #DRAW green calign box -6 45 -4 48 {bD};
+    #BUTTON {-6 43 -4 48} {#buffer down};
+    button_status Inpiedi;
+}
+
+#ALIAS {button_status %1}
+{
+    #DRAW white calign box -6 49 -4 59 {"%1"};
 }

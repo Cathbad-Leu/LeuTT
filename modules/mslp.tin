@@ -2,9 +2,13 @@
 #nop Class Definitions
 #nop --
 
-#var mslp-description {funzioni alias}
+#var mslp-description {Funzioni di MSLP}
 #var mslp-help {
-Funzioni di MSLP.\n
+Gestione del protocllo MSLP.\n
+In queasto modulo vengono definiti alcuni\n
+link mslp legati a leu che usano substitue.\n
+La gestione dei link con il mouse.\n
+Definizione di eventi dei diversi link.\n
 }
 
 #nop --

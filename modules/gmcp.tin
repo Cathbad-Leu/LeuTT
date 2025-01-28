@@ -2,9 +2,9 @@
 #nop Class Definitions
 #nop --
 
-#var gmcp-description {funzioni alias}
+#var gmcp-description {Funzioni del protocllo GMCP}
 #var gmcp-help {
-Funzioni di GMCP.\n
+Gestione del protocollo di GMCP.\n
 }
 
 #nop --

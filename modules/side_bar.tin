@@ -2,9 +2,11 @@
 #nop Class Definitions
 #nop --
 
-#var side_bar-description {funzioni alias}
+#var side_bar-description {Funzioni della Side_bar}
 #var side_bar-help {
-Funzioni degli side_bar.\n
+Gestione della barra laterale destra.\n
+La lista side_bar ha i dati della barra e le sue voci\n
+
 }
 
 #nop --

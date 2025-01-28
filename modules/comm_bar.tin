@@ -2,7 +2,7 @@
 #nop Class Definitions
 #nop --
 
-#var comm_bar-description {funzioni delle comunicazioni}
+#var comm_bar-description {Funzioni della barra delle Comunicazioni}
 #var comm_bar-help {
 Funzioni della finestra di comunicazione.\n
 }

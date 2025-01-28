@@ -2,9 +2,17 @@
 #nop Class Definitions
 #nop --
 
-#var triggers-description {funzioni alias}
+#var triggers-description {Funzioni dei Trigger}
 #var triggers-help {
 Funzioni dei triggers.\n
+Vengono caricate da saves/triggers.dat\n
+Un semplice file di testo editabile con\n
+un editor qualsiasi, contiene i trigger\n
+in un formato json.\n
+Trigger semplici si possono gestire con\n
+addtrig nome_del_trigger/comando. \n
+deltrig nome_del_trigger da eliminare\n
+Vedi #help action\n
 }
 
 #nop --
