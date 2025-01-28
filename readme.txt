@@ -62,7 +62,6 @@ leuTT/
      |
      +- comm_bar.tin.   (barra delle comunicazioni)
      +- side_bar.tin.   (barra laterale destra)
-     +- bars.tin        (gestione protocollo msdp)
      |
      +-+/saves/muddata.dat (configurazione mud si crea con addmud)
         '-/logs/data.log   (salvataggio del log comando log on)

@@ -1,0 +1,31 @@
+{
+    "name": "Thayer Bright",
+    "version": 1,
+    "shared": {
+        "foregroundColor": "#F8F8F8",
+        "backgroundColor": "#1B1D1E",
+        "cursorColor": "#FC971E",
+        "colorPaletteOverrides": [
+            "#1B1D1E",
+            "#F92672",
+            "#4DF740",
+            "#F3FD21",
+            "#2656D6",
+            "#8C54FE",
+            "#37C8B4",
+            "#CCCCC6",
+            "#505354",
+            "#FF5995",
+            "#B6E354",
+            "#FEED6C",
+            "#3F78FF",
+            "#9E6FFE",
+            "#23CED4",
+            "#F8F8F2"
+        ]
+    },
+    "appearance": {
+        "lightOverride": true,
+        "darkOverride": false
+    }
+}

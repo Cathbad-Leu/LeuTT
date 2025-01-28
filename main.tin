@@ -28,7 +28,6 @@ load_module map
 load_module gui
 load_module comm_bar;
 load_module side_bar;
-load_module bars;
 
 #VARIABLE host new-leu.leu.it
 #VARIABLE port 6000
