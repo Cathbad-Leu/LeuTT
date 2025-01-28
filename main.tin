@@ -40,7 +40,7 @@ load_module side_bar;
 {
     #NOP CONFIG {SCROLL_LOCK} {ON};
     #NOP CONFIG {VERBOSE} {ON};
-    #NOP CONFIG {DEBUG TELNET} {ON};
+    #CONFIG {DEBUG TELNET} {OFF};
     #CONFIG {PACKET PATCH} {0.5};
     #CONFIG {MOUSE} {ON};
     #CONFIG {MOUSE TRACKING} {ON};
@@ -239,15 +239,6 @@ load_module side_bar;
 #EVENT {IAC WILL GMCP}
 {
     #SEND {$TELNET[IAC]$TELNET[DO]$TELNET[GMCP]\};
-}
-
-#NOP -------------------------------------------------------------------------;
-#NOP Se rientri da ld richiedi al mud le variabili msdp;
-#NOP -------------------------------------------------------------------------;
-
-#ACTION {Ritrovi il senso della realta' ma sei un po' stordito.}
-{
-    msdp_ask_hpbar
 }
 
 #NOP -------------------------------------------------------------------------;
