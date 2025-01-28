@@ -41,6 +41,7 @@ Le informazioni sono salvate in MSDP_%*.\n
     {MONEY} {}
     {MOVEMENT} {}
     {MOVEMENT_MAX} {}
+    {LEVEL} {}
     {WORLD_TIME} {}
     {OPPONENT_HEALTH} {}
     {OPPONENT_HEALTH_MAX} {}
@@ -54,7 +55,6 @@ Le informazioni sono salvate in MSDP_%*.\n
     {SCREEN_LOCATION_WIDTH} {}
     {SCREEN_MINIMIZED} {}
     {SCREEN_WIDTH} {}
-    {AFFECTS} {}
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -82,12 +82,15 @@ Le informazioni sono salvate in MSDP_%*.\n
      #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]SEND$MSDP[VAL]%0$TELNET[IAC]$TELNET[SE]\}
 }
 
-#ALIAS {msdp_ask_hpbar}
+#ALIAS {msdp_ask_bottombar}
 {
-    #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REQUEST$MSDP[VAL]HEALTH$TELNET[IAC]$TELNET[SE]\};
-    #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REQUEST$MSDP[VAL]HEALTH_MAX$TELNET[IAC]$TELNET[SE]\};
-    #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REQUEST$MSDP[VAL]MANA$TELNET[IAC]$TELNET[SE]\};
-    #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REQUEST$MSDP[VAL]MANA_MAX$TELNET[IAC]$TELNET[SE]\};
-    #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REQUEST$MSDP[VAL]MOVEMENT$TELNET[IAC]$TELNET[SE]\};
-    #SEND {$TELNET[IAC]$TELNET[SB]$TELNET[MSDP]$MSDP[VAR]REQUEST$MSDP[VAL]MOVEMENT_MAX$TELNET[IAC]$TELNET[SE]\}
+    msdp_send HEALTH;
+    msdp_send HEALTH_MAX;
+    msdp_send MANA;
+    msdp_send MANA_MAX;
+    msdp_send MOVEMENT;
+    msdp_send MOVEMENT_MAX;
+    msdp_send MONEY;
+    msdp_send LEVEL;
+    msdp_send EXPERIENCE
 }

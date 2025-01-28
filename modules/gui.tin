@@ -169,17 +169,31 @@ mappa.\n
     #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $MSDP_MANA $MSDP_MANA_MAX;
     #FORMAT prompt3 {  %s * mv: %s/%s} $movbar $MSDP_MOVEMENT $MSDP_MOVEMENT_MAX;
 
-  #if {&MSDP_HEALTH} 
-  {
-	#LINE ignore #SHOWME {$prompt1} {-5};
-	#LINE ignore #SHOWME {$prompt2} {-4};
-	#LINE ignore #SHOWME {$prompt3} {-3};
-  };
-  #else {#LINE ignore #SHOWME { PERFAVORE RIENTRA } {$bottom_bar[botrow]-3};
-         #LINE ignore #SHOWME {   DOPO IL RENT } {$bottom_bar[botrow]-2};
-         #LINE ignore #SHOWME { PER VISUALIZZARE } {$bottom_bar[botrow]-1}
-  };
-  #DRAW white calign box {$bottom_bar[toprow]-1} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
+    #if {&MSDP_HEALTH}
+    {
+      #LINE ignore #SHOWME {$prompt1 Lv : $MSDP_LEVEL Exp: $MSDP_EXPERIENCE Gld: $MSDP_MONEY]} {-5};
+      #if {&MSDP_OPPONENT_NAME} 
+      {
+         #LINE ignore #SHOWME {$prompt2 Trg: $MSDP_OPPONENT_NAME Thp: $MSDP_OPPONENT_HEALTH} {-4};
+      };
+      #else
+      {
+	     #LINE ignore #SHOWME {$prompt2 Trg: nessuno} {-4};
+      };
+      #LINE ignore #SHOWME {$prompt3 Spl: $incanti} {-3};
+    };
+    #else 
+    {
+      #LINE ignore #SHOWME { ATTENDO I DATI } {$bottom_bar[botrow]-3};
+      #LINE ignore #SHOWME {   DI MSDP } {$bottom_bar[botrow]-2};
+      msdp_ask_bottombar
+    };
+    #DRAW white calign box {$bottom_bar[toprow]-1} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
+}
+
+#ACTION {Spell: [%1]}
+{
+   #VARIABLE incanti %1;
 }
 
 #NOP -------------------------------------------------------------------------;
