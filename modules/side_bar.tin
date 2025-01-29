@@ -27,21 +27,23 @@ La lista side_bar ha i dati della barra e le sue voci\n
 {
     {active} {al}
     {botcol} {-1}
-    {botrow} {-1}
+    {botrow} {16}
     {offset} {1}
     {tab} 
     {
         {al} {}
         {eq} {}
         {gr} {}
+        {rip} {}
     }
-    {topcol} {80}
-    {toprow} {2}
+    {topcol} {100}
+    {toprow} {7}
     {unread} 
     {
         {al} {0}
         {ep} {0}
         {gr} {0}
+        {rip} {0}
     }
 }
 

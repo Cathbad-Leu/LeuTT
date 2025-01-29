@@ -31,8 +31,8 @@ mappa.\n
 #VARIABLE {gui}
 {
      {rows} {40}
-     {cols} {80}
-     {top} {1}
+     {cols} {111}
+     {top} {7}
      {bot} {5}
      {left} {1}
      {right} {0}
@@ -77,14 +77,11 @@ mappa.\n
       #SCREEN get cols {gui[cols]};
 
       #if {$gui[rows] > 30 && $gui[cols] > 110} {
-        #SPLIT {$gui[rows]/5} {$gui[bot]} {$gui[left]} -100 1;
+        #SPLIT {$gui[top]} {$gui[bot]} {$gui[left]} -100 1;
         #MAP flag vtmap on;
         #MATH {gui[right]} {$gui[cols] - 100};
-        #MAP offset {$gui[rows]/3+2} {-$gui[right]+3} -10 -3;
-        #DRAW white calign box {$gui[rows]/3+1} {-$gui[right]+2} -7 -1 ;
-        #VAR {comm_bar[botrow]} {$gui[rows]/5};
-        #MATH {comm_bar[botcol]} {-$gui[right]};
-        #VAR {side_bar[botrow]} {$gui[rows]/3};
+        #MAP offset 18 {-$gui[right]+3} -10 -3;
+        #DRAW white calign box {17} {-$gui[right]+2} -7 -1 ;
         #MATH {side_bar[topcol]} {-$gui[right]+2};
         #SCREEN clear top;
         comm_bar_draw_data $comm_bar[active];
@@ -97,9 +94,8 @@ mappa.\n
         #SCREEN clear all;
         #SPLIT 13 {$gui[bot]} 0 0 1;
         #MAP offset 8 1 14 -1;
-        #MATH {comm_bar[botcol]} {$gui[cols]};
         #VAR {comm_bar[botrow]} 7;
-        #delay {0.5} {comm_bar_draw_tabs}
+        #delay {0.5} {comm_bar_draw_tabs};
         };
       #else {
         #MAP flag vtmap off;
@@ -248,7 +244,7 @@ mappa.\n
 	}
 }
 
-#ALIAS {buttons_bar}
+#ALIAS {small_button_bar}
 {
     #DRAW green box -6 0 -2 -1 {};
     #DRAW green calign box -6 1 -4 5 {W};

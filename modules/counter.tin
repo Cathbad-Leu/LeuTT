@@ -79,6 +79,7 @@ Functions:\n
 {
     #variable mob %1;
     #if {&targets[%1]} {target %1};
+    side_bar_show rip Hai ucciso $mob
 }
 
 #ACTION {La tua esperienza e` aumentata di %1 punti.}
