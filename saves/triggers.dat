@@ -1,5 +1,130 @@
 #CLASS {trigger_data} OPEN
 
+#ACTION {Non puoi andare da quella parte.}
+{
+    #map undo
+}
+
+#ACTION {Non puoi! Stai combattendo per la tua vita!}
+{
+    #map undo
+}
+
+#ACTION {La Reception - Al chiuso} 
+{
+    #map goto 1
+}
+
+#ACTION {%1 e` morto! R.I.P.}
+{
+    #variable mob %1;
+    #if {&targets[%1]} {target %1};
+    side_bar_show rip Hai ucciso $mob;
+    if {$MSDP_OPPONENT_NAME == %1}
+    {
+        button_status_trg na
+        button_status_tnk na
+    };
+}
+
+#ACTION {La tua esperienza e` aumentata di %1 punti.}
+{
+    #math {gains[$mob][mobexp]} {$gains[$mob][mobexp] + %1};
+    #math {gains[$mob][mobcnt]} {$gains[$mob][mobcnt] + 1}
+}
+
+#ACTION {[%1] <%2> %3|%4| %5%6}
+{
+    #FORMAT tmpeq {%s %s %s %s} {%1 %2 %4 %6};
+    side_bar_show eq $tmpeq
+}
+
+#ACTION {Spell: [%1]}
+{
+   #VARIABLE incanti %1;
+}
+
+#ACTION {~Tu dici %2}
+{
+    comm_bar_show msg Tu dici a %1 %2;
+}
+
+#ACTION {~%1 ti dice %2}
+{
+    comm_bar_show msg %1 ti dice a %2;
+}
+
+#ACTION {~%1 dice al gruppo %2}
+{
+    comm_bar_show grp %1 dice %2;
+}
+
+#ACTION {~Tu dici al gruppo %2}
+{
+    comm_bar_show grp %1 dice %2;
+}
+
+#ACTION {~%1 dice alle lame %2}
+{
+    comm_bar_show gld %1 dice alle lame %2;
+}
+
+#ACTION {~%1 dice ai Luce %2}
+{
+    comm_bar_show gld %1 dice ai Luce %2;
+}
+
+#ACTION {~%1 dice ai Mercenari %2}
+{
+    comm_bar_show gld %1 dice ai Mercenari %2;
+}
+
+#ACTION {~%1 dice agli Esploratori %2}
+{
+    comm_bar_show gld %1 dice agli Esploratori %2;
+}
+
+#ACTION {~%1 dice ai Vampiri %2}
+{
+    comm_bar_show gld %1 dice ai Vampiri %2;
+}
+
+#ACTION {~%1 dice ai Jedi %2}
+{
+    comm_bar_show gld %1 dice ai Jedi %2;
+}
+
+#ACTION {~%1 dice alla gilda %2}
+{
+    comm_bar_show gld %1 dice agli alla gilda %2;
+}
+
+#ACTION {~%1 dice algli spettri %2}
+{
+
+    comm_bar_show gld %1 dice agli spettri %2;
+}
+
+#ACTION {~Mandi a %1 il pensiero %2}
+{
+    comm_bar_show msg Tu dici a %1 %2;
+}
+
+#ACTION {~%1 ti manda il pensiero %2}
+{
+    comm_bar_show msg Tu mandi il pensiero a %1 %2;
+}
+
+#ACTION {~Mandi a %1 il messggio %2}
+{
+    comm_bar_show msg Tu mandi il messaggio a %1 %2;
+}
+
+#ACTION {~%1 ti manda il messaggio %2}
+{
+    comm_bar_show msg ti manda il messaggio a %1 %2;
+}
+
 #ACTION {%1 da` una forte spinta a %2}
 {
     #echo {%h} { %2 a terra }
@@ -19,13 +144,15 @@
 {
     #echo {%h} { TU CADI };
     #send {stand};
-    button_status Seduto
+    button_status_tnk Bashed;
+    button_status_trg Standing
 }
 
 #ACTION {%1 prova a colpire le tue articolazioni, ma con un balzo felino lo eviti e lo fai finire a terra.}
 {
     #echo {%h} { %1 CADE };
-    button_status Inpiedi
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {%1 riesce quasi ad atterrare %2, ma all'ultimo momento con uno scatto si sposta}
@@ -36,32 +163,36 @@
 #ACTION {%1 riesce quasi ad atterrarti, ma all'ultimo momento con uno scatto ti sposti}
 {
     #echo {%h} { %1 CADE };
-    button_status Inpiedi
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {%1 ti da` una forte spinta, facendoti perdere  l'equilibrio.}
 {
     #echo {%h} { %1 TI HA BASHATO };
     #send {stand};
-    button_status Inpiedi
+    button_status_tnk Bashed;
+    button_status_trg Standing
 }
 
 #ACTION {%1 ti da` una spinta, ma sei talmente}
 {
     #echo {%h} { %1 CADE };
-    button_status Inpiedi
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {Con un agile colpo alle articolazioni %1 riesce a buttare a terra %2 nonostante la sua mole.}
 {
-    #echo {%h} { %2 a terra }
+    #echo {%h} { %2 a terra };
 }
 
 #ACTION {Con un agile colpo alle articolazioni %1 riesce a buttarti a terra nonostante la tua mole.}
 {
     #echo {%h} { %1 TI HA BASHATO };
     #send {stand};
-    button_status Seduto
+    button_status_trg Standing;
+    button_status_tnk Bashed
 }
 
 #ACTION {Con un agile colpo alle articolazioni riesci a buttare a terra %1 nonostante la sua mole.}
@@ -89,12 +220,16 @@
 #ACTION {La forza della spinta di %1 ti getta a terra, nonostante la tua mole.}
 {
     #echo {%h} { %1 TI HA BASHATO };
-    #send {stand}button_status Inpiedi
+    #send {stand};
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {La forza della tua spinta getta %1 a terra, nonostante la mole}
 {
     #echo {%h} { BASH SU %1 }
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {Nonostante la botta alle articolazion, rimani saldamente in piedi e per il contraccolpo %1 finisce a terra.}
@@ -112,13 +247,15 @@
 {
     #echo {%h} { TU CADI };
     #send {stand};
-    button_status Seduto
+    button_status_tnk Bashed;
+    button_status_trg Standing
 }
 
 #ACTION {Nonostante la lunga esperienza di %1, la tua agilita` ha la meglio, eviti il suo sgambetto e lo vedi finire a terra.}
 {
     #echo {%h} { %1 CADE };
-    button_status Inpiedi
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {Nonostante la sua velocita`, %1 riesce a colpire %2 e}
@@ -130,39 +267,42 @@
 {
     #echo {%h} { %1 TI HA BASHATO };
     #send {stand};
-    button_status Inpiedi
+    button_status_tnk Bashed;
+    button_status_trg Standing
 }
 
 #ACTION {Riesci quasi ad atterrare %1, ma all'ultimo momento con uno scatto si sposta facendoti cadere a terra.}
 {
     #echo {%h} { TU CADI };
     #send {stand};
-    button_status Seduto
+    button_status_tnk Bashed;
+    button_status_trg Standing
 }
 
 #ACTION {Sei piu` rapido di %1 e schivi il suo urto, che nel tentativo inciampa e cade a terra.}
 {
     #echo {%h} { %1 CADE };
-    button_status Inpiedi
+    button_status_tnk Standing;
+    button_status_trg Bashed
 }
 
 #ACTION {Ti alzi in fretta}
 {
     #echo {%h} { TI ALZI };
-    button_status Inpiedi
+    button_status_tnk Standing
 }
 
 #ACTION {Ti alzi in piedi}
 {
     #echo {%h} { TI ALZI };
-    button_status Inpiedi
+    button_status_tnk Standing
 }
 
 #ACTION {Ti manda gambe all'aria}
 {
     #echo {%h} { TU CADI };
     #send {stand};
-    button_status Seduto
+    button_status_tnk Bashed;
 }
 
 #ACTION {La luna crescente comincia a sorgere dall'orizzonte.}
