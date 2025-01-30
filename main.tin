@@ -38,14 +38,15 @@ load_module side_bar;
 
 #EVENT {PROGRAM START}
 {
-    #NOP CONFIG {SCROLL_LOCK} {ON};
-    #NOP CONFIG {VERBOSE} {ON};
-    #CONFIG {DEBUG TELNET} {OFF};
-    #CONFIG {PACKET PATCH} {0.5};
+    #NOP CONFIG {SCROLL_LOCK} {OFF};
+    #NOP CONFIG {VERBOSE} {OFF};
+    #NOP CONFIG {DEBUG TELNET} {OFF};
+    #NOP CONFIG {PACKET PATCH} {0.5};
     #CONFIG {MOUSE} {ON};
-    #CONFIG {MOUSE TRACKING} {ON};
-    #NOP INFO {BUTTON} {ON};
-    #NOP INFO {EVENT} {ON};
+    #NOP CONFIG {MOUSE TRACKING} {OFF};
+    #NOP CONFIG {MOUSE} {INFO};
+    #NOP INFO {BUTTON} {OFF};
+    #NOP INFO {EVENT} {OFF};
 
     #CLASS charsdata read saves/muddata.dat;
     #if {&{charslist} == 0}
