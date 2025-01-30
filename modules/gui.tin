@@ -170,13 +170,13 @@ mappa.\n
       #LINE ignore #SHOWME {$prompt1 Lv : $MSDP_LEVEL Exp: $MSDP_EXPERIENCE Gld: $MSDP_MONEY]} {-5};
       #if {&MSDP_OPPONENT_NAME} 
       {
-         #LINE ignore #SHOWME {$prompt2 Trg: $MSDP_OPPONENT_NAME Thp: $MSDP_OPPONENT_HEALTH} {-4};
+         #LINE ignore #SHOWME {$prompt2 Trg: $MSDP_OPPONENT_NAME Thp: $MSDP_OPPONENT_HEALTH Stato: $button_status_trg} {-4};
       };
       #else
       {
-	     #LINE ignore #SHOWME {$prompt2 Trg: nessuno} {-4};
+	     #LINE ignore #SHOWME {$prompt2 Trg: nessuno Stato: na} {-4};
       };
-      #LINE ignore #SHOWME {$prompt3 Spl: $incanti} {-3};
+      #LINE ignore #SHOWME {$prompt3 Stato: $button_status_tnk Spl: $incanti} {-3};
     };
     #else 
     {
@@ -187,9 +187,14 @@ mappa.\n
     #DRAW white calign box {$bottom_bar[toprow]-1} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
 }
 
-#ACTION {Spell: [%1]}
+#ALIAS {button_status_tnk}
 {
-   #VARIABLE incanti %1;
+    #VARIABLE button_status_tnk %1
+}
+
+#ALIAS {button_status_trg}
+{
+    #VARIABLE button_status_trg %1
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -267,7 +272,7 @@ mappa.\n
     #BUTTON {-6 39 -4 44} {#buffer up};
     #DRAW green calign box -6 45 -4 48 {bD};
     #BUTTON {-6 43 -4 48} {#buffer down};
-    button_status Inpiedi;
+    button_status_tnk Standing;
 }
 
 #ALIAS {button_status %1}

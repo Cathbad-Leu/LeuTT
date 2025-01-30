@@ -25,14 +25,6 @@ Vedi #help Map\n
 }
 
 #nop -------------------------------------------------------------------------;
-#nop Azioni che cancellano la creazine della stanza nella mappa se c'e' un ostacolo;
-#nop -------------------------------------------------------------------------;
-
-#ACTION {Non puoi andare da quella parte.} {#map undo}
-#ACTION {Non puoi! Stai combattendo per la tua vita!} {#map undo}
-#ACTION {La Reception - Al chiuso} {#map goto 1}
-
-#nop -------------------------------------------------------------------------;
 #nop Inizializza la mappa;
 #nop -------------------------------------------------------------------------;
 

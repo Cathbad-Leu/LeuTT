@@ -75,19 +75,6 @@ Functions:\n
 
 #list gains clear
 
-#ACTION {%1 e` morto! R.I.P.}
-{
-    #variable mob %1;
-    #if {&targets[%1]} {target %1};
-    side_bar_show rip Hai ucciso $mob
-}
-
-#ACTION {La tua esperienza e` aumentata di %1 punti.}
-{
-    #math {gains[$mob][mobexp]} {$gains[$mob][mobexp] + %1};
-    #math {gains[$mob][mobcnt]} {$gains[$mob][mobcnt] + 1}
-}
-
 #ALIAS {rip}
 {
     #showme {      Average Xp      Totale Xp     #   Death List, R.I.P.};
