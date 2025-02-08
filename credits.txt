@@ -1,6 +1,9 @@
+LICENSE
+
+this script and tintin++ are licensed under GPL 3, see the COPYING file for details.
+
 Un ringraziamento per i suoi script ad:
 	Igor van den Hoven - mudclient@gmail.com
-
 Alla comunity di tintin++ ed al suo creatore Scandum.
 Alla comunity di Lumen et Umbra, in particolare Archie,Xenon,Moylen,Oxon,Kyrus,MFontani.
 Ai vari autori di guide e manuali su Mudhalla.com.
