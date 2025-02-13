@@ -12,8 +12,10 @@ sare il comando nel prompt:
   tt++ main.tt++	oppure per con lo script bash: sh leu.sh
 
 Passo 1 WINDOWS  
-  Copiare i files dentro la driceotry \bin di wintin++, ed avviare il 
-  programma 
+  Scaricare la versione LeuWin.7z, decomprimere ed eseguire leu.bat.
+  Oppure copiare i files dentro la driceotry \bin di wintin++, ed avviare il 
+  programma.
+  Oppure se si ha il wls seguire il metodo aka linux.
 
 Passo 2 scrivere:
   addprg <nomepersonaggio> <passwordpersonaggio> (Se il personaggio non è salvato) 
