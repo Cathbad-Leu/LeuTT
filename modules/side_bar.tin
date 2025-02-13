@@ -37,7 +37,7 @@ La lista side_bar ha i dati della barra e le sue voci\n
         {rip} {}
     }
     {topcol} {100}
-    {toprow} {7}
+    {toprow} {8}
     {unread} 
     {
         {al} {0}
