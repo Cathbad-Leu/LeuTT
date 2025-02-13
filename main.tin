@@ -33,6 +33,18 @@ load_module side_bar;
 #VARIABLE port 6000
 
 #NOP -------------------------------------------------------------------------;
+#NOP PEr chi ha il tastierino numerico imposta il movimento con esso;
+#NOP -------------------------------------------------------------------------;
+
+#macro {\eOq} {d; #echo d}
+#macro {\eOr} {s; #echo s}
+#macro {\eOt} {w; #echo w}
+#macro {\eOu} {look; exits; info mob; info obj}
+#macro {\eOv} {e; #echo e}
+#macro {\eOw} {u; #echo u}
+#macro {\eOx} {n; #echo n}
+
+#NOP -------------------------------------------------------------------------;
 #NOP All'avvio chiede quale mud e personaggio usare;
 #NOP -------------------------------------------------------------------------;
 
