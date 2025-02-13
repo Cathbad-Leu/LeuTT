@@ -30,13 +30,13 @@ Vedi #help Map\n
 
 #ALIAS {map_start}
 {
-    #map create;
+    #map create 100000;
+    #map goto 1;
     #map flag nofollow;
-    #map flag vtmap on;
+    #map flag vtmap;
     #map flag static;
     #map flag blockgraphics on;
     #map read saves/map.dat;
-    #map goto 1;
 
     #map terrain {Forest} {<228>⟑} DENSE WIDE;
     #map terrain {Field} {<128>·} DENSE WIDE;
@@ -44,6 +44,38 @@ Vedi #help Map\n
     #map terrain {Inside} {<f707880>▒} DENSE WIDE;
     #map terrain {Deep Water} {<f2232ff>▒} DENSE WIDE;
     #map terrain {Water} {<f2284ff>▒} DENSE WIDE;
+}
+
+#EVENT {IAC SB GMCP room.info IAC SE}
+{
+    #variable gmcp[room][info] {%0};
+    #if {$gmcp[room][info][num] == -1}
+    {
+        #return
+    };
+    #map goto {$gmcp[room][info][num]} {dig};
+    #map get roomarea {result};
+    #if {"$result" == ""}
+    {
+        #map set roomarea $gmcp[room][info][zone];
+        #map set roomnote $gmcp[room][info][environment];
+        #map set roomname $gmcp[room][info][name];
+        #map set roomterr $gmcp[room][info][terrain];
+        #map set roomcolor <178>
+    };
+    #foreach {*gmcp[room][info][exits][]} {exit}
+    {
+        #map get {roomexit} {result};
+        #if {&result[$exit] == 0}
+        {
+            #map get {roomvnum} {result} {$gmcp[room][info][exits][$exit]};
+            #map dig {$exit} {$gmcp[room][info][exits][$exit]};
+            #if {$result == 0}
+            {
+                #map set {roomcolor} {<118>} {$gmcp[room][info][exits][$exit]}
+            }
+        }
+    }
 }
 
 #EVENT {MAP SHORT-CLICKED MOUSE BUTTON ONE}

@@ -17,7 +17,6 @@ load_module events
 load_module help
 load_module counter
 load_module telnet
-load_module msdp
 load_module mxp
 load_module mslp
 load_module gmcp
@@ -30,7 +29,7 @@ load_module comm_bar;
 load_module side_bar;
 
 #VARIABLE host new-leu.leu.it
-#VARIABLE port 6000
+#VARIABLE port 7000
 
 #NOP -------------------------------------------------------------------------;
 #NOP All'avvio chiede quale mud e personaggio usare;
@@ -40,13 +39,13 @@ load_module side_bar;
 {
     #NOP CONFIG {SCROLL_LOCK} {OFF};
     #NOP CONFIG {VERBOSE} {OFF};
-    #NOP CONFIG {DEBUG TELNET} {OFF};
-    #NOP CONFIG {PACKET PATCH} {0.5};
+    #CONFIG {DEBUG TELNET} {OFF};
+    #CONFIG {PACKET PATCH} {0.5};
     #CONFIG {MOUSE} {ON};
     #NOP CONFIG {MOUSE TRACKING} {OFF};
     #NOP CONFIG {MOUSE} {INFO};
     #NOP INFO {BUTTON} {OFF};
-    #NOP INFO {EVENT} {OFF};
+    #INFO {EVENT} {OFF};
 
     #CLASS charsdata read saves/muddata.dat;
     #if {&{charslist} == 0}
@@ -177,32 +176,6 @@ load_module side_bar;
 #NOP EVENTI VARI;
 #NOP -------------------------------------------------------------------------;
 
-#EVENT {IAC WILL MSDP}
-{
-    #SEND {$TELNET[IAC]$TELNET[DO]$TELNET[MSDP]\};
-    #delay 1 msdp_report
-}
-
-#EVENT {IAC SB MSDP}
-{
-    #VARIABLE {MSDP_%0} {%1}
-}
-
-#EVENT {IAC SB MSDP SCREEN_WIDTH}
-{
-    gui_refresh;
-}
-
-#EVENT {IAC SB MSDP SCREEN_HEIGHT}
-{
-    gui_refresh
-}
-
-#EVENT {IAC SB MSDP AC}
-{
-    gui_refresh
-}
-
 #EVENT {IAC SB NAWS}
 {  
     gui_refresh
@@ -225,11 +198,6 @@ load_module side_bar;
     gui_refresh
 }
 
-#EVENT {RECEIVED LINE}
-{
-    gui_line_update
-}
-
 #EVENT {RECEIVED ERROR}
 {
 	#echo <118>%h { TOKENIZER };
@@ -239,7 +207,10 @@ load_module side_bar;
 
 #EVENT {IAC WILL GMCP}
 {
-    #SEND {$TELNET[IAC]$TELNET[DO]$TELNET[GMCP]\};
+    #info SYSTEM save;
+    #send {$TELNET[IAC]$TELNET[DO]$TELNET[GMCP]\};
+    #send {$TELNET[IAC]$TELNET[SB]$TELNET[GMCP] core.hello { "client": "$info[SYSTEM][CLIENT_NAME]", "version": "$info[SYSTEM][CLIENT_VERSION]" } $TELNET[IAC]$TELNET[SE]\};
+    #send {$TELNET[IAC]$TELNET[SB]$TELNET[GMCP] core.supports.set [ "room 1", "room.info 1", "char 1", "char.status 1" ] $TELNET[IAC]$TELNET[SE]\}
 }
 
 #NOP -------------------------------------------------------------------------;

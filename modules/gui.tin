@@ -147,13 +147,13 @@ mappa.\n
 #nop -------------------------------------------------------------------------;
 #alias {bottom_bar_draw}
 {
-    #math {hp_percent} {100 * $MSDP_HEALTH / $MSDP_HEALTH_MAX};
+    #math {hp_percent} {100 * $GMCP_DATA[HEALTH] / $GMCP_DATA[HEALTH_MAX]};
     #math {hpbar1}   {$hp_percent / 10};
     #math {hpbar2}   {10 - $hpbar1};
-    #math {mana_percent} {100 * $MSDP_MANA / $MSDP_MANA_MAX};
+    #math {mana_percent} {100 * $GMCP_DATA[MANA] / $GMCP_DATA[MANA_MAX]};
     #math {manabar1}   {$mana_percent / 10};
     #math {manabar2}   {10 - $manabar1};
-    #math {mov_percent} {100 * $MSDP_MOVEMENT / $MSDP_MOVEMENT_MAX};
+    #math {mov_percent} {100 * $GMCP_DATA[MOVE] / $GMCP_DATA[MOVE_MAX]};
     #math {movbar1}   {$mov_percent / 10};
     #math {movbar2}   {10 - $movbar1};
 
@@ -161,29 +161,14 @@ mappa.\n
     #FORMAT {manabar} {<015>%+${manabar1}s<099><000>%+${manabar2}s<099>};
     #FORMAT {movbar} {<012>%+${movbar1}s<099><000>%+${movbar2}s<099>};
 
-    #FORMAT prompt1 {  %s * hp: %s/%s} $hpbar $MSDP_HEALTH $MSDP_HEALTH_MAX;
-    #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $MSDP_MANA $MSDP_MANA_MAX;
-    #FORMAT prompt3 {  %s * mv: %s/%s} $movbar $MSDP_MOVEMENT $MSDP_MOVEMENT_MAX;
+    #FORMAT prompt1 {  %s * hp: %s/%s} $hpbar $GMCP_DATA[HEALTH] $GMCP_DATA[HEALTH_MAX];
+    #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $GMCP_DATA[MANA] $GMCP_DATA[MANA_MAX];
+    #FORMAT prompt3 {  %s * mv: %s/%s} $movbar $GMCP_DATA[MOVE] $GMCP_DATA[MOVE_MAX];
 
-    #if {&MSDP_HEALTH}
-    {
-      #LINE ignore #SHOWME {$prompt1 Lv : $MSDP_LEVEL Exp: $MSDP_EXPERIENCE Gld: $MSDP_MONEY]} {-5};
-      #if {&MSDP_OPPONENT_NAME} 
-      {
-         #LINE ignore #SHOWME {$prompt2 Trg: $MSDP_OPPONENT_NAME Thp: $MSDP_OPPONENT_HEALTH Stato: $button_status_trg} {-4};
-      };
-      #else
-      {
-	     #LINE ignore #SHOWME {$prompt2 Trg: nessuno Stato: na} {-4};
-      };
-      #LINE ignore #SHOWME {$prompt3 Stato: $button_status_tnk Spl: $incanti} {-3};
-    };
-    #else 
-    {
-      #LINE ignore #SHOWME { ATTENDO I DATI } {$bottom_bar[botrow]-3};
-      #LINE ignore #SHOWME {   DI MSDP } {$bottom_bar[botrow]-2};
-      msdp_ask_bottombar
-    };
+    #LINE ignore #SHOWME {$prompt1} {-5};
+    #LINE ignore #SHOWME {$prompt2} {-4};
+    #LINE ignore #SHOWME {$prompt3} {-3};
+
     #DRAW white calign box {$bottom_bar[toprow]-1} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
 }
 
