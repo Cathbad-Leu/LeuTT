@@ -1,7 +1,0 @@
-#CLASS {worlddata} OPEN
-
-#VARIABLE {worldlist}
-{
-}
-
-#CLASS {worlddata} CLOSE
