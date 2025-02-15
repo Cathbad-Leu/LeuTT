@@ -1,0 +1,93 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var counter-description {Utilità per i Contatori}
+#var counter-help {
+Commands:\n
+\tcounter_increment <counter name> <value> - incrementa un contatore di 1 (opzionale) value\n
+\tcounter_reset <counter name> <initial value> - ripsristina un contatore (opzionale) start value\n
+\n
+Functions:\n
+\tcounter_value{<counter name} - ritorna 0 se il contatore non esiste\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias counter-register {
+	#if {@isloaded{modloader}} {
+
+		register_module counter
+	} {
+		#class counter kill
+	}
+}
+
+#tab counter_reset
+#alias {counter_reset %1 %2} {
+    #if {&_COUNTERS} {
+        #var _COUNTERS[%1] {%2}
+    } {
+        init {_COUNTERS[%1]} counter {%2}
+    }
+} {2}
+#alias {counter_reset %1} {
+    #if {&_COUNTERS} {
+        #var _COUNTERS[%1] 0
+    } {
+        init _COUNTERS[%1] counter 0
+    }
+} {3}
+
+#tab counter_increment
+#alias {counter_increment %1 %2} {
+    #if {&_COUNTERS[%1]} {
+        #math _COUNTERS[%1] {$_COUNTERS[%1] + %2}
+    } {
+        init _COUNTERS[%1] counter %2;
+    }
+} {3}
+#alias {counter_increment %1} {
+    #if {&_COUNTERS[%1]} {
+        #math _COUNTERS[%1] {$_COUNTERS[%1] + 1}
+    } {
+        init _COUNTERS[%1] counter 1;
+    }
+} {4}
+#alias {counter_increment} {
+    #showme Usage: counter_increment <counter name> <value>
+} {5}
+
+#function {counter_value} {
+    #if {&_COUNTERS[%1]} {
+        #return $_COUNTERS[%1]
+    } {
+        err Counter '%1' not initialized.;
+        #return 0
+    }
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP Contatore di mob uccisi  ed esperienza;
+#NOP -------------------------------------------------------------------------;
+
+#list gains clear
+
+#ALIAS {rip}
+{
+    #showme {      Average Xp      Totale Xp     #   Death List, R.I.P.};
+    #showme {----------------------------------------------------------};
+    #unvariable {gains[final]};
+    #foreach {*gains[]} {mob}
+    {
+        #echo {  %+14g %+14g %+5g   %s}{$gains[$mob][mobexp] / $gains[$mob][mobcnt]}{$gains[$mob][mobexp]}{$gains[$mob][mobcnt]}{$mob};
+        #math gains[final][mobexp] $gains[final][mobexp] + $gains[$mob][exp];
+        #math gains[final][mobcnt] $gains[final][mobcnt] + $gains[$mob][mobcnt]
+    };
+    #showme {----------------------------------------------------------};
+    #math mobtmp {$gains[final][mobexp] / $gains[final][mobcnt]};
+    #echo {  %+14g %+14g %+5g}{$mobtmp}{$gains[final][mobexp]}{$gains[final][mobcnt]}
+}
+

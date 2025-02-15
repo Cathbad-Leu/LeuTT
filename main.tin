@@ -25,8 +25,8 @@ load_module alias
 load_module triggers
 load_module map
 load_module gui
-load_module comm_bar;
-load_module side_bar;
+load_module comm_bar
+load_module side_bar
 
 #VARIABLE host new-leu.leu.it
 #VARIABLE port 7000
@@ -49,14 +49,14 @@ load_module side_bar;
 
 #EVENT {PROGRAM START}
 {
-    #NOP CONFIG {SCROLL_LOCK} {OFF};
-    #NOP CONFIG {VERBOSE} {OFF};
+    #CONFIG {SCROLL_LOCK} {ON};
+    #CONFIG {VERBOSE} {OFF};
     #CONFIG {DEBUG TELNET} {OFF};
     #CONFIG {PACKET PATCH} {0.5};
     #CONFIG {MOUSE} {ON};
-    #NOP CONFIG {MOUSE TRACKING} {OFF};
+    #CONFIG {MOUSE TRACKING} {ON};
     #NOP CONFIG {MOUSE} {INFO};
-    #NOP INFO {BUTTON} {OFF};
+    #INFO {BUTTON} {OFF};
     #INFO {EVENT} {OFF};
 
     #CLASS charsdata read saves/muddata.dat;
@@ -171,7 +171,7 @@ load_module side_bar;
         };
     };
     gui_init;
-    gui_refresh;
+    gui_resize;
 }
 
 #EVENT {SESSION DISCONNECTED}
@@ -188,33 +188,28 @@ load_module side_bar;
 #NOP EVENTI VARI;
 #NOP -------------------------------------------------------------------------;
 
-#EVENT {IAC SB NAWS}
-{  
-    gui_refresh
-}
-
 #EVENT {SCREEN RESIZE}
 {
-    gui_refresh;
+    gui_resize;
     #SCREEN refresh;
     #BUFFER end
 }
 
 #EVENT {SCREEN ROTATE LANDSCAPE}
 {
-    gui_refresh
+    gui_resize
 }
 
 #EVENT {SCREEN ROTATE PORTRAIT}
 { 
-    gui_refresh
+    gui_resize
 }
 
 #EVENT {RECEIVED ERROR}
 {
-	#echo <118>%h { TOKENIZER };
-	#info tokenizer -1;
-	#echo <118>%h;
+    #echo <118>%h { TOKENIZER };
+    #info tokenizer -1;
+    #echo <118>%h;
 }
 
 #EVENT {IAC WILL GMCP}

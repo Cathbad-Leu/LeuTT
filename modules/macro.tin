@@ -1,0 +1,92 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var macro-description {Funzioni per le Macro}
+#var macro-help {
+Gestion di macro.\n
+Si possono creare delle registrazioni\n
+di comandi richiamabili con:\n
+recmacro <nomemacro>\n
+senza argomento mostra quelle registrate\n
+Si ferma la registrazione con\n
+stopmacro\n
+Si possono richiamare con:\n
+playmacro <nomemacro>\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias macro-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module macro
+	} {
+		fail_module macro
+	}
+}
+
+#nop -------------------------------------------------------------------------
+#nop File di gestione delle registrazioni
+#nop -------------------------------------------------------------------------
+
+#VARIABLE {record_time} {0}
+
+#ALIAS {recmacro}
+{
+     #if {$record_time == 0}
+     {
+          #if {"%0" == ""}
+          {
+               #showme {<118>Inserici il nome della registrazione};
+               #break
+          };
+          #else
+          {
+               #format record_name %0
+          };
+          #format record_time %U;
+          #format $record_name %s;
+          #format record_cnt 0;
+          #ALIAS {%%0}
+          {
+               #SEND %%0;#format record_curr %U;#math record_diff ($record_curr - $record_time) / 1000000.00;#list $record_name ins -1 #delay $record_diff %%0;#math record_cnt $record_cnt + 1;
+          }{9};
+          #showme {<118>Stai registrando i comandi mandati al mud.}
+     };
+     #else
+     {
+          #format record_curr %U;
+          #math record_diff ($record_curr - $record_time) / 1000000.00;
+          #list {$record_name} {ins} {1} {#showme <118>Riproduzione di '$record_name' per $record_cnt comandi e della durata di $record_diff secondi};
+          #showme {<118>Hai registrato $record_cnt comandi durante $record_diff secondi a $record_name};
+          #format record_time 0;
+          #UNALIAS %%0
+     };
+}
+
+#ALIAS {playmacro}
+{
+     #if {"%0" == ""}
+     {
+          #showme {<118>Inserisci il nome di una registrazione da riprodurre}
+     };
+     #elseif {&{%0} == 0}
+     {
+          #showme {<118>Non c'e' una registrazione $%0}
+     };
+     #else
+     {
+          #foreach {$%0} {temprec}
+          {
+               $temprec
+          };
+     };
+}
+
+#ALIAS {stopmacro}
+{
+     #showme {<118>Fermo la ripdoduzione}; #kill delays
+}

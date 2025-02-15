@@ -1,0 +1,31 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var help-description {Supporto per le funzioni di aiuto dei moduli}
+#var help-help {help <nome modulo> per i moduli supportati.}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias help-register {
+	#if {@isloaded{modloader}} {
+		register_module help
+	} {
+		#class help kill
+	}
+}
+
+#alias help {
+	#if {&{%1-help}} {
+	  #showme;
+	  #showme <170>MODULE "%1";
+	  #showme;
+	  #showme ${%1-help};
+	  #showme;
+	} {
+	  #send {help %0}
+	}
+}
+#nop vim: syntax=tt

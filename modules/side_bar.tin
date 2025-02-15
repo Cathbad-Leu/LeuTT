@@ -1,0 +1,142 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var side_bar-description {Funzioni della Side_bar}
+#var side_bar-help {
+Gestione della barra laterale destra.\n
+La lista side_bar ha i dati della barra e le sue voci\n
+
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias side_bar-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module side_bar
+	} {
+		fail_module side_bar
+	}
+}
+#nop File di gestione della finestra delle comunicazioni e messaggi;
+
+#VARIABLE {side_bar}
+{
+    {active} {al}
+    {botcol} {-1}
+    {botrow} {16}
+    {offset} {1}
+    {tab} 
+    {
+        {al} {}
+        {eq} {}
+        {gr} {}
+        {rip} {}
+    }
+    {topcol} {100}
+    {toprow} {8}
+    {unread} 
+    {
+        {al} {0}
+        {ep} {0}
+        {gr} {0}
+        {rip} {0}
+    }
+}
+
+#BUTTON {$side_bar[toprow] $side_bar[topcol] $side_bar[botrow] $side_bar[botcol] PRESSED MOUSE BUTTON ONE}
+{
+    side_bar_scroll_up $side_bar[active];
+}
+
+#BUTTON {$side_bar[toprow] $side_bar[topcol] $side_bar[botrow] $side_bar[botcol] PRESSED MOUSE BUTTON THREE}
+{
+    side_bar_scroll_down;
+}
+
+#FUNCTION {side_bar_square}
+{
+    #return $side_bar[toprow]+1 $side_bar[topcol]+1 $side_bar[botrow]-1 $side_bar[botcol]-1;
+}
+
+#FUNCTION {side_bar_border}
+{
+    #return $side_bar[toprow] $side_bar[topcol] $side_bar[botrow] $side_bar[botcol];
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Alias della finestra di comunicazione;
+#nop -------------------------------------------------------------------------;
+
+#ALIAS {side_bar_scroll_up}
+{
+    #if {$side_bar[offset] < &side_bar[tab][%0][]}
+    {
+        #math side_bar[offset] $side_bar[offset] + 1;
+        side_bar_draw_data $side_bar[active]
+    };
+}
+
+#ALIAS {side_bar_scroll_down}
+{
+    #if {$side_bar[offset] > 1}
+    {
+        #math side_bar[offset] $side_bar[offset] - 1;
+        side_bar_draw_data $side_bar[active];
+    };
+}
+
+#ALIAS {side_bar_draw_data}
+{
+    #draw tile @side_bar_square{} $side_bar[tab][%1][-$side_bar[offset]-10..-$side_bar[offset]];
+}
+
+#ALIAS {side_bar_show %1 %2}
+{
+    #list side_bar[tab][%1] ins -1 {%2};
+    #if {{%1} === {$side_bar[active]}}
+    {
+        side_bar_draw_data %1;
+    };
+    #elseif {$side_bar[unread][%1] == 0}
+    {
+        #variable side_bar[unread][%1] 1;
+        side_bar_draw_tabs;
+    };
+}
+
+#ALIAS {side_bar_draw_tabs}
+{
+    #draw white rounded box @side_bar_border{};
+    #local short {};
+    #local index {};
+    #loop {1} {&side_bar[tab][]} {index}
+    {
+        #local tab *side_bar[tab][+$index];
+        #if {{$side_bar[active]} === {$tab}}
+        {
+            #format short <138>%.6s $tab;
+        };
+        #elseif {$side_bar[unread][$tab] == 1}
+        {
+            #format short <168>%.6s $tab;
+        };
+        #else
+        {
+            #format short <268>%.6s $tab;
+        };
+        #line ignore #showme {\e]68;2;TAB;side_bar_tab_click $tab\a\e[4;24m$short\e[24m} {$side_bar[toprow]} {$side_bar[topcol] - 5 + $index * 7}
+    }
+}
+
+#ALIAS {side_bar_tab_click}
+{
+    #variable side_bar[active] %0;
+    #variable side_bar[unread][%0] 0;
+    #variable side_bar[offset] 1;
+    side_bar_draw_tabs;
+    side_bar_draw_data %0;
+}

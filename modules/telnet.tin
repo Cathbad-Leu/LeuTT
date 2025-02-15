@@ -1,0 +1,34 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var telnet-description {Funzioni del protocollo Telnet}
+#var telnet-help {
+Gestione del protocollo telnet.\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias telnet-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module telnet
+	} {
+		fail_module telnet
+	}
+}
+
+#VARIABLE {TELNET}
+{
+     {DO} {\xFD}
+     {DONT} {\xFE}
+     {IAC} {\xFF}
+     {MSDP} {\x45}
+     {SB} {\xFA}
+     {SE} {\xF0}
+     {WILL} {\xFB}
+     {WONT} {\xFC}
+     {GMCP} {\xC9}
+}

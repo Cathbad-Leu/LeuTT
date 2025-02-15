@@ -1,0 +1,92 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var gmcp-description {Funzioni del protocllo GMCP}
+#var gmcp-help {
+Gestione del protocollo di GMCP.\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias gmcp-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module gmcp
+	} {
+		fail_module gmcp
+	}
+}
+
+#VARIABLE {GMCP_DATA}
+{
+    {CHARACTER_NAME} {}
+    {HEALTH} {}
+    {HEALTH_MAX} {}
+    {MANA} {}
+    {MANA_MAX} {}
+    {MONEY} {}
+    {POW} {}
+    {POW_MAX} {}
+    {LEVEL} {}
+    {WORLD_TIME} {}
+    {OPPONENT_HEALTH} {}
+    {OPPONENT_HEALTH_MAX} {}
+    {OPPONENT_LEVEL} {}
+    {OPPONENT_NAME} {}
+    {EXPERIENCE} {}
+    {ALIGNEMENT} {}
+    {GROUP} 
+    {
+       {ISLEADER} {}
+       {NAME} {}   
+    }
+}
+
+#EVENT {IAC SB GMCP char.status IAC SE}
+{
+    #variable gmcp[char][status] {%0}
+}
+
+#EVENT {IAC SB GMCP char.base IAC SE}
+{
+    #variable gmcp[char][base] {%0}
+}
+
+#EVENT {IAC SB GMCP char.maxstats IAC SE}
+{
+    #variable gmcp[char][maxstats] {%0}
+}
+
+#EVENT {IAC SB GMCP char.worth IAC SE}
+{
+    #variable gmcp[char][worth] {%0}
+}
+
+
+#EVENT {IAC SB GMCP char.group IAC SE}
+{
+    #variable gmcp[char][group] {%0};
+    #VARIABLE GMCP_DATA[GROUP][ISLEADER] {$gmcp[char][group][isLeader]};
+    #VARIABLE GMCP_DATA[GROUP][NAME] {$gmcp[char][group][name]}
+}
+
+#EVENT {IAC SB GMCP char.vitals IAC SE}
+{
+    #VARIABLE gmcp[char][vitals] {%0};	
+    #VARIABLE GMCP_DATA[HEALTH] {$gmcp[char][vitals][hp]};
+    #VARIABLE GMCP_DATA[HEALTH_MAX] {$gmcp[char][vitals][maxhp]};	
+    #VARIABLE GMCP_DATA[MANA] {$gmcp[char][vitals][mana]};
+    #VARIABLE GMCP_DATA[MANA_MAX] {$gmcp[char][vitals][maxmana]};	
+    #VARIABLE GMCP_DATA[POW] {$gmcp[char][vitals][pow]};
+    #VARIABLE GMCP_DATA[POW_MAX] {$gmcp[char][vitals][maxpow]};
+    #VARIABLE GMCP_DATA[GOLD]  {$gmcp[char][worth][gold]};
+    gui_refresh
+}
+
+
+
+
+

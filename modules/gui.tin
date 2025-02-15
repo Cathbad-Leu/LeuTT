@@ -1,0 +1,224 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var gui-description {Funzioni della GUI}
+#var gui-help {
+Gestione dell'interfaccia grafica.\n
+Gli elementi sono della gui sono:\n
+title_bar (la barra in alto)\n
+bottom_bar (barra in basso)\n
+side_bar (barra laterale destra)\n
+mappa.\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias gui-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module gui
+	} {
+		fail_module gui
+	}
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP struttura della gui;
+#NOP -------------------------------------------------------------------------;
+#VARIABLE {gui}
+{
+     {rows} {40}
+     {cols} {111}
+     {top} {7}
+     {bot} {5}
+     {left} {1}
+     {right} {0}
+}
+
+#VARIABLE {title_bar}
+{
+     {toprow} {1}
+     {topcol} {1}
+}
+
+#VARIABLE {bottom_bar}
+{
+     {toprow} {-5}
+     {topcol} {1}
+     {botrow} {-2}
+     {botcol} {-1}
+}
+
+
+#NOP -------------------------------------------------------------------------;
+#NOP Inizializza l'interfaccia grafica;
+#NOP -------------------------------------------------------------------------;
+#ALIAS {gui_init}
+{
+    map_start;
+    #VAR hasLogged 1
+    gui_refresh;
+    title_bar_draw;
+    alias_load_sidebar
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP Ridimensiona l'interfaccia grafica
+#NOP -------------------------------------------------------------------------;
+#ALIAS {gui_resize}
+{
+    #if {&hasLogged != 0} 
+    {
+      #SCREEN get rows {gui[rows]};
+      #SCREEN get cols {gui[cols]};
+
+      #if {$gui[rows] > 30 && $gui[cols] > 110} {
+        #SPLIT {$gui[top]} {$gui[bot]} {$gui[left]} -100 1;
+        #MAP flag vtmap on;
+        #MATH {gui[right]} {$gui[cols] - 100};
+        #MAP offset 18 {-$gui[right]+3} -10 -3;
+        #DRAW white calign box {17} {-$gui[right]+2} -7 -1 ;
+        #MATH {side_bar[topcol]} {-$gui[right]+2};
+        #SCREEN clear top;
+        comm_bar_draw_data $comm_bar[active];
+        #delay {0.5} {comm_bar_draw_tabs};
+        side_bar_draw_data $side_bar[active];
+        #delay {0.5} {side_bar_draw_tabs}
+        };    
+      #elseif {$gui[rows] > 30} {
+        #MAP flag vtmap on;
+        #SCREEN clear all;
+        #SPLIT 13 {$gui[bot]} 0 0 1;
+        #MAP offset 8 1 14 -1;
+        #VAR {comm_bar[botrow]} 7;
+        #delay {0.5} {comm_bar_draw_tabs};
+        };
+      #else {
+        #MAP flag vtmap off;
+        #SCREEN clear all; 
+        #SPLIT 1 5 0 0 1;
+        };
+    }
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP Aggiorna l'interfaccia grafica;
+#NOP -------------------------------------------------------------------------;
+#ALIAS {gui_refresh}
+{
+    #if {&hasLogged != 0} 
+    {
+      title_bar_draw;
+      bottom_bar_draw;
+      #variable exits {};
+      #foreach {n;nord;e;east;s;south;w;west;u;up;d;down} {exit}
+      {
+        #if {&gmcp[room][info][exits][$exit] == 0}
+        {
+            #continue
+        };
+        #variable {exits} {$exits<128>$DIR_NAME[$exit]}
+      }; 
+    }
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Draw some buttons over the health bar.;
+#nop -------------------------------------------------------------------------;
+#ALIAS {title_bar_draw}
+{
+    #line ignore #showme {* $charslist[$mud][char]} {1};
+    #line ignore #showme {\e]68;2;TAB;help help\a\e[4;24mAiuto\e[24m} {1} {-19};
+    #line ignore #showme {\e]68;2;TAB;show_modules\a\e[4;24mModuli\e[24m} {1} {-12};
+    #line ignore #showme {\e]68;2;TAB;#end\a\e[4;24mEsci\e[24m} {1} {-4}
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Draw a health bar.;
+#nop -------------------------------------------------------------------------;
+#alias {bottom_bar_draw}
+{
+    #math {hp_percent} {100 * $GMCP_DATA[HEALTH] / $GMCP_DATA[HEALTH_MAX]};
+    #math {hpbar1}   {$hp_percent / 10};
+    #math {hpbar2}   {10 - $hpbar1};
+    #math {mana_percent} {100 * $GMCP_DATA[MANA] / $GMCP_DATA[MANA_MAX]};
+    #math {manabar1}   {$mana_percent / 10};
+    #math {manabar2}   {10 - $manabar1};
+    #math {pow_percent} {100 * $GMCP_DATA[POW] / $GMCP_DATA[POW_MAX]};
+    #math {powbar1}   {$pow_percent / 10};
+    #math {powbar2}   {10 - $powbar1};
+
+    #FORMAT {hpbar} {<011>%+${hpbar1}s<099><000>%+${hpbar2}s<099>};
+    #FORMAT {manabar} {<015>%+${manabar1}s<099><000>%+${manabar2}s<099>};
+    #FORMAT {powbar} {<012>%+${powbar1}s<099><000>%+${powbar2}s<099>};
+
+    #FORMAT prompt1 {  %s * hp: %s/%s} $hpbar $GMCP_DATA[HEALTH] $GMCP_DATA[HEALTH_MAX];
+    #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $GMCP_DATA[MANA] $GMCP_DATA[MANA_MAX];
+    #FORMAT prompt3 {  %s * pw: %s/%s} $powbar $GMCP_DATA[POW] $GMCP_DATA[POW_MAX];
+
+    #LINE ignore #SHOWME {$prompt1} {-5};
+    #LINE ignore #SHOWME {$prompt2} {-4};
+    #LINE ignore #SHOWME {$prompt3} {-3};
+
+    #DRAW white calign box {$bottom_bar[toprow]-1} {$bottom_bar[topcol]} {$bottom_bar[botrow]} {$bottom_bar[botcol]}
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP Riga di comando stile zmud, mantine il comando digitato;
+#NOP e lo evidenzia in blu. se dato;
+#NOP -------------------------------------------------------------------------;
+
+#CONFIG REPEAT_ENTER ON
+
+#VARIABLE last_input {}
+
+#EVENT {HISTORY UPDATE}
+{
+    #DELAY 0 #LINE ignore #SHOWME {<aaf><FFF><788>%0<088>} {-1};
+    #VARIABLE last_input {%0}
+}
+
+#EVENT {PROCESSED KEYPRESS}
+{
+	#if {{%1} != {10} && {$last_input} !== {}}
+	{
+		#VARIABLE last_input {};
+		#LINE ignore #SHOWME {} {-1};
+		#cursor end;
+		#history insert {}
+	};
+}
+
+#NOP -------------------------------------------------------------------------;
+#NOP Execute speedwalks with .;
+#NOP -------------------------------------------------------------------------;
+
+#alias {.%0}
+{
+	#var cnt {};
+
+	#parse {%0} {char}
+	{
+		#if {"$char" >= "0" && "$char" <= "9"}
+		{
+			#var cnt $cnt$char
+		};
+		#elseif {"$cnt" == ""}
+		{
+			#send $char
+		};
+		#else
+		{
+			#$cnt #send $char;
+			#var cnt {}
+		};
+	}
+}
+
+#ALIAS {button_status %1}
+{
+    #DRAW white calign box -6 49 -4 59 {"%1"};
+}

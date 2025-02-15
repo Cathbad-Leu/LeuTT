@@ -1,0 +1,77 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var syslog-description {Logging Routines}
+#var syslog-help {
+Usage: syslog <facility> <priority> <message>\n
+\n
+Valid priorities:\n
+\temerg      system is unusable\n
+\talert      action must be taken immediately\n
+\tcrit       critical conditions\n
+\terr        error conditions\n
+\twarn       warning conditions\n
+\tnotice     normal, but significant, condition\n
+\tinfo       informational message\n
+\tdebug      debug-level message\n
+\n
+You can also use debug, info, warn, err, crit or emerg commands which require\n
+only two arguments, facility and message.
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias syslog-register {
+	#if {@isloaded{functions}} {
+		register_module syslog
+	} {
+		fail_module syslog 'functions' module not loaded;
+	}
+}
+
+#var loglevels[debug] 0
+#var loglevels[info] 1
+#var loglevels[notice] 2
+#var loglevels[warn] 3
+#var loglevels[err] 4
+#var loglevels[crit] 5
+#var loglevels[alert] 6
+#var loglevels[emerg] 7
+
+init loglevel_preference syslog warn;
+#alias {syslog %1 %2 %3} {
+	#if {$loglevels[%2] >= $loglevels[${loglevel_preference}]} {
+		#echo {<fac>${syslog-prechar} %1 [%2] : %3}
+	}
+};
+
+init syslog-prechar syslog >>
+#alias {debug %1 %2} {syslog %1 debug %2}
+#alias {info %1 %2} {syslog %1 info %2}
+#alias {notice %1 %2} {syslog %1 notice %2}
+#alias {warn %1 %2} {syslog %1 warn %2}
+#alias {err %1 %2} {syslog %1 err %2}
+#alias {crit %1 %2} {syslog %1 crit %2}
+#alias {emerg %1 %2} {syslog %1 emerg %2}
+
+#alias {log %1} {
+	#if {"%1" == "on"} {
+			#format {logfile} {$log/%t-%s.log} {%Y-%m-%d} {$char_name};
+			#log append $logfile;
+			syslog log info Logging is now on.
+	};
+	#elseif {"%1" == "off"} {
+			#log off;
+			syslog log info Logging is now off.
+	};
+	#else {
+		#showme Usage: log <on|off>;
+		#showme {};
+		#log info
+	};
+}
+
+#nop vim: syntax=tt

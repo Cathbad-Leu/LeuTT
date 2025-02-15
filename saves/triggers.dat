@@ -1,0 +1,469 @@
+#CLASS {trigger_data} OPEN
+
+#ACTION {Non puoi andare da quella parte.}
+{
+    #map undo
+}
+
+#ACTION {Non puoi! Stai combattendo per la tua vita!}
+{
+    #map undo
+}
+
+#ACTION {%1 e` morto! R.I.P.}
+{
+    #variable mob %1;
+    #if {&targets[%1]} {target %1};
+    side_bar_show rip Hai ucciso $mob;
+}
+
+#ACTION {La tua esperienza e` aumentata di %1 punti.}
+{
+    #math {gains[$mob][mobexp]} {$gains[$mob][mobexp] + %1};
+    #math {gains[$mob][mobcnt]} {$gains[$mob][mobcnt] + 1}
+}
+
+#ACTION {~Tu dici %2}
+{
+    comm_bar_show msg Tu dici a %1 %2;
+}
+
+#ACTION {~%1 ti dice %2}
+{
+    comm_bar_show msg %1 ti dice a %2;
+}
+
+#ACTION {~%1 dice al gruppo %2}
+{
+    comm_bar_show grp %1 dice %2;
+}
+
+#ACTION {~Tu dici al gruppo %2}
+{
+    comm_bar_show grp %1 dice %2;
+}
+
+#ACTION {~%1 dice alle lame %2}
+{
+    comm_bar_show gld %1 dice alle lame %2;
+}
+
+#ACTION {~%1 dice ai Luce %2}
+{
+    comm_bar_show gld %1 dice ai Luce %2;
+}
+
+#ACTION {~%1 dice ai Mercenari %2}
+{
+    comm_bar_show gld %1 dice ai Mercenari %2;
+}
+
+#ACTION {~%1 dice agli Esploratori %2}
+{
+    comm_bar_show gld %1 dice agli Esploratori %2;
+}
+
+#ACTION {~%1 dice ai Vampiri %2}
+{
+    comm_bar_show gld %1 dice ai Vampiri %2;
+}
+
+#ACTION {~%1 dice ai Jedi %2}
+{
+    comm_bar_show gld %1 dice ai Jedi %2;
+}
+
+#ACTION {~%1 dice alla gilda %2}
+{
+    comm_bar_show gld %1 dice agli alla gilda %2;
+}
+
+#ACTION {~%1 dice algli spettri %2}
+{
+
+    comm_bar_show gld %1 dice agli spettri %2;
+}
+
+#ACTION {~Mandi a %1 il pensiero %2}
+{
+    comm_bar_show msg Tu dici a %1 %2;
+}
+
+#ACTION {~%1 ti manda il pensiero %2}
+{
+    comm_bar_show msg Tu mandi il pensiero a %1 %2;
+}
+
+#ACTION {~Mandi a %1 il messggio %2}
+{
+    comm_bar_show msg Tu mandi il messaggio a %1 %2;
+}
+
+#ACTION {~%1 ti manda il messaggio %2}
+{
+    comm_bar_show msg ti manda il messaggio a %1 %2;
+}
+
+#ACTION {La luna crescente comincia a sorgere dall'orizzonte.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {L'aura di luce bianca che ti circonda perde di intensita'}
+{
+    #ticker {timer}
+   {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il tuo scudo di ghiaccio comincia a sciogliersi.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Senti d'un tratto la necessita' di rimettere il tuo occhio nella sua orbita.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Ti senti piu' debole.}
+{
+    #ticker {timer}
+   {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Senti le tue branchie che cominciano a rimarginarsi, le stai per perdere.}
+{
+    #ticker {timer} 
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Per un attimo, riprendi la tua forma originale.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La tua sfera di invulnerabilita' perde di intensita'}
+{
+    #ticker {timer}
+    {
+        #showme #TICK!!!;
+        #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La tua protezione dal freddo si sta indebolendo.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La tua protezione dal fuoco si sta indebolendo.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La tua protezione dal' energia si sta indebolendo.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Per un attimo ti sembra che il mondo intorno a te acceleri.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {L'aura di luce bianca che circonda %1 perde intensità'.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Lo scudo di ghiaccio di %1 comincia a sciogliersi.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {L'aura fiammeggiante che circonda %1 perde intensità'.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Avverti della luce che si insinua all'interno del globo di tenebra che ti avvolge.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Sei nel mezzo di un accecante temporale.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Le nuvole se ne stanno andando.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+
+#ACTION {Un velo di oscurita' cala nuovamente appena la luna tramonta.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il sole comincia a sorgere dall'orizzonte.}
+{
+     #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La notte e' iniziata stendendo il suo velo oscuro.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La luna calante comincia a sorgere dall'orizzonte.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il giorno e' iniziato e la luce del sole comincia a splendere.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La luna tramonta lentamente.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il sole e' esattamente sopra di te.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Inizia a piovere.}
+{
+  #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il temporale e' finito, ma piove ancora.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il sole cala lentamente scomparendo dietro l'orizzonte orientale.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La luna nuova comincia a sorgere dall'orizzonte.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Ha smesso di nevicare.}
+{
+    #ticker {timer}
+   {
+        #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La tormenta si e' calmata, ma nevica ancora.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Il cielo si sta annuvolando.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La luna piena comincia a sorgere dall'orizzonte.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Comincia a nevicare.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Sei nel mezzo di una tormenta.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La luna crescente comincia a sorgere dall'orizzonte.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {La tormenta di pioggia cala piano piano.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Sei nuovamente in grado di nuotare.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Sei sobrio adesso.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+#ACTION {Un'altra ora della giornata si accinge a trascorrere.}
+{
+    #ticker {timer}
+    {
+       #showme #TICK!!!;
+       #delay 65 #showme #10 Secondi per il TICK!
+    } {75}
+}
+
+
+#CLASS {trigger_data} CLOSE

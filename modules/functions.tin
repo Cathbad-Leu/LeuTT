@@ -1,0 +1,383 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var functions-description {Funzioni generali utili}
+#var functions-help {Many support <ccf>#function<fff>s you may find handy.}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias functions-register {
+	register_module functions
+}
+
+#nop -- Math Functions;
+#function increment { #math result {%1 + 1} }
+#function max { #if {%1 > %2} {#var result %1} {#var result %2} }
+#function pct {#math result { %1 * 100.0 / %2 }}
+#function abs { #if { %1 < 0 } {#math result { %1 * -1 } } { #var result %1 }}
+#function isOdd {#math result {%1 % 2}}
+
+#function {clamp} {
+    #if {%1 < %2} {#return %2 };
+    #if {%1 > %3} {#return %3 } {#return %1}
+}
+
+#function hNum {
+    #var _s @abs{%1};
+    #if {$_s > 1000000} {
+        #math result { %1 / 1000000.00 };
+        #var result ${result}m
+    };
+    #elseif {$_s > 1000} {
+        #math result { %1 / 1000.0 };
+        #var result ${result}k
+    };
+	#else {
+		#var result %1
+	}
+}
+
+#nop -- Time Functions;
+#function epoch {#format result {%T}};
+#function mpoch { #math result { @upoch{} / 1000} };
+#function upoch {#format result {%U}};
+#function lower { #format result {%l} {%0}};
+
+#function {display_progress}
+{
+    #LOCAL args[perc] {%1};
+    #LOCAL args[display] {%2};
+    #LOCAL args[length] {%3};
+    #LOCAL args[color] {%4};
+
+    #FORMAT args[display] {%.$args[length]s} {$args[display]};
+
+    #IF {"$args[color]" == ""}
+    {
+        #MATH display_color_r {2 * (1 - $args[perc])};
+        #MATH display_color_g {2 * $args[perc]};
+
+        #MATH display_color_r {5 * @clamp{$display_color_r;0;1} + 65};
+        #MATH display_color_g {5* @clamp{$display_color_g;0;1} + 65};
+
+        #FORMAT args[color] {<%a%aA><aaa>} {$display_color_r} {$display_color_g};
+        #UNVAR display_color_r;
+        #UNVAR display_color_g;
+    };
+
+    #FORMAT display_text_len {%L} {$args[display]};
+    #MATH display_text_pre {(($args[length] + 1) - $display_text_len) / 2 + $display_text_len};
+    #FORMAT args[display] {%+${display_text_pre}s} {$args[display]};
+    #FORMAT args[display] {%-$args[length]s} {$args[display]};
+    #UNVAR display_text_pre;
+    #UNVAR display_text_len;
+
+    #LOCAL i 0;
+    #LOCAL display {};
+    #PARSE {$args[display]} {display_text_char}
+    {
+        #IF {$i < $args[perc]}
+        {
+            #FORMAT display {%s%c%s} {$display} {$args[color]} {$display_text_char};
+        }
+        {
+            #FORMAT display {%s%c%s} {$display} {<099><G04>} {$display_text_char};
+        };
+
+        #MATH i {$i + (1.000/$args[length])};
+    };
+    #FORMAT display {%s%c} {$display} {<099>};
+    #UNVAR display_text_char;
+
+    #RETURN $display;
+}
+
+#function is_group_fighting {
+	#var result 0;
+    #foreach *MSDP_GROUP[%*] {_idx} {
+        #if {"$MSDP_GROUP[$_idx][position]" == "Fighting" && $MSDP_GROUP[$_idx][with_you] == 1} {
+            event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {fighting};
+            #var result 1
+        }
+    };
+}
+
+#function can_group_move {
+    #if {@is_group_fighting{}} {
+		#var result 0;
+		#return 0;
+	};
+
+    #var cgm_check 1;
+    #foreach *MSDP_GROUP[%*] {_idx} {
+        #regex {$MSDP_GROUP[$_idx][flags]} {-Knees-} {
+            event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {knees};
+            #var cgm_check 0
+        };
+        #regex {$MSDP_GROUP[$_idx][flags]} {>BASH<} {
+            event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {bashed};
+            #var cgm_check 0
+        };
+        #if {$MSDP_GROUP[$_idx][with_you] == 1} {
+            #if {"$MSDP_GROUP[$_idx][position]" == "Sitting"} {
+                event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {sitting};
+                #var cgm_check 0
+            };
+            #if {"$MSDP_GROUP[$_idx][position]" == "Resting"} {
+                event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {resting};
+                #var cgm_check 0
+            };
+            #if {"$MSDP_GROUP[$_idx][position]" == "Sleeping"} {
+                event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {sleeping};
+                #var cgm_check 0
+            };
+            #regex {$MSDP_GROUP[$_idx][flags]} {Entangle} {
+                event_raise {cgm failure} {$MSDP_GROUP[$_idx][name]} {entangle};
+                #var cgm_check 0
+            };
+        }
+        
+    };
+    #return $cgm_check
+}
+
+#function is_follower_missing {
+	#var result 0;
+	#foreach *MSDP_GROUP[%*] _fc {
+		#if { $MSDP_GROUP[$_fc][with_you] == 0 } { #var result 1 };
+	};
+
+	#return
+}
+
+#func {withMe} {
+    #if {$MSDP_GROUP[%1][with_you] == 1} {
+        #var result <ffff>
+    } {
+        #if {$MSDP_GROUP[%1][with_leader] == 1 } {
+            #var result <fbbb>
+        } {
+            #var result <f00c>
+        }
+    }
+}
+
+#func {colorPct} {
+    #if { %1 > 95 } { #var result <f68f473>%1};
+    #elseif { %1 > 80 } { #var result <f3ae722>%1};
+    #elseif { %1 > 60 } { #var result <fdcf24b>%1};
+    #elseif { %1 > 40 } { #var result <feca826>%1};
+    #elseif { %1 > 20 } { #var result <fec3d26>%1};
+    #elseif { %1 <=20 } { #var result <fec2b41>%1};
+}
+
+#alias smart_move {
+	#if { @mpoch{} < $spellLock } {#return};
+    #if { @can_group_move{} } {
+        #if { "%1" == "" } {
+            queueAdd move {#path w}
+        } {
+            queueAdd move {%1}
+        }
+    }
+}
+
+#func hasAffect {
+    #if {&MSDP_AFFECTS[%1]} {
+        #var result $MSDP_AFFECTS[%1];
+    } {
+        #var result -1;
+    }
+}
+
+
+#function strip_ansi {#line strip #var result {%0}}
+#function next_level {#math result {$MSDP_LEVEL + 1}}
+#function pretty_tnl {#format result {%g} {$MSDP_EXPERIENCE_TNL}}
+
+#nop -- VT100/terminal functions;
+#function term_width {#screen get cols result}
+
+#function isD {
+    #var result 0;
+    #if {"%1"==""} {#return 0} {
+        #regexp {"%1"} {"%d"} {#var result 1} {#var result 0};
+    }
+}
+
+#function {is} {
+    #list {%2} {find} {%1} {result}
+}
+
+#function follower_missing {
+    #nop %0;
+    #var result 0;
+    #foreach *MSDP_GROUP[%*] _fir {
+        #if {@is{$MSDP_GROUP[$_fir][name];fol_names}} {
+            #if {$MSDP_GROUP[$_fir][with_you]==0} {
+                #return $MSDP_GROUP[$_fir][name]
+            }
+        }
+    };
+}
+
+#function unroll_number {
+    #regex {%1} {{[0-9.]+}%w} { 
+        #format {mult} {%l} {&2};
+        
+        #switch {"$mult"} {
+            #case {"k"} {#math result {&1 * 1000}};
+            #case {"m"} {#math result {&1 * 1000000}};
+            #case {"b"} {#math result {&1 * 1000000000}};
+            #case {"t"} {#math result {&1 * 1000000000000}};
+            #default {
+                #showme <cca>Invalid units '$mult';
+                #var result %1;
+                #return %1;
+            }
+        };
+        
+        #format result {%d} {$result};
+    } {
+        #var result %1
+    }
+}
+
+#alias {init %1 %2} {
+    #if {!&{%1}} {
+        #var %1 {%2}
+    }
+} {7}
+
+#alias {init %1 %2 %3} {
+    #if {!&{%1}} {
+        #class %2 assign {#var %1 {%3}}
+    }
+} {5}
+
+#alias {initlist %1 %2} {
+    #if {!&{%1}} {
+        #class %2 assign {#list %1 create}
+    }
+} {5}
+
+#function is_alias {
+    #info aliases save;
+    #foreach {*info[ALIASES][%*]} {_tmp} {
+        #if {"$info[ALIASES][$_tmp][arg1]" == "%1"} {#return $_tmp} 
+    };
+    #return 0
+}
+
+#function is_class {
+    #info classes save;
+    #foreach {*info[CLASSES][%*]} {_tmp} {
+        #if {"$info[CLASSES][$_tmp][arg1]" == "%1"} {#return $_tmp}
+    };
+    #return 0
+}
+
+
+#function is_function {
+    #info function save;
+    #foreach {*info[FUNCTIONS][%*]} {_tmp} {
+        #if {"$info[FUNCTIONS][$_tmp][arg1]" == "%1"} {#return $_tmp} 
+    };
+    #return 0
+}
+
+#function is_session {
+	#info sessions save;
+	#foreach *info[SESSIONS][] _ses {
+		#if {"$_ses" == "%1"} {#return 1}
+	};
+	#return 0
+}
+
+#function is_ticker {
+    #info ticker save;
+    #foreach {*info[TICKERS][%*]} {_tmp} {
+        #if {"$info[TICKERS][$_tmp][arg1]" == "%1"} {#return $_tmp} 
+    };
+    #return 0
+}
+
+#function is_variable {
+    #info variable save;
+    #foreach {*info[VARIABLES][%*]} {_tmp} {
+        #if {"$info[VARIABLES][$_tmp][arg1]" == "%1"} {#return $_tmp} 
+    };
+    #return 0
+}
+
+#function parse_name_acct {
+    #local _res {};
+    #regex {%1} {%S (%S)} {
+        #if {"%2" == "account"} {#var _res &2};
+        #elseif {"%2" == "name"} {#var _res &1};
+        #else {#var _res &1};
+    };
+    #return $_res;
+}
+
+#function groupIsPresent {                                                                                 
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { ("$MSDP_GROUP[$index][name]" == "%1" ) &&
+              ($MSDP_GROUP[$index][with_you] == 1 ) } {
+                #return 1;
+        }
+    };
+    #return 0;
+}
+
+#nop -- This uses the three letter combo thing
+#function groupClassIsPresent {                                                                                 
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { ("$MSDP_GROUP[$index][class]" == "%1" ) &&
+              ($MSDP_GROUP[$index][with_you] == 1 ) } {
+                #return 1;
+        }
+    };
+    #return 0;
+}
+
+#function average {
+    #local _sum 0;
+    #list _list create {%0};
+    #foreach {$_list[%*]} {_tmp} {
+        #math _sum {$_sum + $_tmp}
+    };
+    #math result {$_sum * 1.000 / &_list[]}
+}
+
+#function stddev {
+    #local _sum 0;
+    #local _MEAN @average{%0};
+    #list _list create {%0};
+    #foreach {$_list[%*]} {_tmp} {
+        #math _sum {$_sum + (($_MEAN - $_tmp) ** 2)}
+    };
+    #math result {($_sum / &_list[]) ** 0.5}
+}
+
+#nop -- F7 toggle SENT OUTPUT debugging;
+#macro {\e[18~} {toggle_debug};
+#alias toggle_debug {
+    #info events save;
+    #local _check 0;
+    #foreach ${info[EVENTS][%1]} {_tmp} {
+        #if {"$_tmp[arg1]" == "SENT OUTPUT"} {#var _check 1}
+    };
+    #if {$_check == 0} {
+        #EVENT {SENT OUTPUT} {#echo {<F8E8888>%%0}};
+        warn debug Log SENT OUTPUT to screen
+    } {
+        #UNEVENT {SENT OUTPUT};
+        warn debug Do not log SENT OUTPUT to screen
+    }
+}
+
+#nop -- vim: syntax=tt

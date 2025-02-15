@@ -1,0 +1,137 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var comm_bar-description {Funzioni della barra delle Comunicazioni}
+#var comm_bar-help {
+Funzioni della finestra di comunicazione.\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias comm_bar-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module comm_bar
+	} {
+		fail_module comm_bar
+	}
+}
+
+#VARIABLE {comm_bar}
+{
+    {active} {msg}
+    {botcol} {-1}
+    {botrow} {7}
+    {offset} {1}
+    {tab} 
+    {
+        {msg} {}
+        {grp} {}
+        {gld} {}
+    }
+    {topcol} {1}
+    {toprow} {2}
+    {unread} 
+    {
+        {msg} {0}
+        {grp} {0}
+        {gld} {0}
+    }
+}
+
+#ALIAS {comm_bar_scroll_up}
+{
+    #if {$comm_bar[offset] < &comm_bar[tab][%0][]}
+    {
+        #math comm_bar[offset] $comm_bar[offset] + 1;
+        comm_bar_draw_data $comm_bar[active]
+    };
+}
+
+#BUTTON {$comm_bar[toprow] $comm_bar[topcol] $comm_bar[botrow] $comm_bar[botcol] PRESSED MOUSE BUTTON ONE}
+{
+    comm_bar_scroll_up $comm_bar[active];
+}
+
+#BUTTON {$comm_bar[toprow] $comm_bar[topcol] $comm_bar[botrow] $comm_bar[botcol] PRESSED MOUSE BUTTON THREE}
+{
+    comm_bar_scroll_down;
+}
+
+#FUNCTION {comm_bar_square}
+{
+    #return $comm_bar[toprow]+1 $comm_bar[topcol]+1 $comm_bar[botrow]-1 $comm_bar[botcol]-1;
+}
+
+#FUNCTION {comm_bar_border}
+{
+    #return $comm_bar[toprow] $comm_bar[topcol] $comm_bar[botrow] $comm_bar[botcol];
+}
+
+#nop -------------------------------------------------------------------------;
+#nop Alias della finestra di comunicazione;
+#nop -------------------------------------------------------------------------;
+
+#ALIAS {comm_bar_scroll_down}
+{
+    #if {$comm_bar[offset] > 1}
+    {
+        #math comm_bar[offset] $comm_bar[offset] - 1;
+        comm_bar_draw_data $comm_bar[active];
+    };
+}
+
+#ALIAS {comm_bar_draw_data}
+{
+    #draw tile @comm_bar_square{} $comm_bar[tab][%1][-$comm_bar[offset]-10..-$comm_bar[offset]];
+}
+
+#ALIAS {comm_bar_show %1 %2}
+{
+    #list comm_bar[tab][%1] ins -1 {%2};
+    #if {{%1} === {$comm_bar[active]}}
+    {
+        comm_bar_draw_data %1;
+    };
+    #elseif {$comm_bar[unread][%1] == 0}
+    {
+        #variable comm_bar[unread][%1] 1;
+        comm_bar_draw_tabs;
+    };
+}
+
+#ALIAS {comm_bar_draw_tabs}
+{
+    #draw white rounded box @comm_bar_border{};
+    #local short {};
+    #local index {};
+    #loop {1} {&comm_bar[tab][]} {index}
+    {
+        #local tab *comm_bar[tab][+$index];
+        #if {{$comm_bar[active]} === {$tab}}
+        {
+            #format short <138>%.6s $tab;
+        };
+        #elseif {$comm_bar[unread][$tab] == 1}
+        {
+            #format short <168>%.6s $tab;
+        };
+        #else
+        {
+            #format short <268>%.6s $tab;
+        };
+        #line ignore #showme {\e]68;2;TAB;comm_bar_tab_click $tab\a\e[4;24m$short\e[24m} {$comm_bar[toprow]} {$comm_bar[topcol] - 5 + $index * 7}
+    }
+}
+
+#ALIAS {comm_bar_tab_click}
+{
+    #variable comm_bar[active] %0;
+    #variable comm_bar[unread][%0] 0;
+    #variable comm_bar[offset] 1;
+    comm_bar_draw_tabs;
+    comm_bar_draw_data %0;
+}
