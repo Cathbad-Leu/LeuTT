@@ -9,17 +9,17 @@ Per tutte le informazioni del caso vedi il sito di
 Passo 1 LINUX/IOS/ANDROID 
 Per avviare lo script che genera la client u
 sare il comando nel prompt: 
-  tt++ main.tt++	oppure per con lo script bash: sh start_leu.sh
+  - tt++ main.tt++	oppure per con lo script bash: sh start_leu.sh
 
 Passo 1 WINDOWS  
-  Scaricare la versione LeuWin.7z, decomprimere ed eseguire start_Leu.bat.
-  Oppure copiare i files dentro la driceotry \bin di wintin++, ed avviare il 
-  programma.
-  Oppure se si ha il wls seguire il metodo aka linux.
+  - Scaricare la versione LeuWin.7z, decomprimere ed eseguire start_leu.bat 
+  - Oppure copiare i files dentro la driceotry \bin di wintin++ (installer
+   ufficiale), ed avviare il programma.
+  - Oppure se si ha il wls seguire il metodo aka linux.
 
 Passo 2 scrivere:
-  addprg <nomepersonaggio> <passwordpersonaggio> (Se il personaggio non è salvato) 
-  connect nome_preferito (carica gli script della client ed entra nel mud)
+  - addprg <nomepersonaggio> <passwordpersonaggio> (Se il personaggio non è salvato) 
+  - connect nome_preferito (carica gli script della client ed entra nel mud)
 
 Il file principale è main.tt++ che avvia tutto; 
 
