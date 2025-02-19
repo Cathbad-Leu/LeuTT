@@ -46,7 +46,7 @@ leuTT/
    +- queues.tin.      (coda dei comandi)
    +- syslog.tin.      (log di sistema)
    +- telnet.tin.      (protocollo telnet)
-   +- msdp.tin.        (protocollo msdp)
+   +- gmcp.tin.        (protocollo gmcp)
    +- mslp.tin.        (protocollo mslp)
    +- mxp.tin.         (protocollo mxp)
    +- macro.tin.       (registra e riproduce macro)
