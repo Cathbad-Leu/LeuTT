@@ -1,0 +1,6 @@
+Exception: STATUS_PRIVILEGED_INSTRUCTION at eip=0004DBF2
+eax=00000001 ebx=000F4240 ecx=801BDD60 edx=61247D91 esi=00B62FA8 edi=C22AD3C0
+ebp=00062E72 esp=00B62FB0 program=C:\Users\Utente\Downloads\LeuWin\bin\tt++.exe, pid 1657, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args

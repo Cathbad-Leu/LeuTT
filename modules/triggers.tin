@@ -13,6 +13,7 @@ Trigger semplici si possono gestire con\n
 addtrig nome_del_trigger/comando. \n
 deltrig nome_del_trigger da eliminare\n
 Vedi #help action\n
+
 }
 
 #nop --

@@ -14,6 +14,7 @@ nco (non-combat operation), and move.\n
 \n
 There is a shortcut command for NCO (nco <command>).\n
 Combat queues clear at the end of combat automatically.\n
+
 }
 
 #nop --

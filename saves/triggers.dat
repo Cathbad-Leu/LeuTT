@@ -5,6 +5,16 @@
     #map undo
 }
 
+#ACTION {%1 ti impedisce il passaggio.}
+{
+    #map undo
+}
+
+#ACTION {La porta e` chiusa.}
+{
+    #map undo
+}
+
 #ACTION {Non puoi! Stai combattendo per la tua vita!}
 {
     #map undo
@@ -14,7 +24,7 @@
 {
     #variable mob %1;
     #if {&targets[%1]} {target %1};
-    side_bar_show rip Hai ucciso $mob;
+    bar_side_show rip Hai ucciso $mob;
 }
 
 #ACTION {La tua esperienza e` aumentata di %1 punti.}
@@ -25,83 +35,83 @@
 
 #ACTION {~Tu dici %2}
 {
-    comm_bar_show msg Tu dici a %1 %2;
+    bar_comm_show msg Tu dici a %1 %2
 }
 
 #ACTION {~%1 ti dice %2}
 {
-    comm_bar_show msg %1 ti dice a %2;
+    bar_comm_show msg %1 ti dice a %2
 }
 
 #ACTION {~%1 dice al gruppo %2}
 {
-    comm_bar_show grp %1 dice %2;
+    bar_comm_show grp %1 dice %2
 }
 
 #ACTION {~Tu dici al gruppo %2}
 {
-    comm_bar_show grp %1 dice %2;
+    bar_comm_show grp %1 dice %2
 }
 
 #ACTION {~%1 dice alle lame %2}
 {
-    comm_bar_show gld %1 dice alle lame %2;
+    bar_comm_show gld %1 dice alle lame %2
 }
 
 #ACTION {~%1 dice ai Luce %2}
 {
-    comm_bar_show gld %1 dice ai Luce %2;
+    bar_comm_show gld %1 dice ai Luce %2
 }
 
 #ACTION {~%1 dice ai Mercenari %2}
 {
-    comm_bar_show gld %1 dice ai Mercenari %2;
+    bar_comm_show gld %1 dice ai Mercenari %2
 }
 
 #ACTION {~%1 dice agli Esploratori %2}
 {
-    comm_bar_show gld %1 dice agli Esploratori %2;
+    bar_comm_show gld %1 dice agli Esploratori %2
 }
 
 #ACTION {~%1 dice ai Vampiri %2}
 {
-    comm_bar_show gld %1 dice ai Vampiri %2;
+    bar_comm_show gld %1 dice ai Vampiri %2
 }
 
 #ACTION {~%1 dice ai Jedi %2}
 {
-    comm_bar_show gld %1 dice ai Jedi %2;
+    bar_comm_show gld %1 dice ai Jedi %2
 }
 
 #ACTION {~%1 dice alla gilda %2}
 {
-    comm_bar_show gld %1 dice agli alla gilda %2;
+    bar_comm_show gld %1 dice agli alla gilda %2
 }
 
 #ACTION {~%1 dice algli spettri %2}
 {
 
-    comm_bar_show gld %1 dice agli spettri %2;
+    bar_comm_show gld %1 dice agli spettri %2
 }
 
 #ACTION {~Mandi a %1 il pensiero %2}
 {
-    comm_bar_show msg Tu dici a %1 %2;
+    bar_comm_show msg Tu dici a %1 %2
 }
 
 #ACTION {~%1 ti manda il pensiero %2}
 {
-    comm_bar_show msg Tu mandi il pensiero a %1 %2;
+    bar_comm_show msg Tu mandi il pensiero a %1 %2
 }
 
 #ACTION {~Mandi a %1 il messggio %2}
 {
-    comm_bar_show msg Tu mandi il messaggio a %1 %2;
+    bar_comm_show msg Tu mandi il messaggio a %1 %2
 }
 
 #ACTION {~%1 ti manda il messaggio %2}
 {
-    comm_bar_show msg ti manda il messaggio a %1 %2;
+    bar_comm_show msg ti manda il messaggio a %1 %2
 }
 
 #ACTION {La luna crescente comincia a sorgere dall'orizzonte.}

@@ -13,6 +13,7 @@
 #NOP -- Carica i moduli di /modules --;
 load_module functions
 load_module syslog
+load_module queues
 load_module events
 load_module help
 load_module counter
@@ -25,9 +26,10 @@ load_module alias
 load_module triggers
 load_module map
 load_module gui
-load_module comm_bar
-load_module side_bar
+load_module bar_comm
+load_module bar_side
 
+#NOP -- Indirizzo del mud LEU       --;
 #VARIABLE host new-leu.leu.it
 #VARIABLE port 7000
 
@@ -49,7 +51,7 @@ load_module side_bar
 
 #EVENT {PROGRAM START}
 {
-    #CONFIG {SCROLL_LOCK} {ON};
+    #CONFIG {SCROLL_LOCK} {OFF};
     #CONFIG {VERBOSE} {OFF};
     #CONFIG {DEBUG TELNET} {OFF};
     #CONFIG {PACKET PATCH} {0.5};
@@ -60,6 +62,7 @@ load_module side_bar
     #INFO {EVENT} {OFF};
 
     #CLASS charsdata read saves/muddata.dat;
+
     #if {&{charslist} == 0}
     {
         #class charsdata open;
@@ -83,7 +86,7 @@ load_module side_bar
 
 #ALIAS {continua}
 {
-    #SESSION leu $host $port;
+    #SESSION leu $host $port
 }
 
 #ALIAS {addprg}
@@ -149,7 +152,7 @@ load_module side_bar
 #ALIAS {nuovo}
 {
     #SESSION leu $host $port;
-    #SEND {nuovo};
+    #SEND {nuovo}
 }
 
 #NOP -------------------------------------------------------------------------;
@@ -171,11 +174,11 @@ load_module side_bar
         };
     };
     gui_init;
-    gui_resize;
+    gui_resize
 }
 
 #EVENT {SESSION DISCONNECTED}
-{
+{ 
     #MAP write saves/map.dat
 }
 
@@ -209,7 +212,7 @@ load_module side_bar
 {
     #echo <118>%h { TOKENIZER };
     #info tokenizer -1;
-    #echo <118>%h;
+    #echo <118>%h
 }
 
 #EVENT {IAC WILL GMCP}

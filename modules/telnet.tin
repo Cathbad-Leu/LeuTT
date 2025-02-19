@@ -22,12 +22,12 @@ Gestione del protocollo telnet.\n
 
 #VARIABLE {TELNET}
 {
-     {DO} {\xFD}
+     {DO}   {\xFD}
      {DONT} {\xFE}
-     {IAC} {\xFF}
+     {IAC}  {\xFF}
      {MSDP} {\x45}
-     {SB} {\xFA}
-     {SE} {\xF0}
+     {SB}   {\xFA}
+     {SE}   {\xF0}
      {WILL} {\xFB}
      {WONT} {\xFC}
      {GMCP} {\xC9}

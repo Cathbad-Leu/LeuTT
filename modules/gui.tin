@@ -8,7 +8,7 @@ Gestione dell'interfaccia grafica.\n
 Gli elementi sono della gui sono:\n
 title_bar (la barra in alto)\n
 bottom_bar (barra in basso)\n
-side_bar (barra laterale destra)\n
+bar_side (barra laterale destra)\n
 mappa.\n
 }
 
@@ -30,11 +30,11 @@ mappa.\n
 #NOP -------------------------------------------------------------------------;
 #VARIABLE {gui}
 {
-     {rows} {40}
-     {cols} {111}
-     {top} {7}
-     {bot} {5}
-     {left} {1}
+     {rows}  {40}
+     {cols}  {111}
+     {top}   {7}
+     {bot}   {5}
+     {left}  {1}
      {right} {0}
 }
 
@@ -74,33 +74,32 @@ mappa.\n
     {
       #SCREEN get rows {gui[rows]};
       #SCREEN get cols {gui[cols]};
-
       #if {$gui[rows] > 30 && $gui[cols] > 110} {
         #SPLIT {$gui[top]} {$gui[bot]} {$gui[left]} -100 1;
         #MAP flag vtmap on;
+        #SCREEN clear all;
         #MATH {gui[right]} {$gui[cols] - 100};
         #MAP offset 18 {-$gui[right]+3} -10 -3;
         #DRAW white calign box {17} {-$gui[right]+2} -7 -1 ;
-        #MATH {side_bar[topcol]} {-$gui[right]+2};
-        #SCREEN clear top;
-        comm_bar_draw_data $comm_bar[active];
-        #delay {0.5} {comm_bar_draw_tabs};
-        side_bar_draw_data $side_bar[active];
-        #delay {0.5} {side_bar_draw_tabs}
-        };    
+        #MATH {bar_side[topcol]} {-$gui[right]+2};
+        bar_comm_draw_data $bar_comm[active];
+        #delay {0.5} {bar_comm_draw_tabs};
+        bar_side_draw_data $bar_side[active];
+        #delay {0.5} {bar_side_draw_tabs}
+      };    
       #elseif {$gui[rows] > 30} {
         #MAP flag vtmap on;
         #SCREEN clear all;
         #SPLIT 13 {$gui[bot]} 0 0 1;
         #MAP offset 8 1 14 -1;
-        #VAR {comm_bar[botrow]} 7;
-        #delay {0.5} {comm_bar_draw_tabs};
-        };
+        #VAR {bar_comm[botrow]} 7;
+        #delay {0.5} {bar_comm_draw_tabs}
+      };
       #else {
         #MAP flag vtmap off;
         #SCREEN clear all; 
-        #SPLIT 1 5 0 0 1;
-        };
+        #SPLIT 1 5 0 0 1
+      };
     }
 }
 
@@ -113,15 +112,6 @@ mappa.\n
     {
       title_bar_draw;
       bottom_bar_draw;
-      #variable exits {};
-      #foreach {n;nord;e;east;s;south;w;west;u;up;d;down} {exit}
-      {
-        #if {&gmcp[room][info][exits][$exit] == 0}
-        {
-            #continue
-        };
-        #variable {exits} {$exits<128>$DIR_NAME[$exit]}
-      }; 
     }
 }
 
@@ -141,13 +131,13 @@ mappa.\n
 #nop -------------------------------------------------------------------------;
 #alias {bottom_bar_draw}
 {
-    #math {hp_percent} {100 * $GMCP_DATA[HEALTH] / $GMCP_DATA[HEALTH_MAX]};
+    #math {hp_percent} {100 * $gmcp[char][vitals][hp] / $gmcp[char][vitals][maxhp]};
     #math {hpbar1}   {$hp_percent / 10};
     #math {hpbar2}   {10 - $hpbar1};
-    #math {mana_percent} {100 * $GMCP_DATA[MANA] / $GMCP_DATA[MANA_MAX]};
+    #math {mana_percent} {100 * $gmcp[char][vitals][mana] / $gmcp[char][vitals][maxmana]};
     #math {manabar1}   {$mana_percent / 10};
     #math {manabar2}   {10 - $manabar1};
-    #math {pow_percent} {100 * $GMCP_DATA[POW] / $GMCP_DATA[POW_MAX]};
+    #math {pow_percent} {100 * $gmcp[char][vitals][pow] / $gmcp[char][vitals][maxpow]};
     #math {powbar1}   {$pow_percent / 10};
     #math {powbar2}   {10 - $powbar1};
 
@@ -155,9 +145,9 @@ mappa.\n
     #FORMAT {manabar} {<015>%+${manabar1}s<099><000>%+${manabar2}s<099>};
     #FORMAT {powbar} {<012>%+${powbar1}s<099><000>%+${powbar2}s<099>};
 
-    #FORMAT prompt1 {  %s * hp: %s/%s} $hpbar $GMCP_DATA[HEALTH] $GMCP_DATA[HEALTH_MAX];
-    #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $GMCP_DATA[MANA] $GMCP_DATA[MANA_MAX];
-    #FORMAT prompt3 {  %s * pw: %s/%s} $powbar $GMCP_DATA[POW] $GMCP_DATA[POW_MAX];
+    #FORMAT prompt1 {  %s * hp: %s/%s} $hpbar $gmcp[char][vitals][hp] $gmcp[char][vitals][maxhp];
+    #FORMAT prompt2 {  %s * ma: %s/%s} $manabar $gmcp[char][vitals][mana] $gmcp[char][vitals][maxmana];
+    #FORMAT prompt3 {  %s * pw: %s/%s} $powbar $gmcp[char][vitals][pow] $gmcp[char][vitals][maxpow];
 
     #LINE ignore #SHOWME {$prompt1} {-5};
     #LINE ignore #SHOWME {$prompt2} {-4};
